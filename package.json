@@ -1,0 +1,19 @@
+{
+  "name": "farmbot-3d",
+  "version": "1.0.0",
+  "description": "Scan garden using FarmBot and generate 3D renders.",
+  "main": "index.js",
+  "scripts": {
+	"start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "FarmBot",
+    "3D"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^13.1.7"
+  }
+}

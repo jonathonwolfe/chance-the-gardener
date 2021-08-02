@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<script src="https://cdn.jsdelivr.net/npm/farmbot@latest/dist/farmbot_single_file.js"></script>
+	<script src="./garden-control.js"></script>
+</head>
+<body style="background-color:LightSlateGray;">
+<div class="centered">
+<h1 style="font-size:60px; font-family: Brush Script MT;">Garden Control Centre</h1>
+<button class="small blue button" onclick="myFunction(0, 0, 0)">Go to (0, 0, 0)</button>
+<button class="small blue button" onclick="myFunction(1000, 1000, 0)">Go to (1000, 1000, 0)</button>
+<button class="small blue button" onclick="myFunction(2170,425,-83)">Go to Fan Plant</button>
+
+<br><br>
+
+<button class="small green button" onclick="takePhoto()">Take Photo</button>
+<button class="small green button" onclick="toggleLight()">Toggle Light</button>
+
+<br><br>
+
+<button class="small red button" onclick="sendLogMessage()">Send Log Message</button>
+
+<br><br>
+
+<div class="footer">
+  <p>
+© 2021 Garden Control, Inc. </p>
+</div>
+</body>
+</html>
