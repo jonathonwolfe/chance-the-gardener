@@ -36,7 +36,7 @@ function sendLogMessage() {
   farmbot123
   .connect()
   .then(function () {
-	return farmbot123.sendMessage("info", "Hello, this is Jessica testing the logs through the JS API");
+	return farmbot123.sendMessage("info", "Log Test: 02 JS API");
 
   });
 }
