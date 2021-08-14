@@ -3,9 +3,7 @@ Are you a literature addict looking for that sweet hit of literary ecstasy that 
 We’re talking, of course, of some of the finest short stories that you can read for free thanks to the wonders of the interwebs. There are untold thousands – probably millions (if not billions) of these pieces floating around in the digital ether, but to get you started we’ve compiled 15 of our favourites, mixing together writing from new and aspiring artists with established literary titans.
 
 
-<<<<<<< HEAD
 THIS IS TESTING THE EFFECTS OF GIT
-=======
 
 ## The Goal of this Project
 To create 3D models of a FarmBot system garden on the fly.
@@ -13,4 +11,3 @@ To create 3D models of a FarmBot system garden on the fly.
 
 
 hello! this is some test text! try to add something after me!
->>>>>>> c9dac9e5560f13d861b3ddefd55ed2aa5fac1458
