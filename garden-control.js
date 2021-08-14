@@ -1,5 +1,5 @@
 var TOKEN = "***REMOVED***";
-		
+	
 function takePhoto() {
 	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
 
@@ -43,25 +43,24 @@ function sendLogMessage() {
 
 function createRenders() {
 
-//At start, setting the progress bar to 55%
+	//At start, setting the progress bar to 55%
 	var i = 0;
-	  if (i == 0) {
-	    i = 1;
-	    var elem = document.getElementById("myBar");
-	    var width = 1;
-	    var id = setInterval(frame, 10);
-	    function frame() {
-	      if (width >= 55) {
-	        clearInterval(id);
-	        i = 0;
-	      } else {
-	        width++;
-	        elem.style.width = width + "%";
-	      }
-	    }
-	  }
-//progress bar stops	
-
+	if (i == 0) {
+		i = 1;
+		var elem = document.getElementById("myBar");
+		var width = 1;
+		var id = setInterval(frame, 10);
+		function frame() {
+			if (width >= 55) {
+				clearInterval(id);
+				i = 0;
+			} else {
+				width++;
+				elem.style.width = width + "%";
+			}
+		}
+	}
+	//progress bar stops	
 
 	var child = require('child_process').execFile;
 	var executablePath = "Meshroom-2018.1.0\\meshroom_photogrammetry.exe";
@@ -76,14 +75,12 @@ function createRenders() {
 		let stage = 0;
 		stage = str.search("[13/13]")
 		
-		  if (stage != 0) {
-		    var elem = document.getElementById("myBar");
-		    var width = 1;
-		    elem.style.width = 100 + "%";
-		  }
-		//end  
-		
-
+		if (stage != 0) {
+			var elem = document.getElementById("myBar");
+			var width = 1;
+			elem.style.width = 100 + "%";
+		}
+		//end
 
 	});
 }
