@@ -108,7 +108,7 @@ $.ajax(settings).done(function (response) {
   	console.log(savedResponse[0]);
 
   	// x is the number of images the user want to download
-	var x = 5
+	var x = 142
 	// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
 	var i = 0
 
