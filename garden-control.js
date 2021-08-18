@@ -122,14 +122,8 @@ $.ajax(settings).done(function (response) {
     	console.log(savedResponse[i].attachment_url); 
     	
     	// Call python script and pass arguments to save the image to local folder
-    	var child = require('child_process').execFile;
-		var executablePath = "saveImage.py";
-		var parameters = [savedResponse[i].attachment_url, i];
-
-		child(executablePath, parameters, function(err, data) {
-			console.log(err)
-			console.log(data.toString());
-		});
+		const spawn = require("child_process").spawn;
+		const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, i]);
 		
 
     	i += 1;
