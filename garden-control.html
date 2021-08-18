@@ -4,6 +4,12 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 	<script src="https://cdn.jsdelivr.net/npm/farmbot@latest/dist/farmbot_single_file.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		window.$ = window.jQuery = require("jquery.js");
+	</script>
+	<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+	<script src="FileSaver.js"></script>
 	<script src="./garden-control.js"></script>
 </head>
 <body style="background-color:LightSlateGray;">
@@ -21,6 +27,12 @@
 <br><br>
 
 <button class="small red button" onclick="sendLogMessage()">Send Log Message</button>
+
+<br><br>
+
+<button class="small blue button" onclick="downloadImages()">Download Images</button>
+
+<br><br>
 
 <br><br>
 

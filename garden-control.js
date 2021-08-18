@@ -43,7 +43,7 @@ function sendLogMessage() {
 
 function createRenders() {
 
-	//At start, setting the progress bar to 55%
+	// At start, setting the progress bar to 55%
 	var i = 0;
 	if (i == 0) {
 		i = 1;
@@ -60,7 +60,7 @@ function createRenders() {
 			}
 		}
 	}
-	//progress bar stops	
+	// progress bar stops	
 
 	var child = require('child_process').execFile;
 	var executablePath = "Meshroom-2018.1.0\\meshroom_photogrammetry.exe";
@@ -70,7 +70,7 @@ function createRenders() {
 		console.log(err)
 		console.log(data.toString());
 
-		//set progress bar to 100% if process completed.
+		// set progress bar to 100% if process completed.
 		let str = data.toString(); 
 		let stage = 0;
 		stage = str.search("[13/13]")
@@ -80,7 +80,63 @@ function createRenders() {
 			var width = 1;
 			elem.style.width = 100 + "%";
 		}
-		//end
+		// end
 
 	});
+}
+
+function downloadImages(){
+
+// Set the settings for the API request	
+var settings = {
+  "url": "https://my.farm.bot/api/images",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Authorization": "***REMOVED***",
+    "Cookie": "***REMOVED***"
+  },
+};
+
+// Make var to store the response
+var savedResponse;
+
+// Acess the response and save it to the variable
+$.ajax(settings).done(function (response) {
+	//console.log(response);
+  	savedResponse = response;
+  	console.log(savedResponse[0]);
+
+  	// x is the number of images the user want to download
+	var x = 5
+	// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
+	var i = 0
+
+
+
+
+
+	while (i <= x) {
+
+    	// Print the ith image's url
+    	console.log(savedResponse[i].attachment_url); 
+    	
+    	// Call python script and pass arguments to save the image to local folder
+    	var child = require('child_process').execFile;
+		var executablePath = "saveImage.py";
+		var parameters = [savedResponse[i].attachment_url, i];
+
+		child(executablePath, parameters, function(err, data) {
+			console.log(err)
+			console.log(data.toString());
+		});
+		
+
+    	i += 1;
+
+	}
+});
+
+
+
 }
