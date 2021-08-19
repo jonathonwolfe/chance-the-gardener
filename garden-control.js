@@ -36,7 +36,7 @@ function sendLogMessage() {
 	farmbot123
 	.connect()
 	.then(function () {
-		return farmbot123.sendMessage("info", "Log Test: 02 JS API");
+		return farmbot123.sendMessage("info", "System Ready: Feel free to use me");
 
 	});
 }
@@ -108,7 +108,7 @@ $.ajax(settings).done(function (response) {
   	console.log(savedResponse[0]);
 
   	// x is the number of images the user want to download
-	var x = 142
+	var x = 449
 	// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
 	var i = 0
 
@@ -119,11 +119,12 @@ $.ajax(settings).done(function (response) {
 	while (i <= x) {
 
     	// Print the ith image's url
+    	console.log(i); 
     	console.log(savedResponse[i].attachment_url); 
     	
     	// Call python script and pass arguments to save the image to local folder
 		const spawn = require("child_process").spawn;
-		const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, i]);
+		const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id]);
 		
 
     	i += 1;
@@ -133,4 +134,8 @@ $.ajax(settings).done(function (response) {
 
 
 
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
