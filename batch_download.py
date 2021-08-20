@@ -31,8 +31,8 @@ while i <= x:
     
     r = requests.get(z["attachment_url"], allow_redirects=True)
     
-    #Save the file to current folder
-    open(str(i)+".jpeg", 'wb').write(r.content)
+    #Save the file to current folder, use the images' id as file name.
+    open(str(z["id"]+".jpeg", 'wb').write(r.content)
     
     #Go to the next(older) image
     i += 1
