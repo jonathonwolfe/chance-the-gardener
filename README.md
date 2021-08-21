@@ -3,6 +3,10 @@
 ## The Goal of this Project
 To create 3D models of a FarmBot system garden on the fly.
 
+## FarmBot API
+This project makes API calls to the FarmBot system. 
+For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-reference.html
+
 ## Generating renders
 ### First time?
 Run `npm install` once before moving on.

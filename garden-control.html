@@ -3,29 +3,56 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
 	<script src="https://cdn.jsdelivr.net/npm/farmbot@latest/dist/farmbot_single_file.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+	<script src="FileSaver.js"></script>
 	<script src="./garden-control.js"></script>
+
+	<script>if (window.module) module = window.module;</script>
 </head>
 <body style="background-color:LightSlateGray;">
 <div class="centered">
-<h1 style="font-size:60px; font-family: Brush Script MT;">Garden Control Centre</h1>
-<button class="small blue button" onclick="myFunction(0, 0, 0)">Go to (0, 0, 0)</button>
-<button class="small blue button" onclick="myFunction(1000, 1000, 0)">Go to (1000, 1000, 0)</button>
-<button class="small blue button" onclick="myFunction(2170,425,-83)">Go to Fan Plant</button>
+<h1 style="font-size:60px; font-family: Brush Script MT;">Chance the Gardener</h1>
 
 <br><br>
 
+<br><br>
+
+<label id="welcome">Welcome</label><br><br>
+
+<br><br>
+Email: <input type="email" id="email" placeholder="Alex@gmail.com" >
+Password: <input type="password" id="password" placeholder="********" >
+<button class="small blue button" onclick="saveCredentials()">Login</button>
+<button class="small red button" onclick="tempLogin()">TempLoginDevOnly</button>
+<br><br>
+Move bot to coordinates: 
+<input type="text" id="xCoord" placeholder="x" >
+<input type="text" id="yCoord" placeholder="y" >
+<input type="text" id="zCoord" placeholder="z" >
+<button class="small blue button" onclick="moveBotCoord()">Go</button>
+<br><br>
 <button class="small green button" onclick="takePhoto()">Take Photo</button>
 <button class="small green button" onclick="toggleLight()">Toggle Light</button>
-
+<button class="small green button" onclick="moveBotHome()">Bot Go Home</button>
 <br><br>
-
+Log Message: <input type="text" id="logMessageText" placeholder="Hello World" >
 <button class="small red button" onclick="sendLogMessage()">Send Log Message</button>
 
 <br><br>
+<br><br>
 
-<button class="small blue button" onclick="createRenders()">Process the images in "images" folder</button>
-
+Step 1: <button class="small blue button" onclick="scanGarden()">Take Images</button>
+<br><br>
+Step 2: <button class="small blue button" onclick="downloadImages()">Download Images</button>
+<br><br>
+Step 3: <button class="small blue button" onclick="createRenders()">Process the images in "images" folder</button>
+<br><br>
+Step 4: <button class="small blue button" onclick="viewGarden()">View Garden</button>
 <br><br>
 
 <div id="myProgress">
@@ -34,7 +61,7 @@
 
 <div class="footer">
   <p>
-© 2021 Garden Control, Inc. </p>
+© 2021 Chance the Gardener, Inc. </p>
 </div>
 </body>
 </html>
