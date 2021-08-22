@@ -5,7 +5,7 @@ To create 3D models of a FarmBot system garden on the fly.
 
 ## FarmBot API
 This project makes API calls to the FarmBot system. 
-For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-reference.html
+For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-reference.html and https://developer.farm.bot/v14/Documentation/web-app/rest-api
 
 ## Generating renders
 ### First time?
