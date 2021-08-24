@@ -9,10 +9,11 @@ For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-
 
 ## Generating renders
 ### First time?
-Need to download Node.js at https://nodejs.org/en/download/
-Need to download Python at https://www.python.org/downloads/
-Run `npm install` once before moving on.
-This is required to install `child_process`.
+- Need to download & install Node.js at https://nodejs.org/en/download/
+- Need to download & install Python at https://www.python.org/downloads/
+- Run `npm install` once before moving on.
+- This is required to install `child_process`.
+
 
 ### Recurring usage
 1. Put your plant photos in `/images`.
