@@ -11,6 +11,7 @@ For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-
 ### First time?
 - Need to download & install Node.js at https://nodejs.org/en/download/
 - Need to download & install Python at https://www.python.org/downloads/
+- After downloading and installing the packages above, open a cmd terminal and run the command "pip install requests" OR "pip3 install requests" (depending on install python version).
 - Run `npm install` once before moving on.
 - This is required to install `child_process`.
 
