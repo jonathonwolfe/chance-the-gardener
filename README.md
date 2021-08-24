@@ -23,5 +23,6 @@ This is required to install `child_process`.
 ## Things to keep in mind
 If the bot is scheduled to scan the garden, please insure that the garden is in a relatively stable environment. 
 That includes:
-    - Rain, fog, dust, so have a cover over the garden to prevent anything from making the camera blurry.
-    - Insure the scanning schedule happens during the night, so the light from the LEDs is constant, without interference from sun rays that cause high contrast spots in images.
+- Rain, fog, dust, so have a cover over the garden to prevent anything from making the camera blurry.
+- Insure the scanning schedule happens during the night, so the light from the LEDs is constant, without interference from sun rays that cause high contrast spots in images.
+
