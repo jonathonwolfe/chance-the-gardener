@@ -7,6 +7,12 @@ To create 3D models of a FarmBot system garden on the fly.
 This project makes API calls to the FarmBot system. 
 For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-reference.html and https://developer.farm.bot/v14/Documentation/web-app/rest-api
 
+## Requirements
+- This program needs a CUDA-Enabled GPU (with at least compute capablility 2.0). https://meshroom-manual.readthedocs.io/en/latest/faq/needs-cuda/needs-cuda.html
+- https://developer.nvidia.com/cuda-gpus
+- run > dxdiag
+
+
 ## Generating renders
 ### First time?
 - Need to download & install Node.js at https://nodejs.org/en/download/
