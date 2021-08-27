@@ -41,6 +41,10 @@ function sendLogMessage() {
   });
 }
 
+ function sleep(d){
+    for(var t = Date.now();Date.now() - t <= d;);
+  }
+  
 function scanGardenTest () {
 	//move to the desired starting position
 	var x1= parseInt(document.getElementById("starting_xCoord").value);
@@ -49,8 +53,6 @@ function scanGardenTest () {
 	var y2= parseInt(document.getElementById("ending_yCoord").value);
 	var z = 0;
 	var y_holder = y1;
-  //needs to install sleep module
-	var sleep = require('sleep');
 	//record the number of images taken
 	var n = 0;
 	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
@@ -64,12 +66,13 @@ function scanGardenTest () {
 		farmbot123
 		.connect()
 		.then( function () {
-      //sleep for 60 secs
-			sleep.sleep(60)
+      //sleep for 1 min
+	  		sleep(60000)
 			return farmbot123.moveAbsolute({ x: x_holder, y: y_holder, z: z, speed: 100 });
 		})
 		.then( function () {
-			sleep.sleep(60)
+      //sleep for 1 min
+	  		sleep(60000)
 		return farmbot123.takePhoto({});
 		});
 		//increment the number of images taken by 1
