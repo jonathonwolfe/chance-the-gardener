@@ -9,11 +9,7 @@ var PASSWORD;
 function tempLogin(){
 	EMAIL = "***REMOVED***";
 	PASSWORD = "***REMOVED***";
-
-	//Step here to add this info to the Database so USER don't have to enter this evertime!
-
 	generateToken(EMAIL,PASSWORD);
-
 }
 
 // Save Credentials 
@@ -34,8 +30,7 @@ function generateToken(email, password){
 	  "method": "POST",
 	  "timeout": 0,
 	  "headers": {
-	    "content-type": "application/json",
-	    "Cookie": "***REMOVED***"
+	    "content-type": "application/json"
 	  },
 	  "data": JSON.stringify({
 	    "user": {
@@ -59,7 +54,7 @@ function setUserProfile(name, token){
 	console.log(TOKEN);
 }
 
-	
+// Take 1 photo at current bot coordinates
 function takePhoto() {
 	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
 
@@ -70,6 +65,7 @@ function takePhoto() {
 	});
 }
 
+// Toggle LED light
 function toggleLight() {
 	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
 
@@ -78,6 +74,22 @@ function toggleLight() {
 	.then(function () {
 		return farmbot123.togglePin({ pin_number: 7 });
 	});
+}
+
+// Exec Seq
+function ExecSeq() {
+	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
+
+	farmbot123
+	.connect()
+	.then(function () {
+		return farmbot123.execSequence(67893);
+	}).then(function(farmbot123){
+    console.log("Bot has stopped!");
+  })
+  .catch(function(error) {
+    console.log("Something went wrong :(");
+  });
 }
 
 // Move the bot to a set of coordinates
@@ -96,7 +108,7 @@ function moveBotCoord() {
 	});
 }
 
-// Move the bot to home Coord 0,0,0
+// Move the bot to home Coordinates 0,0,0
 function moveBotHome() {
 	var xCoordinate= document.getElementById("xCoord").value;
 	var yCoordinate= document.getElementById("yCoord").value;
@@ -111,6 +123,7 @@ function moveBotHome() {
 	});
 }
 
+// Send log message to FarmBot system
 function sendLogMessage() {
 	var logValue= document.getElementById("logMessageText").value;
 	var farmbot123 = new fbjs.Farmbot({ token: TOKEN });
@@ -123,6 +136,7 @@ function sendLogMessage() {
 	});
 }
 
+// Start rendering a set of images to create a 3D model
 function createRenders() {
 
 	// At start, setting the progress bar to 55%
@@ -167,74 +181,64 @@ function createRenders() {
 	});
 }
 
+// Downloads the latest 449 images on FarmBot system
 function downloadImages(){
 
-// Set the settings for the API request	
-var settings = {
-  "url": "https://my.farm.bot/api/images",
-  "method": "GET",
-  "timeout": 0,
-  "headers": {
-    "Authorization": "***REMOVED***",
-    "Cookie": "***REMOVED***"
-  },
-};
+	// Set the settings for the API request	
+	var settings = {
+	  "url": "https://my.farm.bot/api/images",
+	  "method": "GET",
+	  "timeout": 0,
+	  "headers": {
+	    "Authorization": "Bearer " + TOKEN
+	  },
+	};
 
-// Make var to store the response
-var savedResponse;
+	// Make var to store the response
+	var savedResponse;
 
-// Acess the response and save it to the variable
-$.ajax(settings).done(function (response) {
-	//console.log(response);
-  	savedResponse = response;
-  	console.log(savedResponse[0]);
+	// Acess the response and save it to the variable
+	$.ajax(settings).done(function (response) {
+		//console.log(response);
+	  	savedResponse = response;
+	  	console.log(savedResponse[0]);
 
-  	// x is the number of images the user want to download
-	var x = 449
-	// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
-	var i = 0
+	  // x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
+		var x = 449
+		// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
+		var i = 0
 
+		while (i <= x) {
 
-
-
-
-	while (i <= x) {
-
-    	// Print the ith image's url
-    	console.log(i); 
-    	console.log(savedResponse[i].attachment_url); 
-    	
-    	// Call python script and pass arguments to save the image to local folder
-		const spawn = require("child_process").spawn;
-		const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id]);
-		
-
-    	i += 1;
-
-	}
-});
-
-
-
+	    // Print the ith image's url
+	    console.log(i); 
+	    console.log(savedResponse[i].attachment_url); 
+	    	
+	    // Call python script and pass arguments to save the image to local folder
+			const spawn = require("child_process").spawn;
+			const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id]);
+	    i += 1;
+		}
+	});
 }
 
 
 function makeWait(){
-	var scriptCel = { kind: "wait", args: { milliseconds: 1000 } };
-	var testtt = "test255";
-	createNewSequence(testtt,JSON.stringify(scriptCel));
+	var celeryScript = { "kind": "wait", "args": { "milliseconds": 1000 } };
+	var sequenceName = "testName";
+	createNewSequence(sequenceName,celeryScript);
 }
 
+// Creates a new sequence and sends it to the FarmBot system to store in its sequences
 function createNewSequence(sequenceName,celeryScript){
 	var settings = {
   "url": "https://my.farmbot.io/api/sequences",
   "method": "POST",
   "timeout": 0,
   "headers": {
-    "Authorization": "***REMOVED***",
+    "Authorization": "Bearer " + TOKEN,
     "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-    "Cookie": "__farmbot_session=Re4Oklp%2Fv3fxkb8z3cH%2FFLMmNnQU%2F1yeNnVoPttSHB3zcKWw8kQN03TgcdFcPkQDsV4o0zM9N%2F%2FG8XanIqQbdUTHKJHj58kc1x6DUIZ%2Fq1kvSmoDPjlbTd72J7%2BQ62m8wMx5VwCB3lqu%2BaBN9XtxaWugRXH4%2FIQioGYmYaIJ077L3ljIBZidbyY2nCR8qDQ1b1gPjfaomA8C--CLGcBuOpVn963jat--9mXpaWb0lExGRP6jrTBOHA%3D%3D"
+    "Content-Type": "application/json"
   },
   "data": JSON.stringify({
     "color": "red",
@@ -250,8 +254,4 @@ function createNewSequence(sequenceName,celeryScript){
 $.ajax(settings).done(function (response) {
   console.log(response);
 });
-}
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
 }
