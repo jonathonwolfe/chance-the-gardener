@@ -1,6 +1,6 @@
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
-var TOKEN = "***REMOVED***";
+var TOKEN = "yes";
 var EMAIL;
 var PASSWORD;
 
@@ -190,7 +190,7 @@ $.ajax(settings).done(function (response) {
   	console.log(savedResponse[0]);
 
   	// x is the number of images the user want to download
-	var x = 200
+	var x = 449
 	// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
 	var i = 0
 
@@ -216,6 +216,40 @@ $.ajax(settings).done(function (response) {
 
 
 
+}
+
+
+function makeWait(){
+	var scriptCel = { kind: "wait", args: { milliseconds: 1000 } };
+	var testtt = "test255";
+	createNewSequence(testtt,JSON.stringify(scriptCel));
+}
+
+function createNewSequence(sequenceName,celeryScript){
+	var settings = {
+  "url": "https://my.farmbot.io/api/sequences",
+  "method": "POST",
+  "timeout": 0,
+  "headers": {
+    "Authorization": "***REMOVED***",
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+    "Cookie": "__farmbot_session=Re4Oklp%2Fv3fxkb8z3cH%2FFLMmNnQU%2F1yeNnVoPttSHB3zcKWw8kQN03TgcdFcPkQDsV4o0zM9N%2F%2FG8XanIqQbdUTHKJHj58kc1x6DUIZ%2Fq1kvSmoDPjlbTd72J7%2BQ62m8wMx5VwCB3lqu%2BaBN9XtxaWugRXH4%2FIQioGYmYaIJ077L3ljIBZidbyY2nCR8qDQ1b1gPjfaomA8C--CLGcBuOpVn963jat--9mXpaWb0lExGRP6jrTBOHA%3D%3D"
+  },
+  "data": JSON.stringify({
+    "color": "red",
+    "name": sequenceName,
+    "pinned": false,
+    "kind": "sequence",
+    "body": [
+      celeryScript
+    ]
+  }),
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
 }
 
 function getRandomInt(max) {
