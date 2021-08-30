@@ -279,3 +279,14 @@ $.ajax(settings).done(function (response) {
   console.log(response);
 });
 }
+
+function getFoldersList(mainFolder) {
+	const { readdirSync } = require('fs');
+
+	const foldersList = source =>
+	readdirSync(source, { withFileTypes: true })
+		.filter(dirent => dirent.isDirectory())
+		.map(dirent => dirent.name);
+
+	return foldersList(mainFolder);
+}
