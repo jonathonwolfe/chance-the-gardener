@@ -138,6 +138,12 @@ function sendLogMessage() {
 
 // Start rendering a set of images to create a 3D model
 function createRenders() {
+	// Check if renders folder exists yet, and create if not.
+	const fs = require("fs");
+	
+	if (!fs.existsSync("./renders")) {
+		fs.mkdirSync("./renders");
+	}
 
 	// At start, setting the progress bar to 55%
 	var i = 0;
@@ -189,9 +195,15 @@ function downloadImages(){
 	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + "_" + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
 
 	// Create folder with current date-time.
-	var fs = require("fs");
+	const fs = require("fs");
 	var dir = "./images/" + currentDateTime;
 
+	// Check if images folder exists yet, and create if not.
+	if (!fs.existsSync("./images")) {
+		fs.mkdirSync("./images");
+	}
+
+	// Create the date-time folder.
 	if (!fs.existsSync(dir)){
 		fs.mkdirSync(dir);
 	}
