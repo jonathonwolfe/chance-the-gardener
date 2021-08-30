@@ -20,4 +20,4 @@ headers = {
 r = requests.get(sys.argv[1], allow_redirects=True)
     
 # Save the file to current folder
-open('img\\'+sys.argv[2]+".jpg", 'wb').write(r.content)
+open(sys.argv[3]+'\\'+sys.argv[2]+".jpg", 'wb').write(r.content)

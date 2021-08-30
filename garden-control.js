@@ -183,6 +183,18 @@ function createRenders() {
 
 // Downloads the latest 449 images on FarmBot system
 function downloadImages(){
+	// Get current date-time.
+	// Also adjust date/month for single digits.
+	let dateObj = new Date();
+	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + "_" + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
+
+	// Create folder with current date-time.
+	var fs = require("fs");
+	var dir = "./images/" + currentDateTime;
+
+	if (!fs.existsSync(dir)){
+		fs.mkdirSync(dir);
+	}
 
 	// Set the settings for the API request	
 	var settings = {
@@ -204,9 +216,9 @@ function downloadImages(){
 	  	console.log(savedResponse[0]);
 
 	  // x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
-		var x = 449
+		var x = 449;
 		// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
-		var i = 0
+		var i = 0;
 
 		while (i <= x) {
 
@@ -214,9 +226,9 @@ function downloadImages(){
 	    console.log(i); 
 	    console.log(savedResponse[i].attachment_url); 
 	    	
-	    // Call python script and pass arguments to save the image to local folder
+	    // Call python script and pass arguments to save the image to appropraite folder.
 			const spawn = require("child_process").spawn;
-			const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id]);
+			const pythonProcess = spawn('python',["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id, dir]);
 	    i += 1;
 		}
 	});
