@@ -1,6 +1,6 @@
 #myProgress {
   width: 100%;
-  background-color: grey;
+  background-color: #FBFBF8;
 }
 
 #myBar {
@@ -9,9 +9,8 @@
   background-color: green;
 }
 
-body{ 
-	background:url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/wild_oliva.png);
-  }
+
+
   .centered {
   margin:50px auto;
   text-align:center;
@@ -128,12 +127,12 @@ body{
   /* */
 
   .button.green{
-  background-color: #57a957;
-  border-color: #57a957;
+  background-color: #000000;
+  border-color: #000000;
   }
 
   .button.green:hover{
-  background-color: #62c462;
+  background-color: #555555;
   }
 
   .button.green:active{
@@ -158,12 +157,12 @@ body{
   /* */
 
   .button.blue{
-	background-color: #269CE9;
-	border-color: #269CE9;
+	background-color: #000000;
+	border-color: #000000;
   }
 
   .button.blue:hover{
-	background-color: #70B9E8;
+	background-color: #555555;
   }
 
   .button.blue:active{
@@ -257,7 +256,7 @@ body{
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: DarkCyan;
-   color: black;
+   background-color: #000000;
+   color: white;
    text-align: center;
   }

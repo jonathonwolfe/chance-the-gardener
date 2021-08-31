@@ -60,7 +60,11 @@ function generateToken(email, password){
 			.connect()
 			.then(function () {
 				return farmbot123.takePhoto({});
-			});
+			}).then(function(farmbot123){
+										console.log("Photo taken");
+									}).catch(function(error) {
+							console.log("Something went wrong :(");
+						});
 			}
 
 // Check current bot X Y Z
@@ -88,7 +92,11 @@ $.ajax(settings).done(function (response) {
 				.connect()
 				.then(function () {
 					return farmbot123.togglePin({ pin_number: 7 });
-				});
+				}).then(function(farmbot123){
+										console.log("Light toggled");
+									}).catch(function(error) {
+							console.log("Something went wrong :(");
+						});
 				}
 
 // SEND AND Execute Sequence to Move x right and Take 1 image (SequenceName: moveAndShoot)
@@ -337,7 +345,7 @@ $.ajax(settings).done(function (response) {
 												}).then(function () {
 													return farmbot123.moveAbsolute({ x: 0, y: 0, z: 0, speed: 100 });
 												}).then(function(farmbot123){
-													console.log("Bot has stopped!");
+													console.log("Bot has gone home!");
 												})
 													.catch(function(error) {
 														console.log("Something went wrong :(");
@@ -354,7 +362,11 @@ $.ajax(settings).done(function (response) {
 														.then(function () {
 															return farmbot123.sendMessage("success", logValue);
 
-														});
+														}).then(function(farmbot123){
+										console.log("Log Sent");
+									}).catch(function(error) {
+							console.log("Something went wrong :(");
+						});
 														}
 
 // Start rendering a set of images to create a 3D model
@@ -385,6 +397,7 @@ $.ajax(settings).done(function (response) {
 														}
 	// progress bar stops	
 
+														// execute meshroom application through command line
 														var child = require('child_process').execFile;
 														var executablePath = "Meshroom-2018.1.0\\meshroom_photogrammetry.exe";
 														var parameters = ["--input", "images", "--output", "renders", "--scale", "2"];
