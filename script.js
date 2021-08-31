@@ -515,11 +515,6 @@ function createNewSequence(sequenceName, celeryScript) {
 	});
 }
 
-$.ajax(settings).done(function (response) {
-	console.log(response);
-});
-}
-
 function getFoldersList(mainFolder) {
 	const { readdirSync } = require('fs');
 

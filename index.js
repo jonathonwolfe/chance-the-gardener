@@ -11,7 +11,7 @@ function createWindow () {
 		}
 	})
 
-	win.loadFile('home.html')
+	win.loadFile('main-menu.html')
 	
 	/* For debugging */
 	win.webContents.openDevTools()
