@@ -17,6 +17,9 @@
     "electron": "^13.1.7"
   },
   "dependencies": {
-    "child_process": "^1.0.2"
+    "child_process": "^1.0.2",
+    "farmbot": "^14.2.2",
+    "jquery": "^3.6.0",
+    "requirejs": "^2.3.6"
   }
 }

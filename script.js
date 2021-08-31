@@ -1,3 +1,4 @@
+const farmbot = require('farmbot');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var TOKEN = "yes";
