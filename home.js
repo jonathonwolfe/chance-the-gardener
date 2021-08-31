@@ -425,8 +425,8 @@ $.ajax(settings).done(function (response) {
 																	function downloadImages(){
 	// Get current date-time.
 	// Also adjust date/month for single digits.
-																		let dateObj = new Date();
-																		let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + "_" + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
+	let dateObj = new Date();
+	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + " " + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
 
 	// Create folder with current date-time.
 													const fs = require("fs");
@@ -514,3 +514,33 @@ $.ajax(settings).done(function (response) {
 													});
 													}
 
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+}
+
+function getFoldersList(mainFolder) {
+	const { readdirSync } = require('fs');
+
+	const foldersList = source =>
+	readdirSync(source, { withFileTypes: true })
+		.filter(dirent => dirent.isDirectory())
+		.map(dirent => dirent.name);
+
+	return foldersList(mainFolder);
+}
+
+function createDateTimeSelect(folder) {
+	var selectList = document.getElementById("dateTimeSelect");
+	var folderList = getFoldersList(folder);
+
+	for (let i = 0; i < folderList.length; i++) {
+		let dateTimeVal = folderList[i];
+		let dateTimeOption = document.createElement("option");
+		dateTimeOption.textContent = dateTimeVal;
+		dateTimeOption.value = dateTimeVal;
+		selectList.appendChild(dateTimeOption);
+	}
+
+	return;
+}

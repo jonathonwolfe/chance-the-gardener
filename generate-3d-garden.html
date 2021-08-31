@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/farmbot@latest/dist/farmbot_single_file.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+	<script src="./home.js"></script>
+
+	<script>if (window.module) module = window.module;</script>
+</head>
+<body style="background-color:LightSlateGray;" onload="createDateTimeSelect('images')">
+	<label for="date-time">Scan date & time:</label>
+
+	<select name="date-time" id="dateTimeSelect">
+	</select>
+
+	<a href="3d-garden.html">Back</a>
+</body>
+</html>
