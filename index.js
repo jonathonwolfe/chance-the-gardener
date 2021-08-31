@@ -11,7 +11,7 @@ function createWindow () {
 		}
 	})
 
-	win.loadFile('garden-control.html')
+	win.loadFile('home.html')
 	
 	/* For debugging */
 	win.webContents.openDevTools()
