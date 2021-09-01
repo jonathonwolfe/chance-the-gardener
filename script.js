@@ -1,4 +1,5 @@
 const farmbot = require('farmbot');
+window.$ = window.jQuery = require('jquery');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var TOKEN = "yes";
