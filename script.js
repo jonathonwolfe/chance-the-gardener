@@ -1,3 +1,5 @@
+const farmbot = require('farmbot');
+window.$ = window.jQuery = require('jquery');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var TOKEN = "yes";
@@ -513,11 +515,6 @@ function createNewSequence(sequenceName, celeryScript) {
 	$.ajax(settings).done(function (response) {
 		console.log(response);
 	});
-}
-
-$.ajax(settings).done(function (response) {
-	console.log(response);
-});
 }
 
 function getFoldersList(mainFolder) {

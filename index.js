@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
+const requirejs = require('requirejs');
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -11,16 +12,16 @@ function createWindow () {
 		}
 	})
 
-	win.loadFile('home.html')
+	win.loadFile('main-menu.html');
 	
 	/* For debugging */
-	win.webContents.openDevTools()
+	win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
-	createWindow()
-})
+	createWindow();
+});
 
 app.on('window-all-closed', function () {
 	if (process.platform !== 'darwin') app.quit()
-})
+});
