@@ -1,6 +1,6 @@
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
-var TOKEN = "yes";
+var TOKEN = "YES";
 var EMAIL;
 var PASSWORD;
 
