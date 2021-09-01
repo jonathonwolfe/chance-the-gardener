@@ -36,3 +36,6 @@ That includes:
 - Rain, fog, dust, so have a cover over the garden to prevent anything from making the camera blurry.
 - Insure the scanning schedule happens during the night, so the light from the LEDs is constant, without interference from sun rays that cause high contrast spots in images.
 
+## Sharing 3D models
+If you are looking to share the 3D renders, all you have to do is to go to the folder where the application is installed, find the folder of the specific timeline of the 3D object, and share this folder. If you send it to a friend to see, they can download a free 3D viewer called MeshLab from https://www.meshlab.net/#download and install it. Once done, they can open the folder that you sent them, and double click the OBJ file.
+
