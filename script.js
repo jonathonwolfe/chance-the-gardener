@@ -720,7 +720,7 @@ function downloadImages(numberOfImagesToDownload) {
 			i += 1;
 		}
 	}).then(function(response){
-		resolve('Done dowloading 430 images');
+		resolve('Done dowloading  images');
 	});
 });
 }
