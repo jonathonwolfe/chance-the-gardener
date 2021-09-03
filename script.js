@@ -110,16 +110,57 @@ function toggleLight() {
 		});
 }
 
+
+
+async function jonathonGarden(){
+	console.log("Moving bot to 0,0,0");
+	await moveBotHome();
+
+	console.log("Scanning 33%");
+	await ExecSeq(67520);
+	console.log("Done scanning 33%");
+
+	console.log("Downloading batch 1");
+	await downloadImages(432);
+	console.log("Completed: Downloading batch 1");
+
+	console.log("Scanning 66%");
+	await ExecSeq(68166);
+	console.log("Scanning 66%");
+
+	console.log("Downloading batch 2");
+	await downloadImages(432);
+	console.log("Completed: Downloading batch 2");
+
+	console.log("Scanning 99%");
+	await ExecSeq(68167);
+	console.log("Scanning 99%");
+
+	console.log("Downloading batch 3");
+	await downloadImages(432);
+	console.log("Completed: Downloading batch 3");
+
+	console.log("Completed: Garden Scan");
+}
+
+async function jonathonGarden2(){
+	console.log("Moving bot to 0,0,0");
+	await moveBotHome();
+	for (let i = 0; i < 24; i++) {//24 is how many levels of y
+  		
+	}
+}
+
 async function doNotClick(){
 	var response;
-	response = await ExecSeq(67520);
+	response = await rawPhoto();
 	console.log(response);
 }
 
 
 async function scanGarden() {
 	// Sleep timer
-	var sleepTime=10000;
+	var sleepTime=5000;
 
 	// This variable keeps track of how many images have been taken until now;
 	var imagesTaken;
@@ -271,6 +312,61 @@ async function scanGarden() {
 	// Output to console "Completed Garden Scan"
 	console.log("Completed Garden Scan :)");
 }
+
+
+// SEND AND Execute Sequence to take_photo_raw (SequenceName: take_photo_raw) 
+function rawPhoto() {
+	return new Promise((resolve, reject) => {
+	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+
+	farmbot123
+		.connect()
+		.then(function () {
+			return farmbot123.send({
+				kind: "rpc_request",
+				args: {
+					// Every `rpc_request` must have a long, unique `label`.
+					// farmbot needs this proprty to know when a command finishes.
+					label: "take_photo_raw",
+					// This is a legacy field. Modern versions of FBOS do not
+					// use it any more. You can set it to any number. It does
+					// not matter.
+					priority: 0
+				},
+				body: [
+					{
+						"kind": "send_message",
+						"args": {
+							"message": "Chance App: take_photo_raw",
+							"message_type": "success"
+						}
+					},
+					{
+						"kind": "channel",
+    					"args": {
+        					"channel_name": "alpha"
+    					}
+    				},
+					{
+						"kind": "take_photo_raw",
+						"args": {}
+					}
+				]
+			});
+		}).then(function (farmbot123) {
+			console.log("Completed: take_photo_raw");
+			resolve('Completed: take_photo_raw');
+		})
+		.catch(function (error) {
+			console.log("Something went wrong :(");
+			reject('Something went wrong :(');
+		});
+	});
+		
+
+	
+}
+
 
 // SEND AND Execute Sequence to wait once (SequenceName: waitOnce) // Used to update bot location to its logs on the server
 function waitOnce() {
@@ -531,7 +627,7 @@ function goUp() {
 }
 
 // (DEPRECATED) Exec Sequence using a sequence ID
-async function ExecSeq(seqId) {
+function ExecSeq(seqId) {
 	return new Promise((resolve, reject) => {
 	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
 
@@ -727,13 +823,17 @@ function downloadImages(numberOfImagesToDownload) {
 
 // (DEPRECATED) The celery script of a basic wait
 function waitSequenceScript() {
+	return new Promise((resolve, reject) => {
 	var celeryScript = { "kind": "wait", "args": { "milliseconds": 1000 } };
 	var sequenceName = "Chance App: Wait Script";
 	createNewSequence(sequenceName, celeryScript);
+	resolve('Done');
+});
 }
 
 // (DEPRECATED) Creates a new sequence and sends it to the FarmBot system to store in its sequences 
 function createNewSequence(sequenceName, celeryScript) {
+	return new Promise((resolve, reject) => {
 	var settings = {
 		"url": "https://my.farmbot.io/api/sequences",
 		"method": "POST",
@@ -756,7 +856,10 @@ function createNewSequence(sequenceName, celeryScript) {
 
 	$.ajax(settings).done(function (response) {
 		console.log(response);
+	}).then(function(response){
+		resolve(response);
 	});
+});
 }
 
 function getFoldersList(mainFolder) {
@@ -788,9 +891,11 @@ function createDateTimeSelect(folder) {
 
 // Sleep Function to delay calls to FarmBot, so MQTT dosent complain
 function sleep(milliseconds) {
+	console.log("Sleeping now");
   const date = Date.now();
   let currentDate = null;
   do {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
+  console.log("Waking up now");
 }
