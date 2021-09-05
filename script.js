@@ -142,13 +142,89 @@ async function jonathonGarden(){
 
 	console.log("Completed: Garden Scan");
 }
-
+//67521
+//68189
 async function jonathonGarden2(){
 	console.log("Moving bot to 0,0,0");
 	await moveBotHome();
+	console.log("Scanning Garden");
 	for (let i = 0; i < 24; i++) {//24 is how many levels of y
-  		
+		console.log("a1");
+  		await ExecSeq(68189);
+  		console.log("a2");
+  		sleep(5000);
+  		console.log("a3");
+  		await downloadImages(54);
+  		console.log("a4");
+  		sleep(5000);
+  		console.log("a5");
+  		await ExecSeq(68190);
+  		console.log("a6");
+  		sleep(5000);
 	}
+}
+
+// CAUSES CRASHES
+async function jonathonGarden3(){
+	console.log("Moving bot to 0,0,0");
+	await moveBotHome();
+	console.log("Scanning Garden");
+	for (let i = 0; i < 24; i++) {//24 is how many levels of y
+		var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+
+	farmbot123
+		.connect()
+		.then(function () {
+			console.log("a1");
+			return farmbot123.execSequence(68189);
+			console.log("a2");
+		}).then(function (farmbot123) {
+			console.log("a3");
+			downloadImages(54);
+  			console.log("a4");
+		}).then(function (farmbot123) {
+			console.log("a5");
+  			return farmbot123.execSequence(68190);
+  			console.log("a6");
+		});
+	}
+}
+
+async function jonathonGarden4(){
+	console.log("Moving bot to 0,0,0");
+	await moveBotHome();
+	console.log("Scanning Garden");
+	for (let i = 0; i < 24; i++) {//24 is how many levels of y
+		console.log("a1");
+  		await ExecSeq(68199);
+  		console.log("a2");
+  		sleep(5000);
+  		console.log("a3");
+  		//await downloadImages(10);
+  		console.log("a4");
+  		sleep(5000);
+  		console.log("a5");
+  		await ExecSeq(68190);
+  		console.log("a6");
+  		sleep(5000);
+	}
+}
+
+function jon1(){
+	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+
+	farmbot123
+		.connect()
+		.then(function () {
+			return farmbot123.execSequence(68189);
+		}).then(function (farmbot123) {
+			console.log("Bot has stopped!");
+			resolve('Completed: Sequence');
+		})
+		.catch(function (error) {
+			console.log("Something went wrong :(");
+			reject('Something went wrong :(');
+		});
 }
 
 async function doNotClick(){
