@@ -22,6 +22,7 @@
     "child_process": "^1.0.2",
     "farmbot": "^14.2.2",
     "jquery": "^3.6.0",
+    "json2csv": "^5.0.6",
     "requirejs": "^2.3.6"
   }
 }
