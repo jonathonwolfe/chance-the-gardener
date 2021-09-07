@@ -1,16 +1,41 @@
-Are you a literature addict looking for that sweet hit of literary ecstasy that comes from reading well-told stories? Are you also – like so many of us slaving away with ever-increasing work demands – short on time? Fortunately, we have just the thing for you that can satiate your craving for well-told, expertly-crafted fiction; bringing you tightly controlled beginnings, middles and endings in the time it takes to eat your lunch or smoke a cigarette (there’s a reason flash fiction used to be called smoke-long stories, after all).
-
-
-
-We’re talking, of course, of some of the finest short stories that you can read for free thanks to the wonders of the interwebs. There are untold thousands – probably millions (if not billions) of these pieces floating around in the digital ether, but to get you started we’ve compiled 15 of our favourites, mixing together writing from new and aspiring artists with established literary titans.
-
-
-THIS IS TESTING THE EFFECTS OF GIT
+# FarmBot 3D Garden
 
 ## The Goal of this Project
 To create 3D models of a FarmBot system garden on the fly.
 
+## FarmBot API
+This project makes API calls to the FarmBot system. 
+For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-reference.html and https://developer.farm.bot/v14/Documentation/web-app/rest-api
 
-im going to test merging this with dev branch!
+## Requirements
+- This program needs a CUDA-Enabled GPU (with at least compute capablility 2.0). https://meshroom-manual.readthedocs.io/en/latest/faq/needs-cuda/needs-cuda.html
+- https://developer.nvidia.com/cuda-gpus
+- run > dxdiag
 
-hello! this is some test text! try to add something after me!
+
+## Generating renders
+### First time?
+- Need to download & install Node.js at https://nodejs.org/en/download/
+- Need to download & install Python at https://www.python.org/downloads/
+- After downloading and installing the packages above, open a cmd terminal and run the command "pip install requests" OR "pip3 install requests" (depending on install python version). This is for the auto image downloading python script to work.
+- Run `npm install` once before moving on.
+- This is required to install `child_process`.
+
+
+### Recurring usage
+1. Put your plant photos in `/images`.
+2. Run the app with `npm start`.
+3. Click on the Process images button.
+4. Wait for progress bar to reach 100%.
+5. ????
+6. Check `/renders` for your output.
+
+## Things to keep in mind
+If the bot is scheduled to scan the garden, please insure that the garden is in a relatively stable environment. 
+That includes:
+- Rain, fog, dust, so have a cover over the garden to prevent anything from making the camera blurry.
+- Insure the scanning schedule happens during the night, so the light from the LEDs is constant, without interference from sun rays that cause high contrast spots in images.
+
+## Sharing 3D models
+If you are looking to share the 3D renders, all you have to do is to go to the folder where the application is installed, find the folder of the specific timeline of the 3D object, and share this folder. If you send it to a friend to see, they can download a free 3D viewer called MeshLab from https://www.meshlab.net/#download and install it. Once done, they can open the folder that you sent them, and double click the OBJ file.
+

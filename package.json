@@ -4,7 +4,7 @@
   "description": "Scan garden using FarmBot and generate 3D renders.",
   "main": "index.js",
   "scripts": {
-	"start": "electron .",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,5 +15,11 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^13.1.7"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "farmbot": "^14.2.2",
+    "jquery": "^3.6.0",
+    "requirejs": "^2.3.6"
   }
 }
