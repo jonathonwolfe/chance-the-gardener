@@ -2,18 +2,16 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
-
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
 	<script src="./script.js"></script>
 	<script src="./view-3d-garden.js"></script>
-
-	<script>if (window.module) module = window.module;</script>
 </head>
-<body style="background-color:LightSlateGray;" onload="createDateTimeSelect('renders')">
-	
-
-	<a href="3d-garden-menu.html">Back</a>
+<!--change onload to be a function to load list of userse from available renders-->
+<body onload="createDateTimeSelect('renders')">
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="3d-garden-menu.html">Back</a>
+	</div>
 </body>
 </html>

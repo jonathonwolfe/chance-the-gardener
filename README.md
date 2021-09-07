@@ -39,3 +39,16 @@ That includes:
 ## Sharing 3D models
 If you are looking to share the 3D renders, all you have to do is to go to the folder where the application is installed, find the folder of the specific timeline of the 3D object, and share this folder. If you send it to a friend to see, they can download a free 3D viewer called MeshLab from https://www.meshlab.net/#download and install it. Once done, they can open the folder that you sent them, and double click the OBJ file.
 
+## Disclaimer
+- This application was only tested on a FarmBot garden size of roughly 2700mm x 1200mm. Anything bigger or smaller might result in some unexpected results and errors.
+
+- 50mm increments. 
+- 2700/50 = 54 images taken at every row. 
+- 1200/50 = 24 images taken at every column. 
+- 54 x 24 = 1296 images in one scan of the garden. 
+- Becuase image cap is every 449 images, we need to download roughly 3 times. 
+- First download roughly at Y = 400. Download 432 images here.
+- Second download roughly at Y = 800. Download 432 images here.
+- Third download roughly at Y = 1200. Download 432 images here.
+
+

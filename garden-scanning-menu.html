@@ -2,19 +2,44 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-
 	<script src="./script.js"></script>
-
-	<script>if (window.module) module = window.module;</script>
 </head>
-<body style="background-color:LightSlateGray;">
-	<a href="scan-now.html">Scan garden now</a>
-	<a href="schedule-scan.html">Schedule garden scan</a>
-	<a href="manage-scan-results.html">Manage scan results</a>
+<body>
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="main-menu.html">Back</a>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<a class="btn" href="scan-now.html">Scan garden now</a>
+			<a class="btn" href="manage-scan-results.html">Manage scan results</a>
+		</div>
 
-	<a href="main-menu.html">Back</a>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<h3>To be removed after dev:</h3>
+			<button class="btn btn-danger mb-5" onclick="downloadImages(449)">downloadImages</button>
+
+			Move bot to coordinates: 
+			<input type="text" id="xCoord" placeholder="x" >
+			<input type="text" id="yCoord" placeholder="y" >
+			<input type="text" id="zCoord" placeholder="z" >
+			<button class="btn" onclick="moveBotCoord()">Go</button>
+		</div>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<button class="btn" onclick="takePhoto()">Take Photo</button>
+			<button class="btn" onclick="toggleLight()">Toggle Light</button>
+			<button class="btn" onclick="moveBotHome()">Bot Go Home</button>
+		</div>
+
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<button class="btn btn-danger" onclick="moveAndShoot()">Move and Shoot</button>
+			<button class="btn btn-danger" onclick="goUp()">Go Up</button>
+			<button class="btn btn-danger" onclick="readCoordinates()">Read Bot Coordinates</button>
+		</div>
+
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			Step 1: <button class="btn" onclick="scanGarden()">Take Images</button>
+		</div>
+	</div>
 </body>
 </html>

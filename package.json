@@ -17,6 +17,8 @@
     "electron": "^13.1.7"
   },
   "dependencies": {
+    "@popperjs/core": "^2.10.1",
+    "bootstrap": "^5.1.0",
     "child_process": "^1.0.2",
     "farmbot": "^14.2.2",
     "jquery": "^3.6.0",

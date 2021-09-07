@@ -2,21 +2,27 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
-
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
 	<script src="./script.js"></script>
 	<script src="./manage-scan-results.js"></script>
-
-	<script>if (window.module) module = window.module;</script>
 </head>
-<body style="background-color:LightSlateGray;" onload="createDateTimeSelect('images')">
-	<label for="date-time">Scan date & time:</label>
+<body onload="createDateTimeSelect('images')">
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="garden-scanning-menu.html">Back</a>
 
-	<select name="date-time" id="dateTimeSelect">
-	</select>
+		<label for="date-time">Scan date & time:</label>
+		<select name="date-time" id="dateTimeSelect">
+		</select>
 
-	<a href="garden-scanning-menu.html">Back</a>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<button class="btn">View photos</button>
+			<button class="btn">View plant data</button>
+
+			<button class="btn btn-danger mt-5">Delete scan photos</button>
+		</div>
+
+	</div>
 </body>
 </html>

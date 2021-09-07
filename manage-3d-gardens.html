@@ -2,18 +2,18 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
-
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
 	<script src="./script.js"></script>
 	<script src="./manage-3d-gardens.js"></script>
-
-	<script>if (window.module) module = window.module;</script>
 </head>
-<body style="background-color:LightSlateGray;" onload="createDateTimeSelect('renders')">
-	
+<body onload="createDateTimeSelect('renders')">
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="3d-garden-menu.html">Back</a>
 
-	<a href="3d-garden-menu.html">Back</a>
+		<label for="date-time">Scan date & time:</label>
+		<select name="date-time" id="dateTimeSelect">
+	</div>
 </body>
 </html>

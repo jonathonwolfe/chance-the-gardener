@@ -2,19 +2,28 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
-	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-
 	<script src="./script.js"></script>
-
-	<script>if (window.module) module = window.module;</script>
 </head>
-<body style="background-color:LightSlateGray;">
-	<a href="view-3d-garden.html">View 3D garden</a>
-	<a href="generate-3d-garden.html">Generate 3D garden</a>
-	<a href="manage-3d-gardens.html">Generate 3D gardens</a>
+<body>
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="main-menu.html">Back</a>
 
-	<a href="main-menu.html">Back</a>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<a class="btn" href="view-3d-garden.html">View 3D garden</a>
+			<a class="btn" href="generate-3d-garden.html">Generate 3D garden</a>
+			<a class="btn" href="manage-3d-gardens.html">Generate 3D gardens</a>
+		</div>
+
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<h3>To be removed after dev:</h3>
+			Step 2: <button class="btn" onclick="createRenders()">Render Images</button>
+			<div id="myProgress">
+				<div id="myBar"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

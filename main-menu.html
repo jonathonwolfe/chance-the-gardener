@@ -2,7 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
+<<<<<<< HEAD
 	<script src="https://cdn.jsdelivr.net/npm/farmbot@latest/dist/farmbot_single_file.js"></script>
 	<script src="./garden-control.js"></script>
 </head>
@@ -35,5 +37,34 @@ scan from (x1,y1,0) to (x2,y2,0):
   <p>
 © 2021 Garden Control, Inc. </p>
 </div>
+=======
+
+	<script src="./script.js"></script>
+	<script src="./main-menu.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="d-grid justify-content-md-end">
+			<a href="change-user.html">Change user</a>
+		</div>
+
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<h2 id="welcome-msg">Hi, you aren't logged in!</h2>
+			<a class="btn" href="garden-scanning-menu.html">Garden scanning</a>
+			<a class="btn" href="3d-garden-menu.html">3D garden</a>
+			
+		<button class="btn btn-danger mt-5" onclick="tempLogin()">TempLoginDevOnly</button>
+		<button class="btn btn-danger mt-3" onclick="myfunc()">Do Not Click</button>
+
+		<input class="mt-5" type="text" id="logMessageText" placeholder="Hello World" >
+		<button class="btn btn-danger" onclick="sendLogMessage()">Send Log Message</button>
+
+		</div>
+
+		<div class="d-grid col-2 mx-auto mb-5 fixed-bottom">
+			<a class="btn" href="settings.html">Settings</a>
+		</div>
+	</div>
+>>>>>>> dev
 </body>
 </html>
