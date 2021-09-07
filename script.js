@@ -52,7 +52,7 @@ function generateToken(email, password) {
 // Set USER Profile & TOKEN
 function setUserProfile(name, token) {
 	console.log(name);
-	document.getElementById("welcome").innerHTML = name;
+	document.getElementById("welcome-msg").innerHTML = "Hi, " + name;
 	TOKEN = token;
 	console.log(TOKEN);
 }
