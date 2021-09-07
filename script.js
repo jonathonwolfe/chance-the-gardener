@@ -1,5 +1,6 @@
 const farmbot = require('farmbot');
 window.$ = window.jQuery = require('jquery');
+window.bootstrap = require('bootstrap');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var TOKEN = "YES";
