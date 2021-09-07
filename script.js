@@ -96,6 +96,30 @@ function readCoordinates() {
 	});
 }
 
+// Check current bot X Y Z
+function getPoints() {
+	return new Promise((resolve, reject) => {
+
+	var settings = {
+		"url": "https://my.farmbot.io/api/points",
+		"method": "GET",
+		"timeout": 0,
+		"headers": {
+			"Authorization": "Bearer " + TOKEN,
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		},
+	};
+
+	$.ajax(settings).done(function (response) {
+		console.log(response);
+	}).then(function(response){
+		resolve(response);
+	});
+	
+	});
+}
+
 // Toggle LED light
 function toggleLight() {
 	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
