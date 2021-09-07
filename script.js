@@ -111,7 +111,80 @@ function toggleLight() {
 		});
 }
 
+///////////////////////
+function myfunc(){
+	var logNumber=0;
+	var device = new farmbot.Farmbot({ token: TOKEN });
+	const myLua = `
+	photo_count = 0
+	
+	function take_photo_and_maybe_notify()
+		photo_count = photo_count + 1
+		if math.fmod(photo_count, 100) == 0 then
+			send_message("info", "download images now")
+		end
+		return take_photo()
+	end
+	
+	function scanX(label, count)
+		send_message("info", "(DO NOT TOUCH) Chance App Scanning " .. label)
+	
+		for i = count, 1, -1 do
+			error1 = take_photo_and_maybe_notify()
+			if error1 then return send_message("error", "Capture failed ") end
+			p, error2 = get_position()
+			if error2 then return send_message("error", inspect(error2)) end
+			move_absolute(p.x + 50, p.y, p.z)
+		end
+	
+		send_message("success", "Chance App done scanning row: " .. label)
+	end
+	
+	-- Set a starting X coordinate to do a grid scan of.
+	starting_x = 0
+	starting_y = 0
+	
+	-- Loop 24 times, calling scanX on a different "lane" in the
+	-- Y coordinate:
+	for i = 0, 24 do
+		wait(120000)
+		move_absolute(starting_x, starting_y, 0)
+		label = "A" .. i
+		scanX(label, 54)
+		starting_y = starting_y + 50
+	end
+	send_message("success", "Chance App done scanning farm")
+	`;
+	
+	device.on("logs", (log) => {
+	  console.log("("+ logNumber +")New log: " + log.message);
+	  logNumber++;
+	  if (log.message == "download images now") {
+		// Download images from API
+		downloadImages(100);
+		// Maybe delete old images
+		// Move bot to next row (A1, A2, etc..)
+		console.log("Download images now...");
+	  }
+	});
+	
+	device
+	  .connect()
+	  .then(() => {
+		device.send({
+		  kind: "rpc_request",
+		  args: { label: "---", priority: 100 },
+		  body: [
+			{
+			  kind: "lua",
+			  args: { lua: myLua }
+			},
+		  ]
+		});
+	  });
+}
 
+//////////////////////
 
 async function jonathonGarden(){
 	console.log("Moving bot to 0,0,0");
