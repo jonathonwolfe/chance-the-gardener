@@ -8,65 +8,27 @@
 	<script src="./script.js"></script>
 	<script src="./main-menu.js"></script>
 </head>
-<body style="background-color:#FBFBF8;">
-<div class="centered">
-<h1 style="font-size:60px; font-family: Palatino;">Chance the Gardener</h1>
+<body>
+	<div class="container-fluid">
+		<div class="d-grid justify-content-md-end">
+			<a href="change-user.html">Change user</a>
+		</div>
 
-<br><br>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<a class="btn" href="garden-scanning-menu.html">Garden scanning</a>
+			<a class="btn" href="3d-garden-menu.html">3D garden</a>
+			
+		<button class="btn btn-danger mt-5" onclick="tempLogin()">TempLoginDevOnly</button>
+		<button class="btn btn-danger mt-3" onclick="jonathonGarden4()">Do Not Click</button>
 
-<label style="font-size:44px;" id="welcome">Welcome  </label><br><br>
+		<input class="mt-5" type="text" id="logMessageText" placeholder="Hello World" >
+		<button class="btn btn-danger" onclick="sendLogMessage()">Send Log Message</button>
 
-<br><br>
-Email: <input type="email" id="email" placeholder="Alex@gmail.com" >
-Password: <input type="password" id="password" placeholder="********" >
-<button class="small green button" onclick="saveCredentials()">Login</button>
-<button class="small red button" onclick="tempLogin()">TempLoginDevOnly</button>
-<br><br>
-Move bot to coordinates: 
-<input type="text" id="xCoord" placeholder="x" >
-<input type="text" id="yCoord" placeholder="y" >
-<input type="text" id="zCoord" placeholder="z" >
-<button class="small green button" onclick="moveBotCoord()">Go</button>
-<br><br>
-<button class="small green button" onclick="takePhoto()">Take Photo</button>
-<button class="small green button" onclick="toggleLight()">Toggle Light</button>
-<button class="small green button" onclick="moveBotHome()">Bot Go Home</button>
-<br><br>
-Log Message: <input type="text" id="logMessageText" placeholder="Hello World" >
-<button class="small red button" onclick="sendLogMessage()">Send Log Message</button>
-<br><br>
-<button class="small red button" onclick="downloadImages(449)">downloadImages</button>
+		</div>
 
-<br><br>
-
-<br><br>
-<button class="small red button" onclick="moveAndShoot()">Move and Shoot</button>
-<button class="small red button" onclick="goUp()">Go Up</button>
-<button class="small red button" onclick="readCoordinates()">Read Bot Coordinates</button>
-<button class="small red button" onclick="jonathonGarden4()">Do Not Click</button>
-
-
-
-
-
-<br><br>
-<br><br>
-
-Step 1: <button class="small green button" onclick="scanGarden()">Take Images</button>
-<br><br>
-Step 2: <button class="small green button" onclick="createRenders()">Render Images</button>
-<br><br>
-Step 3: <button class="small green button" onclick="viewGarden()">View Garden</button>
-<br><br>
-
-<div id="myProgress">
-	<div id="myBar"></div>
-</div>
-
-<a href="3d-garden.html">Go to 3D garden page</a>
-<div class="footer">
-  <p>Chance the Gardener </p>
-  <p>Developed by: Wathik, Jessica, Fan, Charlie </p>
-</div>
+		<div class="d-grid col-2 mx-auto mb-5 fixed-bottom">
+			<a class="btn" href="settings.html">Settings</a>
+		</div>
+	</div>
 </body>
 </html>

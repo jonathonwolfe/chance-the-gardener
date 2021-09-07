@@ -8,12 +8,13 @@
 	<script src="./script.js"></script>
 	<script src="./generate-3d-garden.js"></script>
 </head>
-<body style="background-color:LightSlateGray;" onload="createDateTimeSelect('images')">
-	<label for="date-time">Scan date & time:</label>
+<body onload="createDateTimeSelect('images')">
+	<div class="container-fluid">
+		<a class="btn btn-back mt-2" href="3d-garden-menu.html">Back</a>
+		<label for="date-time">Scan date & time:</label>
 
-	<select name="date-time" id="dateTimeSelect">
-	</select>
-
-	<a href="3d-garden-menu.html">Back</a>
+		<select name="date-time" id="dateTimeSelect">
+		</select>
+	</div>
 </body>
 </html>

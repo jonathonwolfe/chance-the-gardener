@@ -6,11 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
-	<script src="./scan-now.js"></script>
 </head>
-<body onload="createDateTimeSelect('images')">
+<body>
 	<div class="container-fluid">
-		<a class="btn btn-back mt-2" href="garden-scanning-menu.html">Back</a>
+		<a class="btn btn-back mt-2" href="main-menu.html">Back</a>
+
+		Email: <input type="email" id="email" placeholder="Alex@gmail.com" >
+		Password: <input type="password" id="password" placeholder="********" >
+		<button class="btn" onclick="saveCredentials()">Login</button>
 	</div>
 </body>
 </html>
