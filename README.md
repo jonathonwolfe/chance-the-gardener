@@ -10,8 +10,9 @@ For more information on API endpoints, checkout: https://hexdocs.pm/farmbot/api-
 ## Requirements
 - This program needs a CUDA-Enabled GPU (with at least compute capablility 2.0). https://meshroom-manual.readthedocs.io/en/latest/faq/needs-cuda/needs-cuda.html
 - https://developer.nvidia.com/cuda-gpus
-- run > dxdiag
+- To check your Graphics Card Model: Click windows icon in bottom left, type "dxdiag" and press enter to open application. Then select the Display 1 tab to see the name of your Graphics Card Model.
 
+- There is the possibility to modify the app such that it dosent require the Graphics Card but it is not recommended by the developers as it creates a much lower quality render. See here: https://github.com/alicevision/meshroom/wiki/Draft-Meshing
 
 ## Generating renders
 ### First time?
