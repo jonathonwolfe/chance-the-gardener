@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	loadLastUser();
+});
+
 function savePlantData() {
 	const { Parser } = require('json2csv');
 	const fs = require('fs');
