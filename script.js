@@ -7,8 +7,7 @@ var gardenX=2700;
 var gardenY=1200;
 
 let lastLoggedInUserID,
-sessionToken,
-settings;
+sessionToken;
 
 function loadLastUser() {
 	// Check which user was last logged in.
@@ -25,7 +24,7 @@ function loadLastUser() {
 
 function generateToken(email, password) {
 	// Generate session token with API.
-	settings = {
+	var settings = {
 		"url": "https://my.farmbot.io/api/tokens",
 		"method": "POST",
 		"timeout": 0,
