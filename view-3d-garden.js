@@ -1,4 +1,4 @@
 $(document).ready(function() {
-	loadLastUser();
+	getSessionToken();
 	createDateTimeSelect('renders');
 });

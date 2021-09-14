@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	loadLastUser();
+	getSessionToken();
 });
 
 let emailAdd,
@@ -37,13 +37,4 @@ function saveCredentials() {
 
 
 	generateToken(emailAdd, password);
-}
-
-
-// Set USER Profile & TOKEN
-function setUserProfile(name, token) {
-	console.log(name);
-	document.getElementById("welcome-msg").innerHTML = "Hi, " + name;
-	sessionToken = token;
-	console.log(sessionToken);
 }

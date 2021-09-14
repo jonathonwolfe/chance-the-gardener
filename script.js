@@ -18,12 +18,7 @@ function loadLastUser() {
 	let emailAdd = "***REMOVED***",
 	password = "***REMOVED***";
 
-	// Generate a session token for this user.
-	generateToken(emailAdd, password);
-}
-
-function generateToken(email, password) {
-	// Generate session token with API.
+	// Generate a session token for this user with the API.
 	var settings = {
 		"url": "https://my.farmbot.io/api/tokens",
 		"method": "POST",
@@ -33,7 +28,7 @@ function generateToken(email, password) {
 		},
 		"data": JSON.stringify({
 			"user": {
-				"email": email,
+				"email": emailAdd,
 				"password": password
 			}
 		}),
@@ -42,6 +37,20 @@ function generateToken(email, password) {
 		sessionToken = response.token.encoded;
 		console.log("Session token generated: " + sessionToken);
 	});
+}
+
+function changePage(pagePath) {
+	window.location.href = pagePath + '#' + sessionToken;
+}
+
+function getSessionToken() {
+	// Check if a session token was passed from the previous page.
+	sessionToken = window.location.hash.substring(1);
+
+	if (sessionToken == null || sessionToken == "") {
+		// If none found, generate new one.
+		loadLastUser();
+	}
 }
 
 // Delete later???
