@@ -6,13 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
+	<script src="./garden-scanning-menu.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
-		<a class="btn btn-back mt-2" href="main-menu.html">Back</a>
+		<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
 		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			<a class="btn" href="scan-now.html">Scan garden now</a>
-			<a class="btn" href="manage-scan-results.html">Manage scan results</a>
+			<button class="btn" onclick="changePage('scan-now.html')">Scan garden now</button>
+			<button class="btn" onclick="changePage('manage-scan-results.html')">Manage scan results</button>
 		</div>
 
 		<div class="d-grid gap-2 col-2 mx-auto mt-5">

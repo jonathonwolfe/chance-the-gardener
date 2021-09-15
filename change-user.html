@@ -6,14 +6,16 @@
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
+	<script src="./change-user.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
-		<a class="btn btn-back mt-2" href="main-menu.html">Back</a>
+		<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
 
-		Email: <input type="email" id="email" placeholder="Alex@gmail.com" >
-		Password: <input type="password" id="password" placeholder="********" >
-		<button class="btn" onclick="saveCredentials()">Login</button>
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			<h3>To be removed after dev:</h3>
+			<a class="btn btn-danger mt-5" href="login.html">Go to login page</a>
+		</div>
 	</div>
 </body>
 </html>

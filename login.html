@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./login.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+			Email: <input type="email" id="email" placeholder="Alex@gmail.com" >
+			Password: <input type="password" id="password" placeholder="********" >
+			<button class="btn" onclick="saveCredentials()">Login</button>
+
+			<h3>To be removed after dev:</h3>
+			<button class="btn btn-danger mt-5" onclick="tempLogin()">TempLoginDevOnly</button>
+			<button class="btn btn-danger mt-5" onclick="movePage('change-user.html')">Test moving back to change-user</button>
+		</div>
+
+	</div>
+</body>
+</html>

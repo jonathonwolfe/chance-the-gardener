@@ -3,32 +3,22 @@ window.$ = window.jQuery = require('jquery');
 window.bootstrap = require('bootstrap');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
-var TOKEN = "YES";
-var EMAIL;
-var PASSWORD;
 var gardenX=2700;
 var gardenY=1200;
 
+let lastLoggedInUserID,
+sessionToken;
 
-// DELETE THIS FUNC IN FINAL BUILD!!!
-function tempLogin() {
-	EMAIL = "***REMOVED***";
-	PASSWORD = "***REMOVED***";
-	generateToken(EMAIL, PASSWORD);
-}
+function loadLastUser() {
+	// Check which user was last logged in.
+	lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
 
-// Save Credentials 
-function saveCredentials() {
-	EMAIL = document.getElementById("email").value;
-	PASSWORD = document.getElementById("password").value;
+	// Get the user's credentials from db, using the user ID.
+	// For testing purposes, these are hard coded as Jonathon's.
+	let emailAdd = "***REMOVED***",
+	password = "***REMOVED***";
 
-	//Step here to add this info to the Database so USER don't have to enter this evertime!
-
-	generateToken(EMAIL, PASSWORD);
-}
-
-// Generate Token
-function generateToken(email, password) {
+	// Generate a session token for this user with the API.
 	var settings = {
 		"url": "https://my.farmbot.io/api/tokens",
 		"method": "POST",
@@ -38,28 +28,41 @@ function generateToken(email, password) {
 		},
 		"data": JSON.stringify({
 			"user": {
-				"email": email,
+				"email": emailAdd,
 				"password": password
 			}
 		}),
 	};
 	$.ajax(settings).done(function (response) {
-		console.log(response);
-		setUserProfile(response.user.name, response.token.encoded);
+		sessionToken = response.token.encoded;
+		console.log("Session token generated: " + sessionToken);
 	});
 }
 
-// Set USER Profile & TOKEN
-function setUserProfile(name, token) {
-	console.log(name);
-	document.getElementById("welcome-msg").innerHTML = "Hi, " + name;
-	TOKEN = token;
-	console.log(TOKEN);
+function changePage(pagePath) {
+	window.location.href = pagePath + '#' + sessionToken;
+}
+
+function getSessionToken() {
+	// Check if a session token was passed from the previous page.
+	sessionToken = window.location.hash.substring(1);
+
+	if (sessionToken == null || sessionToken == "") {
+		// If none found, generate new one.
+		loadLastUser();
+	}
+}
+
+// Delete later???
+function getUserName() {
+	$.ajax(settings).done(function (response) {
+		return response.user.name;
+	});
 }
 
 // Take 1 photo at current bot coordinates
 function takePhoto() {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -81,7 +84,7 @@ function readCoordinates() {
 		"method": "GET",
 		"timeout": 0,
 		"headers": {
-			"Authorization": "Bearer " + TOKEN,
+			"Authorization": "Bearer " + sessionToken,
 			"Access-Control-Allow-Origin": "*",
 			"Content-Type": "application/json"
 		},
@@ -98,31 +101,46 @@ function readCoordinates() {
 
 // Check current bot X Y Z
 function getPoints() {
+	const { Parser } = require('json2csv');
+	const fs = require('fs');
+
 	return new Promise((resolve, reject) => {
+		var settings = {
+			"url": "https://my.farmbot.io/api/points",
+			"method": "GET",
+			"timeout": 0,
+			"headers": {
+				"Authorization": "Bearer " + sessionToken,
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json"
+			},
+		};
 
-	var settings = {
-		"url": "https://my.farmbot.io/api/points",
-		"method": "GET",
-		"timeout": 0,
-		"headers": {
-			"Authorization": "Bearer " + TOKEN,
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json"
-		},
-	};
+		$.ajax(settings).done(function (response) {
+			// Filter out non-plants.
+			let plantDataJson = [];
 
-	$.ajax(settings).done(function (response) {
-		console.log(response);
-	}).then(function(response){
-		resolve(response);
-	});
-	
+			for (let i = 0; i < Object.keys(response).length; i++) {
+				if (response[i].pointer_type == "Plant") {
+					plantDataJson.push(response[i]);
+				}
+			}
+			JSON.stringify(plantDataJson);
+
+			// Save as csv.
+			const json2csvParser = new Parser();
+			const csv = json2csvParser.parse(plantDataJson);
+			
+			fs.writeFileSync('plant-data.csv', csv);
+		}).then(function(response){
+			resolve(response);
+		});
 	});
 }
 
 // Toggle LED light
 function toggleLight() {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -138,7 +156,7 @@ function toggleLight() {
 ///////////////////////
 function myfunc(){
 	var logNumber=0;
-	var device = new farmbot.Farmbot({ token: TOKEN });
+	var device = new farmbot.Farmbot({ token: sessionToken });
 	const myLua = `
 	photo_count = 0
 	
@@ -268,7 +286,7 @@ async function jonathonGarden3(){
 	await moveBotHome();
 	console.log("Scanning Garden");
 	for (let i = 0; i < 24; i++) {//24 is how many levels of y
-		var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+		var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -309,7 +327,7 @@ async function jonathonGarden4(){
 }
 
 function jon1(){
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -487,11 +505,10 @@ async function scanGarden() {
 	console.log("Completed Garden Scan :)");
 }
 
-
 // SEND AND Execute Sequence to take_photo_raw (SequenceName: take_photo_raw) 
 function rawPhoto() {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -545,7 +562,7 @@ function rawPhoto() {
 // SEND AND Execute Sequence to wait once (SequenceName: waitOnce) // Used to update bot location to its logs on the server
 function waitOnce() {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -594,7 +611,7 @@ function waitOnce() {
 // SEND AND Execute Sequence to Move x right and Take 1 image (SequenceName: moveAndShoot)
 function moveAndShoot() {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -703,7 +720,7 @@ function moveAndShoot() {
 // SEND AND Execute Sequence to set X to 0, then increment Y (SequenceName: goUp)
 function goUp() {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -803,7 +820,7 @@ function goUp() {
 // (DEPRECATED) Exec Sequence using a sequence ID
 function ExecSeq(seqId) {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -825,7 +842,7 @@ function moveBotCoord() {
 	var xCoordinate = parseInt(document.getElementById("xCoord").value);
 	var yCoordinate = parseInt(document.getElementById("yCoord").value);
 	var zCoordinate = parseInt(document.getElementById("zCoord").value);
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	console.log("Bot moving to: x=" + xCoordinate + ", y=" + yCoordinate + ", z=" + zCoordinate);
 	// Need to pull bot's curr pos here, and set as default value for those variables that were not inputted. ex: z was not inputted!
@@ -839,7 +856,7 @@ function moveBotCoord() {
 // Move the bot to home Coordinates 0,0,0
 function moveBotHome() {
 	return new Promise((resolve, reject) => {
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	console.log("Bot moving to: x=0, y=0, z=0");
 	farmbot123
@@ -866,7 +883,7 @@ function moveBotHome() {
 // Send log message to FarmBot system
 function sendLogMessage() {
 	var logValue = "Chance App: " + document.getElementById("logMessageText").value;
-	var farmbot123 = new farmbot.Farmbot({ token: TOKEN });
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
 
 	farmbot123
 		.connect()
@@ -960,7 +977,7 @@ function downloadImages(numberOfImagesToDownload) {
 		"method": "GET",
 		"timeout": 0,
 		"headers": {
-			"Authorization": "Bearer " + TOKEN
+			"Authorization": "Bearer " + sessionToken
 		},
 	};
 
@@ -1013,7 +1030,7 @@ function createNewSequence(sequenceName, celeryScript) {
 		"method": "POST",
 		"timeout": 0,
 		"headers": {
-			"Authorization": "Bearer " + TOKEN,
+			"Authorization": "Bearer " + sessionToken,
 			"Access-Control-Allow-Origin": "*",
 			"Content-Type": "application/json"
 		},

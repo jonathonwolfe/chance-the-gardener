@@ -16,10 +16,9 @@
 
 		<div class="d-grid gap-2 col-2 mx-auto mt-5">
 			<h2 id="welcome-msg">Hi, you aren't logged in!</h2>
-			<a class="btn" href="garden-scanning-menu.html">Garden scanning</a>
-			<a class="btn" href="3d-garden-menu.html">3D garden</a>
+			<button class="btn" onclick="changePage('garden-scanning-menu.html')">Garden scanning</button>
+			<button class="btn" onclick="changePage('3d-garden-menu.html')">3D garden</button>
 			
-		<button class="btn btn-danger mt-5" onclick="tempLogin()">TempLoginDevOnly</button>
 		<button class="btn btn-danger mt-3" onclick="getPoints()">Do Not Click</button>
 
 		<input class="mt-5" type="text" id="logMessageText" placeholder="Hello World" >

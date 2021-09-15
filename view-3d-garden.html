@@ -9,9 +9,13 @@
 	<script src="./view-3d-garden.js"></script>
 </head>
 <!--change onload to be a function to load list of userse from available renders-->
-<body onload="createDateTimeSelect('renders')">
+<body>
 	<div class="container-fluid">
-		<a class="btn btn-back mt-2" href="3d-garden-menu.html">Back</a>
+		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
+
+		<label for="date-time">Scan date & time:</label>
+		<select name="date-time" id="dateTimeSelect">
+		</select>
 	</div>
 </body>
 </html>
