@@ -1,3 +1,5 @@
+const sqlite3 = require('sqlite3').verbose();
+
 $(document).ready(function() {
 	getSessionToken();
 });
@@ -29,6 +31,24 @@ function saveCredentials() {
 	// If merging, update the db entry with no credentials.
 
 	// If not merging, create new user in db.
+	// Open the database connection.
+	let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
+	// Increment User_ID.
+
+	// Insert new user into table.
+	let sql = 'INSERT into User(User_ID, Email, Password) values (1, "' + emailAdd + '", "' + password + '")';
+	// Output the INSERT statement
+	console.log(sql);
+
+	db.run(sql, function(err) {
+	if (err) {
+		return console.error(err.message);
+	}
+	console.log(`Rows inserted ${this.changes}`);
+	});
+
+	// Close the database connection.
+	db.close();
 
 	// Save either the merged or new user ID as last logged in.
 	// For testing purposes, this user ID will always be 1.
