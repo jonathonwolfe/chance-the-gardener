@@ -15,31 +15,8 @@
 			<button class="btn" onclick="changePage('scan-now.html')">Scan garden now</button>
 			<button class="btn" onclick="changePage('manage-scan-results.html')">Manage scan results</button>
 		</div>
-
 		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			<h3>To be removed after dev:</h3>
-			<button class="btn btn-danger mb-5" onclick="downloadImages(449)">downloadImages</button>
-
-			Move bot to coordinates: 
-			<input type="text" id="xCoord" placeholder="x" >
-			<input type="text" id="yCoord" placeholder="y" >
-			<input type="text" id="zCoord" placeholder="z" >
-			<button class="btn" onclick="moveBotCoord()">Go</button>
-		</div>
-		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			<button class="btn" onclick="takePhoto()">Take Photo</button>
-			<button class="btn" onclick="toggleLight()">Toggle Light</button>
-			<button class="btn" onclick="moveBotHome()">Bot Go Home</button>
-		</div>
-
-		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			<button class="btn btn-danger" onclick="moveAndShoot()">Move and Shoot</button>
-			<button class="btn btn-danger" onclick="goUp()">Go Up</button>
-			<button class="btn btn-danger" onclick="readCoordinates()">Read Bot Coordinates</button>
-		</div>
-
-		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			Step 1: <button class="btn" onclick="scanGarden()">Take Images</button>
+			Start the scanning process: <button class="btn" onclick="scanGarden()">Take Images</button>
 		</div>
 	</div>
 </body>
