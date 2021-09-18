@@ -2,6 +2,14 @@ $(document).ready(function() {
 	getSessionToken();
 });
 
+// REMOVE VARIABLES ON RELEASE
+var deviceXmax = 2700;
+var deviceYmax = 1200;
+var deviceLightPinNo = 7;
+var stepQuality = 10; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
+var stepX;
+var stepY;
+
 function testtest(button) {
 	// Disable button until job done.
 	button.setAttribute("disabled", "");
@@ -131,6 +139,11 @@ function savePlantData(scanFolderPath) {
 
 ///////////////////////
 function createScan(button) {
+
+	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality)
+	stepX = deviceXmax/stepQuality;
+	stepY = deviceYmax/stepQuality;
+
 	// Disable button.
 	// TODO: remove this later and just replace with new window etc.
 	button.setAttribute("disabled", "");
@@ -146,14 +159,14 @@ function createScan(button) {
 
 
 	// Lua Function
-	const myLua = `
+	var myLua = `
 	photo_count = 0
 	
-	pinLED = read_pin(7)
+	pinLED = read_pin(${deviceLightPinNo})
 	send_message("info", pinLED)
 	if (pinLED == 0) then
 		send_message("info", "LED is OFF, turning it ON")
-		write_pin(7, "digital", 1)
+		write_pin(${deviceLightPinNo}, "digital", 1)
 		send_message("info", "LED is ON")
 	else
 		send_message("info", "LED is ON")
@@ -175,7 +188,7 @@ function createScan(button) {
 			if error1 then return send_message("error", "Capture failed ") end
 			p, error2 = get_position()
 			if error2 then return send_message("error", inspect(error2)) end
-			move_absolute(p.x + 50, p.y, p.z)
+			move_absolute(p.x + ${stepQuality}, p.y, p.z)
 		end
 	
 		send_message("success", "Chance App done scanning row: " .. label)
@@ -185,13 +198,13 @@ function createScan(button) {
 	starting_x = 0
 	starting_y = 0
 	
-	-- Loop 24 times, calling scanX on a different "lane" in the
+	-- Loop ${stepY} times, calling scanX on a different "lane" in the
 	-- Y coordinate:
-	for i = 0, 24 do
+	for i = 0, ${stepY} do
 		move_absolute(starting_x, starting_y, 0)
 		label = "A" .. i
-		scanX(label, 54)
-		starting_y = starting_y + 50
+		scanX(label, ${stepX})
+		starting_y = starting_y + ${stepQuality}
 	end
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
