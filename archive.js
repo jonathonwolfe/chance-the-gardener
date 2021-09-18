@@ -733,33 +733,6 @@ function createNewSequence(sequenceName, celeryScript) {
 });
 }
 
-function getFoldersList(mainFolder) {
-	const { readdirSync } = require('fs');
-
-	const foldersList = source =>
-		readdirSync(source, { withFileTypes: true })
-			.filter(dirent => dirent.isDirectory())
-			.map(dirent => dirent.name);
-
-	return foldersList(mainFolder);
-}
-
-function createDateTimeSelect(folder) {
-	var selectList = document.getElementById("dateTimeSelect");
-	var folderList = getFoldersList(folder);
-
-	for (let i = 0; i < folderList.length; i++) {
-		let dateTimeVal = folderList[i];
-		let dateTimeOption = document.createElement("option");
-		dateTimeOption.textContent = dateTimeVal;
-		dateTimeOption.value = dateTimeVal;
-		selectList.appendChild(dateTimeOption);
-	}
-
-	return;
-}
-
-
 // Sleep Function to delay calls to FarmBot, so MQTT dosent complain
 function sleep(milliseconds) {
 	console.log("Sleeping now");

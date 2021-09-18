@@ -359,8 +359,38 @@ function createRenders() {
 	});
 }
 
+// Get list of folders in a directory.
+// TODO: maybe update later to just read the db?
+function getFoldersList(mainFolder) {
+	const { readdirSync } = require('fs');
+
+	const foldersList = source =>
+		readdirSync(source, { withFileTypes: true })
+			.filter(dirent => dirent.isDirectory())
+			.map(dirent => dirent.name);
+
+	return foldersList(mainFolder);
+}
+function createDateTimeSelect(folder) {
+	var selectList = document.getElementById("dateTimeSelect");
+	var folderList = getFoldersList(folder);
+
+	for (let i = 0; i < folderList.length; i++) {
+		let dateTimeVal = folderList[i];
+		let dateTimeOption = document.createElement("option");
+		dateTimeOption.textContent = dateTimeVal;
+		dateTimeOption.value = dateTimeVal;
+		selectList.appendChild(dateTimeOption);
+	}
+
+	return;
+}
+
+// Creates a folder for current user with date & time.
+
+
 // Downloads the latest images on FarmBot system
-function downloadImages(numberOfImagesToDownload) {
+function downloadImages(numberOfImagesToDownload, folderPath) {
 	return new Promise((resolve, reject) => {
 	// Get current date-time.
 	// Also adjust date/month for single digits.
