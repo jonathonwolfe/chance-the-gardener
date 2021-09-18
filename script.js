@@ -153,13 +153,111 @@ function toggleLight() {
 		});
 }
 
+function checkLED(){
+	var device = new farmbot.Farmbot({ token: sessionToken });
+
+	// Check if device LED is ON >> Checking PIN 7
+	device.on("status", (state_tree) => {
+		console.log("LED status");
+		console.dir(state_tree.pins[7].value);
+	});
+}
+
+function setLEDoffRPC(){
+	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
+
+	farmbot123
+		.connect()
+		.then(function () {
+			return farmbot123.send({
+				kind: "rpc_request",
+				args: {
+					// Every `rpc_request` must have a long, unique `label`.
+					// farmbot needs this proprty to know when a command finishes.
+					label: "setLEDoff",
+					// This is a legacy field. Modern versions of FBOS do not
+					// use it any more. You can set it to any number. It does
+					// not matter.
+					priority: 0
+				},
+				body: [
+					{
+						"kind": "write_pin",
+						"args": {
+						  "pin_value": 0,
+						  "pin_mode": 0,
+						  "pin_number": {
+							"kind": "named_pin",
+							"args": {
+							  "pin_type": "Peripheral",
+							  "pin_id": 14411
+							}
+						  }
+						}
+					  }
+				]
+			});
+		}).then(function (farmbot123) {
+			console.log("Completed: setLEDoff");
+		})
+		.catch(function (error) {
+			console.log("Something went wrong :(");
+		});
+}
+
+function setLEDon(){
+	var device = new farmbot.Farmbot({ token: sessionToken });
+
+
+	// Lua Function
+	const myLua = `
+	pinLED = read_pin(7)
+	send_message("info", pinLED)
+	if (pinLED == 0) then
+		send_message("info", "LED is OFF, turning it ON")
+		write_pin(7, "digital", 1)
+		send_message("info", "LED is ON")
+	else
+		send_message("info", "LED is ON")
+	end
+	`;
+	
+	device
+	  .connect()
+	  .then(() => {
+		device.send({
+		  kind: "rpc_request",
+		  args: { label: "---", priority: 100 },
+		  body: [
+			{
+			  kind: "lua",
+			  args: { lua: myLua }
+			},
+		  ]
+		});
+	  });
+}
+
 ///////////////////////
 function myfunc(){
 	var logNumber=0;
 	var device = new farmbot.Farmbot({ token: sessionToken });
+
+
+	// Lua Function
 	const myLua = `
 	photo_count = 0
 	
+	pinLED = read_pin(7)
+	send_message("info", pinLED)
+	if (pinLED == 0) then
+		send_message("info", "LED is OFF, turning it ON")
+		write_pin(7, "digital", 1)
+		send_message("info", "LED is ON")
+	else
+		send_message("info", "LED is ON")
+	end
+
 	function take_photo_and_maybe_notify()
 		photo_count = photo_count + 1
 		if math.fmod(photo_count, 100) == 0 then
@@ -189,13 +287,13 @@ function myfunc(){
 	-- Loop 24 times, calling scanX on a different "lane" in the
 	-- Y coordinate:
 	for i = 0, 24 do
-		wait(120000)
 		move_absolute(starting_x, starting_y, 0)
 		label = "A" .. i
 		scanX(label, 54)
 		starting_y = starting_y + 50
 	end
 	send_message("success", "Chance App done scanning farm")
+	find_home("all")
 	`;
 	
 	device.on("logs", (log) => {
@@ -203,7 +301,7 @@ function myfunc(){
 	  logNumber++;
 	  if (log.message == "download images now") {
 		// Download images from API
-		downloadImages(100);
+		downloadImages(99);
 		// Maybe delete old images
 		// Move bot to next row (A1, A2, etc..)
 		console.log("Download images now...");
