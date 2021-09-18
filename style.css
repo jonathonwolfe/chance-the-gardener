@@ -33,10 +33,19 @@ body {
 	left: 8px;
 }
 
+.btn-run {
+	color: #434343 !important;
+	background-color: #fa0;
+	box-shadow: 0 3px 0 0 #c28100;
+}
+
+.btn-run:hover {
+	background: #e69900;
+}
 
 /* REMOVE BELOW AFTER TESTING */
 .btn-danger {
-    background-color: #dc3545;
+	background-color: #dc3545;
 	border-color: #dc3545;
 	box-shadow: 0 3px 0 0 #aa2634;
 }
