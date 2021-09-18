@@ -52,4 +52,6 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 - Second download roughly at Y = 800. Download 432 images here.
 - Third download roughly at Y = 1200. Download 432 images here.
 
+Full Scan 50mm Increments (FS-50) - Roughly 1300 images - 5:30PM to 4:00AM Render Time (11 Hours)
+
 
