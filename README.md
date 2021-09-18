@@ -36,6 +36,8 @@ If the bot is scheduled to scan the garden, please insure that the garden is in 
 That includes:
 - Rain, fog, dust, so have a cover over the garden to prevent anything from making the camera blurry.
 - Insure the scanning schedule happens during the night, so the light from the LEDs is constant, without interference from sun rays that cause high contrast spots in images.
+- Have atleast 10GB of free space before starting the scan process.
+- Have atleast 5GB of free space before starting the render process.
 
 ## Sharing 3D models
 If you are looking to share the 3D renders, all you have to do is to go to the folder where the application is installed, find the folder of the specific timeline of the 3D object, and share this folder. If you send it to a friend to see, they can download a free 3D viewer called MeshLab from https://www.meshlab.net/#download and install it. Once done, they can open the folder that you sent them, and double click the OBJ file.
@@ -52,6 +54,6 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 - Second download roughly at Y = 800. Download 432 images here.
 - Third download roughly at Y = 1200. Download 432 images here.
 
-Full Scan 50mm Increments (FS-50) - Roughly 1300 images - 5:30PM to 4:00AM Render Time (11 Hours)
+- Full Scan 50mm Increments (FS-50) - Roughly 1300 images - 5:30PM to 4:00AM Render Time (11 Hours)
 
 
