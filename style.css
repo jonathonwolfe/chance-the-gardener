@@ -43,7 +43,20 @@ body {
 	background: #e69900;
 }
 
-/* REMOVE BELOW AFTER TESTING */
+.btn-confirm {
+	background-color: #6a4;
+	box-shadow: 0 3px 0 0 #4c7e33;
+}
+
+.btn-confirm:hover {
+	background-color: #5b983d;
+}
+
+#welcome-msg {
+	width: fit-content;
+}
+
+/* REMOVE BELOW AFTER TESTING ?? IF UNUSED */
 .btn-danger {
 	background-color: #dc3545;
 	border-color: #dc3545;
