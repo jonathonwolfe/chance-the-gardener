@@ -2,6 +2,12 @@ body {
 	background: #f9fbfc;
 }
 
+fieldset legend {
+	margin-top: -1.5em;
+	background: #f9fbfc;
+	padding: 0 .3em;
+}
+
 .btn {
 	background: #666;
 	color: #fff !important;

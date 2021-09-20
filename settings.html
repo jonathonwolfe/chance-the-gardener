@@ -14,19 +14,49 @@
 			<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
 			<a href="change-user.html">Change user</a>
 		</div>
-		<div class="d-grid gap-2 col-sm-6 mx-auto mt-5">
-			<fieldset class="border p-2">
+		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
+			<fieldset class="border p-3">
 				<legend class="w-auto">Farm Size</legend>
 				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-					<div class="col-sm-10">
-					<input type="email" class="form-control" id="inputEmail3">
+					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputXAxis">
 					</div>
+					<div class="col-sm-1">mm</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputYAxis">
+					</div>
+					<div class="col-sm-1">mm</div>
 				</div>
 			</fieldset>
+			<div class="row mb-3 mt-3">
+				<label for="inputLightPinNum" class="col-3 col-form-label me-auto">Light pin</label>
+				<div class="col-sm-5">
+					<input type="number" step="1" class="form-control" id="inputLightPinNum">
+				</div>
+			</div>
+			<div class="row">
+				<label for="inputHomePosition" class="col-3 col-form-label me-auto">Home position</label>
+				<div class="col-sm-5">
+					<select class="form-select" name="inputHomePosition" id="inputHomePosition">
+						<option value="top-left">Top-left</option>
+						<option value="top-right">Top-right</option>
+						<option value="bottom-left">Bottom-left</option>
+						<option value="bottom-right">Bottom-right</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-4">
+			<button class="btn btn-run mb-5" onclick="">Auto detect farm details</button>
+			<button class="btn btn-run mt-5" onclick="">Clear 3D render cache</button>
+			<button class="btn btn-run mt-3" onclick="">Regenerate session token - MAYBE NOT NEEDED?</button>
 		</div>
 		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-5">
-			<button class="btn btn-confirm">Save</button>
+			<button class="btn btn-confirm" disabled>Save</button>
 		</div>
 	</div>
 </body>
