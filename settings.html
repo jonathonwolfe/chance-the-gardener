@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
@@ -51,8 +52,16 @@
 			</div>
 		</div>
 		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-4">
-			<button class="btn btn-run mb-5" onclick="">Auto detect farm details</button>
-			<button class="btn btn-run mt-5" onclick="">Clear 3D render cache</button>
+			<div class="d-flex">
+				<button class="btn btn-run col-11 ms-2" onclick="">Auto detect farm details</button>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="This will delete your currently saved farm details (size, light pin, and home position) and re-detect them. <br>
+					This action cannot be undone."></i>
+			</div>
+			<div class="d-flex mt-5">
+				<button class="btn btn-run col-11 ms-2" onclick="">Clear 3D render cache</button>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="This will clear the 3D rendering cache. <br>
+					Try this if you experience issues when trying to generate a 3D garden, or want to free up some disk space."></i>
+			</div>
 			<button class="btn btn-run mt-3" onclick="">Regenerate session token - MAYBE NOT NEEDED?</button>
 		</div>
 		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-5">

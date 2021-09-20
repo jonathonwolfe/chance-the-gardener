@@ -19,6 +19,7 @@
   "dependencies": {
     "@popperjs/core": "^2.10.1",
     "bootstrap": "^5.1.0",
+    "bootstrap-icons": "^1.5.0",
     "child_process": "^1.0.2",
     "farmbot": "^14.2.2",
     "jquery": "^3.6.0",
