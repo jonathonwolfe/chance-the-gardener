@@ -2,7 +2,6 @@ $(document).ready(async function() {
 	await pageStartUp();
 	await setUserName();
 });
-const { Console } = require("console");
 
 $(document).ready(function() {
 	// Activate tooltips.
@@ -11,6 +10,8 @@ $(document).ready(function() {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
 });
+
+const { Console } = require("console");
 
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
@@ -33,8 +34,6 @@ function testtest(button) {
 
 	// Get plant data.
 	savePlantData(scanFilepath);
-
-	downloadImages(5, scanFilepath);
 }
 
 
@@ -119,13 +118,6 @@ function savePlantData(scanFolderPath) {
 	const { Parser } = require('json2csv');
 	const fs = require('fs');
 
-	const sqlite3 = require('sqlite3').verbose();
-	// open the database connection
-	let db = new sqlite3.Database('./Chance_the_Gardener.db');
-	let file_name = 'plant_data';
-	let sql = 'insert into plant_details(file_path) values ("scanFolderPath/plantdata.csv")';
-
-
 	return new Promise((resolve, reject) => {
 		var settings = {
 			"url": "https://my.farmbot.io/api/points",
@@ -154,16 +146,6 @@ function savePlantData(scanFolderPath) {
 			const csv = json2csvParser.parse(plantDataJson);
 			
 			fs.writeFileSync(scanFolderPath + "/plant_data.csv", csv);
-			console.log(sql);
-			db.run(sql, function(err) {
-  				if (err) {
-    				return console.error(err.message);
-  			}
-  			console.log(`Rows inserted ${this.changes}`);
-			});
-
-			// close the database connection
-			db.close();
 		}).then(function(response){
 			resolve(response);
 		});
@@ -190,14 +172,29 @@ function createScan(button) {
 	stepY = Math.trunc(softLimitedDeviceYmax/stepQuality);
 
 	// Disable button.
-	// TODO: remove this later and just replace with new window etc.
 	button.setAttribute("disabled", "");
+	
+	// Show loading bar.
+	const loadingBar = document.getElementById("scan-progress-bar");
+	loadingBar.classList.remove("d-none");
 
 	// Create folder and get filepath.
 	const scanFilepath = createScanFolder();
 
 	// Get plant data.
 	savePlantData(scanFilepath);
+
+	// TODO: Save scan to database in the createScanFolder() function.
+	// Folder name is used as placeholder for now.
+	// Normally it will grab the date time of current scan from db, after folder creation.
+	const scanFilepathSplit = scanFilepath.split("/");
+	const dateTimeFolName = scanFilepathSplit[3];
+
+	// Show date-time of current scan.
+	const dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+
+	dateTimeInfoHolder.classList.remove("d-none");
+	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
 
 	var logNumber=0;
 	var device = new farmbot.Farmbot({ token: sessionToken });
@@ -282,6 +279,12 @@ function createScan(button) {
 		}
 		if (log.message == "Chance App done scanning farm") {
 			console.log("Chance App done scanning farm");
+			// Re-enable button.
+			button.removeAttribute("disabled");
+			// Re-hide loading bar.
+			loadingBar.classList.add("d-none");
+			// Re-hide scan date & time.
+			dateTimeInfoHolder.classList.add("d-none");
 		}
 	});
 	
