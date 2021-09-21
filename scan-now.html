@@ -14,10 +14,19 @@
 		<button class="btn btn-back mt-2" onclick="changePage('garden-scanning-menu.html')">Back</button>
 		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-3">
 			<div class="d-flex">
-				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2"></i>
-				<p class="col-11 ms-2">Scanning a garden will take some time, depending on the size of your garden <strike>and scan frequency chosen. </strike><br>
-					<strong>This application cannot be closed while the scan is in progress, or you will have to restart the process.</strong><br>
-					It is recommended that you set aside sufficient time for the process to complete.</p>
+				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>Scanning a garden will take some time, depending on the size of your garden <strike>and scan frequency chosen. </strike></p>
+					<p><strong>This application cannot be closed while the scan is in progress, or you will have to restart the process.</strong></p>
+					<p>It is recommended that you set aside sufficient time for the process to complete.</p>
+				</div>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<p class="col-3 me-auto w-fit-content fw-bold">User:</p>
+				<p id="current-user-name" class="col-sm-8 w-fit-content"></p>
+				<p class="col-1 align-self-center"><i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="If you'd like to scan the garden of a different user, you must first change user in the main menu or settings."></i></p>
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">

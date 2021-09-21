@@ -58,7 +58,7 @@ fieldset legend {
 	background-color: #5b983d;
 }
 
-#welcome-msg {
+.w-fit-content {
 	width: fit-content;
 }
 
