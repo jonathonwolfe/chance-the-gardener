@@ -11,7 +11,7 @@ $(document).ready(function() {
 var lightPin;
 var deviceXmax, deviceYmax;
 
-async function autoDetectFarmDetails(){
+async function autoDetectFarmDetails() {
 	await getFarmSize();
 	await findLightPin();
 	console.log("AutoDetect Results: " + lightPin + " " + deviceXmax + " " + deviceYmax);
