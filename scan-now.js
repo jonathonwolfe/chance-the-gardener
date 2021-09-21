@@ -280,6 +280,9 @@ function createScan(button) {
 			// Move bot to next row (A1, A2, etc..)
 			console.log("Download images now...");
 		}
+		if (log.message == "Chance App done scanning farm") {
+			console.log("Chance App done scanning farm");
+		}
 	});
 	
 	device
