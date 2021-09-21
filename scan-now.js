@@ -103,6 +103,13 @@ function savePlantData(scanFolderPath) {
 	const { Parser } = require('json2csv');
 	const fs = require('fs');
 
+	const sqlite3 = require('sqlite3').verbose();
+	// open the database connection
+	let db = new sqlite3.Database('./Chance_the_Gardener.db');
+	let file_name = 'plant_data';
+	let sql = 'insert into plant_details(file_path) values ("scanFolderPath/plantdata.csv")';
+
+
 	return new Promise((resolve, reject) => {
 		var settings = {
 			"url": "https://my.farmbot.io/api/points",
@@ -131,6 +138,16 @@ function savePlantData(scanFolderPath) {
 			const csv = json2csvParser.parse(plantDataJson);
 			
 			fs.writeFileSync(scanFolderPath + "/plant_data.csv", csv);
+			console.log(sql);
+			db.run(sql, function(err) {
+  				if (err) {
+    				return console.error(err.message);
+  			}
+  			console.log(`Rows inserted ${this.changes}`);
+			});
+
+			// close the database connection
+			db.close();
 		}).then(function(response){
 			resolve(response);
 		});
