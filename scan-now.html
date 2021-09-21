@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
@@ -11,11 +12,19 @@
 <body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('garden-scanning-menu.html')">Back</button>
-		<div class="d-grid gap-2 col-2 mx-auto mt-5">
-			<button class="btn btn-run" style="margin-top:6em" onclick="createScan(this)">Start scan</button>
+		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-3">
+			<div class="d-flex">
+				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2"></i>
+				<p class="col-11 ms-2">Scanning a garden will take some time, depending on the size of your garden <strike>and scan frequency chosen. </strike><br>
+					<strong>This application cannot be closed while the scan is in progress, or you will have to restart the process.</strong><br>
+					It is recommended that you set aside sufficient time for the process to complete.</p>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button class="btn btn-run" onclick="createScan(this)">Start scan</button>
 		</div>
 
-		<div class="d-grid gap-2 col-2 mx-auto mt-5">
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<h3>To be removed after dev:</h3>
 			<button class="btn btn-danger" onclick="findLightPin()">TEST</button>
 			<button class="btn btn-danger" onclick="savePlantData()">Get plant data and save as CSV</button>

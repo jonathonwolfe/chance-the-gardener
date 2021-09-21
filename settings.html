@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
@@ -10,7 +11,62 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
+		<div class="d-flex justify-content-between">
+			<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
+			<a href="change-user.html">Change user</a>
+		</div>
+		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
+			<fieldset class="border p-3">
+				<legend class="w-auto">Farm Size</legend>
+				<div class="row mb-3">
+					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputXAxis">
+					</div>
+					<div class="col-sm-1">mm</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputYAxis">
+					</div>
+					<div class="col-sm-1">mm</div>
+				</div>
+			</fieldset>
+			<div class="row mb-3 mt-3">
+				<label for="inputLightPinNum" class="col-3 col-form-label me-auto">Light pin</label>
+				<div class="col-sm-5">
+					<input type="number" step="1" class="form-control" id="inputLightPinNum">
+				</div>
+			</div>
+			<div class="row">
+				<label for="inputHomePosition" class="col-3 col-form-label me-auto">Home position</label>
+				<div class="col-sm-5">
+					<select class="form-select" name="inputHomePosition" id="inputHomePosition">
+						<option value="top-left">Top-left</option>
+						<option value="top-right">Top-right</option>
+						<option value="bottom-left">Bottom-left</option>
+						<option value="bottom-right">Bottom-right</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-4">
+			<div class="d-flex">
+				<button class="btn btn-run col-11 ms-2" onclick="">Auto detect farm details</button>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="This will delete your currently saved farm details (size, light pin, and home position) and re-detect them. <br>
+					This action cannot be undone."></i>
+			</div>
+			<div class="d-flex mt-5">
+				<button class="btn btn-run col-11 ms-2" onclick="">Clear 3D render cache</button>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="This will clear the 3D rendering cache. <br>
+					Try this if you experience issues when trying to generate a 3D garden, or want to free up some disk space."></i>
+			</div>
+			<button class="btn btn-run mt-3" onclick="">Regenerate session token - MAYBE NOT NEEDED?</button>
+		</div>
+		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-5">
+			<button class="btn btn-confirm" disabled>Save</button>
+		</div>
 	</div>
 </body>
 </html>
