@@ -9,6 +9,13 @@ $(document).ready(function() {
 	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
+	// Load modal.
+	var myModal = document.getElementById('cancelScanModal');
+	var myInput = document.getElementById('cancel-scan-btn');
+
+	myModal.addEventListener('shown.bs.modal', function () {
+		myInput.focus();
+	})
 });
 
 const { Console } = require("console");
@@ -25,17 +32,39 @@ var startingX = 0;
 var startingY = 0;
 var startingZ = -200;
 
-function testtest(button) {
-	// Disable button until job done.
-	button.setAttribute("disabled", "");
+function testtest() {
+	// Elements for hiding/showing when scanning.
+	const startBtn = document.getElementById("start-scan-btn"),
+	cancelBtn = document.getElementById("cancel-scan-btn"),
+	loadingBar = document.getElementById("scan-progress-bar"),
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
 	// Create folder and get filepath.
 	const scanFilepath = createScanFolder();
 
 	// Get plant data.
 	savePlantData(scanFilepath);
-}
 
+	// Disable and hide scan button.
+	startBtn.setAttribute("disabled", "");
+	startBtn.classList.add("d-none");
+
+	// Show cancel button.
+	cancelBtn.classList.remove("d-none");
+	
+	// Show loading bar.
+	loadingBar.classList.remove("d-none");
+
+	// TODO: Save scan to database in the createScanFolder() function.
+	// Folder name is used as placeholder for now.
+	// Normally it will grab the date time of current scan from db, after folder creation.
+	const scanFilepathSplit = scanFilepath.split("/");
+	const dateTimeFolName = scanFilepathSplit[3];
+
+	// Show date-time of current scan.
+	dateTimeInfoHolder.classList.remove("d-none");
+	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
+}
 
 
 // Creates a scan folder for current user with date & time.
@@ -153,8 +182,6 @@ function savePlantData(scanFolderPath) {
 }
 
 
-
-
 function downloadOnce(){// DEL AFTER
 	// Create folder and get filepath.
 	const scanFilepath = createScanFolder();
@@ -162,7 +189,13 @@ function downloadOnce(){// DEL AFTER
 }
 
 ///////////////////////
-function createScan(button) {
+function createScan() {
+	// Elements for hiding/showing when scanning.
+	const startBtn = document.getElementById("start-scan-btn"),
+	cancelBtn = document.getElementById("cancel-scan-btn"),
+	loadingBar = document.getElementById("scan-progress-bar"),
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+
 	// Create new soft limited lengths
 	var softLimitedDeviceXmax = parseInt(deviceXmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
 	var softLimitedDeviceYmax = parseInt(deviceYmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
@@ -171,11 +204,14 @@ function createScan(button) {
 	stepX = Math.trunc(softLimitedDeviceXmax/stepQuality);
 	stepY = Math.trunc(softLimitedDeviceYmax/stepQuality);
 
-	// Disable button.
-	button.setAttribute("disabled", "");
+	// Disable and hide scan button.
+	startBtn.setAttribute("disabled", "");
+	startBtn.classList.add("d-none");
+
+	// Show cancel button.
+	cancelBtn.classList.remove("d-none");
 	
 	// Show loading bar.
-	const loadingBar = document.getElementById("scan-progress-bar");
 	loadingBar.classList.remove("d-none");
 
 	// Create folder and get filepath.
@@ -191,8 +227,6 @@ function createScan(button) {
 	const dateTimeFolName = scanFilepathSplit[3];
 
 	// Show date-time of current scan.
-	const dateTimeInfoHolder = document.getElementById("scan-datetime-info");
-
 	dateTimeInfoHolder.classList.remove("d-none");
 	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
 
@@ -278,13 +312,15 @@ function createScan(button) {
 			console.log("Download images now...");
 		}
 		if (log.message == "Chance App done scanning farm") {
-			console.log("Chance App done scanning farm");
-			// Re-enable button.
-			button.removeAttribute("disabled");
+			// Re-enable and show button.
+			startBtn.removeAttribute("disabled");
+			startBtn.classList.remove("d-none");
 			// Re-hide loading bar.
 			loadingBar.classList.add("d-none");
 			// Re-hide scan date & time.
 			dateTimeInfoHolder.classList.add("d-none");
+			// Re-hide cancel button.
+			cancelBtn.classList.add("d-none");
 		}
 	});
 	
@@ -367,4 +403,34 @@ function setUserName() {
 			resolve(response);
 		});
 	});
+}
+
+function cancelScan() {
+	// Elements for hiding/showing when scanning.
+	const startBtn = document.getElementById("start-scan-btn"),
+	cancelBtn = document.getElementById("cancel-scan-btn"),
+	loadingBar = document.getElementById("scan-progress-bar"),
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+
+	// Re-enable and show button.
+	startBtn.removeAttribute("disabled");
+	startBtn.classList.remove("d-none");
+	// Re-hide loading bar.
+	loadingBar.classList.add("d-none");
+	// Re-hide scan date & time.
+	dateTimeInfoHolder.classList.add("d-none");
+	// Re-hide cancel button.
+	cancelBtn.classList.add("d-none");
+	
+	// Get scan location from database.
+
+	// Delete scan folder.
+	//const fs = require("fs");
+	//fs.rmdirSync(folderPathFromDb, { recursive: true });
+
+	// Delete scan entry in database.
+
+	// Cancel scan sequence.
+
+	// Maybe load a toast to confirm scan cancellation?
 }
