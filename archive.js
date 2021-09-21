@@ -743,3 +743,92 @@ function sleep(milliseconds) {
   } while (currentDate - date < milliseconds);
   console.log("Waking up now");
 }
+
+function getFarmSize4(){
+	var device = new farmbot.Farmbot({ token: sessionToken });
+	
+	// Lua Function
+	var myLua = `
+	find_home("all")
+	find_axis_length("x")
+	find_axis_length("y")
+	position, error = get_position()
+
+	if error then
+	send_message("info", "There was an error in getting the FarmBot device size in mm ")
+	else
+	message = "FarmBot Device Size:" .. position.x .. ":" .. position.y
+	send_message("info", message)
+	end
+	`;
+	
+	device.on("logs", (log) => {
+		let str = log.message;
+		var myArr = str.split(":");
+		if (myArr[0] == "FarmBot Device Size") {
+			//Save the coordinates
+			deviceXmax = parseInt(myArr[1]) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+			deviceYmax = parseInt(myArr[2]) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+			console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
+		}
+	});
+	
+	device
+		.connect()
+		.then(() => {
+			device.send({
+			kind: "rpc_request",
+			args: { label: "---", priority: 100 },
+			body: [
+				{
+				kind: "lua",
+				args: { lua: myLua }
+				},
+			]
+			});
+		});
+}
+
+function getFarmSize2(){
+	var device = new farmbot.Farmbot({ token: sessionToken });
+	
+	// Lua Function
+	var myLua = `
+	find_home("all")
+	move_absolute(9999, 9999, 0)
+	position, error = get_position()
+
+	if error then
+	send_message("info", "There was an error in getting the FarmBot device size in mm ")
+	else
+	message = "FarmBot Device Size:" .. position.x .. ":" .. position.y
+	send_message("info", message)
+	end
+	`;
+	
+	device.on("logs", (log) => {
+		let str = log.message;
+		var myArr = str.split(":");
+		if (myArr[0] == "FarmBot Device Size") {
+			//Save the coordinates
+			deviceXmax = parseInt(myArr[1]) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+			deviceYmax = parseInt(myArr[2]) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+			console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
+		}
+	});
+	
+	device
+		.connect()
+		.then(() => {
+			device.send({
+			kind: "rpc_request",
+			args: { label: "---", priority: 100 },
+			body: [
+				{
+				kind: "lua",
+				args: { lua: myLua }
+				},
+			]
+			});
+		});
+}

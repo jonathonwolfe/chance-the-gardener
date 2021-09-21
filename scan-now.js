@@ -2,6 +2,7 @@ $(document).ready(async function() {
 	await pageStartUp();
 	await setUserName();
 });
+const { Console } = require("console");
 
 $(document).ready(function() {
 	// Activate tooltips.
@@ -12,12 +13,16 @@ $(document).ready(function() {
 });
 
 // REMOVE VARIABLES ON RELEASE
+var lightPin = 7;
 var deviceXmax = 2700;
 var deviceYmax = 1200;
 var deviceLightPinNo = 7;
-var stepQuality = 10; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
+var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
+var startingX = 0;
+var startingY = 0;
+var startingZ = -200;
 
 function testtest(button) {
 	// Disable button until job done.
@@ -31,6 +36,8 @@ function testtest(button) {
 
 	downloadImages(5, scanFilepath);
 }
+
+
 
 // Creates a scan folder for current user with date & time.
 function createScanFolder() {
@@ -146,12 +153,24 @@ function savePlantData(scanFolderPath) {
 	});
 }
 
+
+
+
+function downloadOnce(){// DEL AFTER
+	// Create folder and get filepath.
+	const scanFilepath = createScanFolder();
+	downloadImages(98, scanFilepath);
+}
+
 ///////////////////////
 function createScan(button) {
+	// Create new soft limited lengths
+	var softLimitedDeviceXmax = parseInt(deviceXmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+	var softLimitedDeviceYmax = parseInt(deviceYmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
-	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality)
-	stepX = deviceXmax/stepQuality;
-	stepY = deviceYmax/stepQuality;
+	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
+	stepX = Math.trunc(softLimitedDeviceXmax/stepQuality);
+	stepY = Math.trunc(softLimitedDeviceYmax/stepQuality);
 
 	// Disable button.
 	// TODO: remove this later and just replace with new window etc.
@@ -170,6 +189,8 @@ function createScan(button) {
 	// Lua Function
 	var myLua = `
 	photo_count = 0
+
+	find_home("all")
 	
 	pinLED = read_pin(${deviceLightPinNo})
 	send_message("info", pinLED)
@@ -185,6 +206,7 @@ function createScan(button) {
 		photo_count = photo_count + 1
 		if math.fmod(photo_count, 100) == 0 then
 			send_message("info", "download images now")
+			wait(10000)
 		end
 		return take_photo()
 	end
@@ -204,19 +226,31 @@ function createScan(button) {
 	end
 	
 	-- Set a starting X coordinate to do a grid scan of.
-	starting_x = 0
-	starting_y = 0
+	starting_x = ${startingX}
+	starting_y = ${startingY}
+	starting_z = ${startingZ}
 	
 	-- Loop ${stepY} times, calling scanX on a different "lane" in the
 	-- Y coordinate:
 	for i = 0, ${stepY} do
-		move_absolute(starting_x, starting_y, 0)
+		move_absolute(starting_x, starting_y, starting_z)
 		label = "A" .. i
 		scanX(label, ${stepX})
 		starting_y = starting_y + ${stepQuality}
 	end
+	send_message("info", "download images now")
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
+
+	pinLED = read_pin(${deviceLightPinNo})
+	send_message("info", pinLED)
+	if (pinLED == 1) then
+		send_message("info", "LED is ON, turning it OFF")
+		write_pin(${deviceLightPinNo}, "digital", 0)
+		send_message("info", "LED is OFF")
+	else
+		send_message("info", "LED is OFF")
+	end
 	`;
 	
 	device.on("logs", (log) => {
@@ -224,7 +258,7 @@ function createScan(button) {
 		logNumber++;
 		if (log.message == "download images now") {
 			// Download images from API
-			downloadImages(99, scanFilepath);
+			downloadImages(98, scanFilepath);
 			// Maybe delete old images
 			// Move bot to next row (A1, A2, etc..)
 			console.log("Download images now...");
