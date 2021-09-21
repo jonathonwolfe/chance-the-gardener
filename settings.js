@@ -71,8 +71,8 @@ function getFarmSize(){
 		var myArr = str.split(":");
 		if (myArr[0] == "FarmBot Device Size") {
 			//Save the coordinates
-			deviceXmax = myArr[1]; 
-			deviceYmax = myArr[2];
+			deviceXmax = parseFloat(myArr[1]); 
+			deviceYmax = parseFloat(myArr[2]);
 			console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
 			resolve(deviceXmax + "," + deviceYmax);
 		}
