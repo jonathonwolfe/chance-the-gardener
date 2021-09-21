@@ -220,6 +220,8 @@ function createScan() {
 	// Get plant data.
 	savePlantData(scanFilepath);
 
+	// TODO: Get farm size from db and save to CSV.
+
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
@@ -352,7 +354,7 @@ function pageStartUp() {
 			// Check which user was last logged in.
 			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
 
-			// Get the user's credentials from db, using the user ID.
+			// TODO: Get the user's credentials from db, using lastLoggedInUserID.
 			// For testing purposes, these are hard coded as Jonathon's.
 			let emailAdd = "***REMOVED***",
 			password = "***REMOVED***";
