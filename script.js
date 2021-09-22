@@ -13,7 +13,7 @@ function loadLastUser() {
 	// Check which user was last logged in.
 	lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
 
-	// Get the user's credentials from db, using the user ID.
+	// TODO: Get the user's credentials from db, using the user ID.
 	// For testing purposes, these are hard coded as Jonathon's.
 	let emailAdd = "***REMOVED***",
 	password = "***REMOVED***";
