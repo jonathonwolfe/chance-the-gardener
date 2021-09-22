@@ -26,19 +26,44 @@
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
 			<div class="row">
-				<p class="col-3 w-fit-content fw-bold">User:</p>
+				<p class="col-3 w-fit-content fw-bold me-auto">User:</p>
 				<p id="current-user-name" class="col-sm-8 w-fit-content"></p>
 				<p class="col-1 align-self-center"><i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="If you'd like to scan the garden of a different user, you must first change user in the main menu or settings."></i></p>
 			</div>
+			<div id="scan-datetime-info" class="row d-none">
+				<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+				<p id="current-scan-datetime" class="col-sm-8 w-fit-content"></p>
+			</div>
+		</div>
+		<div id="scan-progress-bar" class="progress col-sm-6 col-md-5 col-xl-4  mx-auto mt-5 d-none">
+			<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button class="btn btn-run" onclick="createScan(this)">Start scan</button>
+			<button id="start-scan-btn" class="btn btn-run" onclick="createScan()">Start scan</button>
+			<button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancelScanModal">Cancel</button>
 		</div>
 
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<h3>To be removed after dev:</h3>
-			<button class="btn btn-danger" onclick="findLightPin()">TEST</button>
-			<button class="btn btn-danger" onclick="savePlantData()">Get plant data and save as CSV</button>
+			<button class="btn btn-danger" onclick="testtest()">Get plant data and save as CSV - Emulate scan</button>
+		</div>
+	</div>
+	<div id="cancelScanModal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancel Scan</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Cancelling a scan will delete all currently saved photos for this scan.</p>
+					<p>Are you sure you wish to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="cancelScan()">Cancel Scan</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
