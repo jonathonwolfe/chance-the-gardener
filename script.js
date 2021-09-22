@@ -268,30 +268,54 @@ function createRenders() {
 }
 
 // Get list of folders in a directory.
-// TODO: maybe update later to just read the db?
-function getFoldersList(mainFolder) {
+function getFoldersList(type, userID) {
 	const { readdirSync } = require('fs');
+	let foldersList = [];
 
-	const foldersList = source =>
-		readdirSync(source, { withFileTypes: true })
+	try {
+		foldersList = 
+		readdirSync(type + "\\" + userID, { withFileTypes: true })
 			.filter(dirent => dirent.isDirectory())
 			.map(dirent => dirent.name);
-
-	return foldersList(mainFolder);
-}
-function createDateTimeSelect(folder) {
-	var selectList = document.getElementById("dateTimeSelect");
-	var folderList = getFoldersList(folder);
-
-	for (let i = 0; i < folderList.length; i++) {
-		let dateTimeVal = folderList[i];
-		let dateTimeOption = document.createElement("option");
-		dateTimeOption.textContent = dateTimeVal;
-		dateTimeOption.value = dateTimeVal;
-		selectList.appendChild(dateTimeOption);
+	} catch (err) {
+		// User folder probably doesn't exist.
+		console.log("Error reading user folder.");
 	}
 
-	return;
+	return foldersList;
+}
+
+function createDateTimeSelect(type, userID) {
+	const selectList = document.getElementById("date-time-select");
+	const folderList = getFoldersList(type, userID);
+
+	if (folderList.length >= 1) {
+		for (let i = 0; i < folderList.length; i++) {
+			let dateTimeOption = document.createElement("option");
+			dateTimeOption.textContent = folderList[i];
+			dateTimeOption.value = folderList[i];
+			selectList.appendChild(dateTimeOption);
+		}
+	} else {
+		// No scans found.
+		let dateTimeOption = document.createElement("option");
+		dateTimeOption.textContent = "No scans found for this user";
+		selectList.appendChild(dateTimeOption);
+	}
+}
+
+function createUserSelect() {
+	// TODO: Create an array of user IDs from the database.
+	var userIDList = [];
+
+	// Add values to select list.
+	const selectList = document.getElementById("user-select");
+	for (let i = 0; i < userIDList.length; i++) {
+		let dateTimeOption = document.createElement("option");
+		dateTimeOption.textContent = userIDList[i];
+		dateTimeOption.value = userIDList[i];
+		selectList.appendChild(dateTimeOption);
+	}
 }
 
 
