@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 	myModal.addEventListener('shown.bs.modal', function () {
 		myInput.focus();
-	})
+	});
 });
 
 const { Console } = require("console");

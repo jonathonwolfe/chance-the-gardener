@@ -118,9 +118,9 @@ function getFarmSize(){
 }
 
 function clearMeshroomCache() {
-	const fs = require('fs');
-	const electron = require('electron');
-	var successToastEle = document.getElementById('delSuccessToast'),
+	const fs = require('fs'),
+	electron = require('electron'),
+	successToastEle = document.getElementById('delSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
