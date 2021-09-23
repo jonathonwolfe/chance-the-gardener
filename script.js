@@ -323,4 +323,12 @@ function createUserSelect() {
 	}
 }
 
+function reloadDateTimeSelect(type) {
+	const user = document.getElementById("user-select").value;
 
+	// Remove old list.
+	$('#date-time-select').empty();
+
+	// Create new list.
+	createDateTimeSelect(type, user);
+}
