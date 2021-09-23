@@ -1,6 +1,14 @@
 $(document).ready(function() {
 	getSessionToken();
-	loadFolderPhotos();
+	loadFolderPhotos(localStorage.getItem('photosToView'));
+	createUserSelect();
+	createDateTimeSelect("scans", localStorage.getItem('lastLoginUserID'));
+
+	// TODO: Test this further when user list from db is done.
+	// Set dropdown values to loaded photos.
+	const loadedScanFilepathSplit = localStorage.getItem('photosToView').split("/");
+	// document.getElementById("user-select").value = scanFilepathSplit[2];
+	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
 
 	var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// parse slide data (url, title, size ...) from DOM elements 
@@ -185,11 +193,10 @@ $(document).ready(function() {
 	initPhotoSwipeFromDOM('.my-gallery');
 });
 
-function loadFolderPhotos() {
+function loadFolderPhotos(photosFolder) {
 	const fs = require('fs'),
 	sizeOf = require('image-size'),
 	path = require('path'),
-	photosFolder = localStorage.getItem('photosToView'),
 	gallery = document.getElementById('plant-photos-gallery');
 
 	// Load each image into the page.
@@ -207,4 +214,17 @@ function loadFolderPhotos() {
 			gallery.appendChild(imgEle);
 		}
 	}
+}
+
+function reloadPhotos () {
+	// TODO: Test this further when user list from db is done.
+	const user = 1,
+	//user = document.getElementById("date-time-select").value,
+	dateTime = document.getElementById("date-time-select").value;
+
+	// Delete current photos.
+	document.getElementById("plant-photos-gallery").innerHTML = "";
+
+	// Load new photos.
+	loadFolderPhotos("./scans/" + user + "/" + dateTime);
 }
