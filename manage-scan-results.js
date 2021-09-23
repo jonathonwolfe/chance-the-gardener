@@ -18,8 +18,12 @@ $(document).ready(function() {
 	});
 });
 
+let scanUser,
+scanDateTime,
+folderPath;
+
 function getDeleteScanInfo() {
-	const scanUser = document.getElementById('user-select').value,
+	scanUser = document.getElementById('user-select').value,
 	scanDateTime = document.getElementById('date-time-select').value;
 
 	document.getElementById('chosen-scan-user').innerHTML = scanUser;
@@ -28,13 +32,12 @@ function getDeleteScanInfo() {
 
 function deleteScan() {
 	const fs = require('fs'),
-	scanUser = document.getElementById('user-select').value,
-	scanDateTime = document.getElementById('date-time-select').value,
-	folderPath = "./scans/" + scanUser + "/" + scanDateTime,
 	successToastEle = document.getElementById('delSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
+	
+	folderPath = "./scans/" + scanUser + "/" + scanDateTime;
 
 	// TODO: Test this when getting user lists from db is done.
 	// Delete scan folder.
@@ -49,4 +52,23 @@ function deleteScan() {
 		// Failure.
 		failToast.show();
 	}
+}
+
+function loadPhotoViewer() {
+	// TODO: Test this when getting user lists from db is done.
+	// Get the scan folder.
+	//scanUser = document.getElementById('user-select').value,
+	scanUser = "1";
+	scanDateTime = document.getElementById('date-time-select').value;
+	folderPath = "./scans/" + scanUser + "/" + scanDateTime;
+
+	// Store which folder to view.
+	localStorage.setItem('photosToView', folderPath);
+
+	changePage("view-scan-photos.html");
+}
+
+function loadPlantDataViewer() {
+
+	changePage("view-scan-plant-data.html");
 }
