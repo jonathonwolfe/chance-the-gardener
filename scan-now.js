@@ -10,7 +10,7 @@ $(document).ready(function() {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
 	// Load modal.
-	var myModal = document.getElementById('cancelScanModal');
+	var myModal = document.getElementById('cancel-scan-modal');
 	var myInput = document.getElementById('cancel-scan-btn');
 
 	myModal.addEventListener('shown.bs.modal', function () {
@@ -22,8 +22,8 @@ const { Console } = require("console");
 
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
-var deviceXmax = 2700;
-var deviceYmax = 1200;
+var deviceXmax = 200;
+var deviceYmax = 200;
 var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
@@ -433,6 +433,11 @@ function cancelScan() {
 	// Delete scan entry in database.
 
 	// Cancel scan sequence.
-
+	var device = new farmbot.Farmbot({ token: sessionToken });
+	device.connect()
+	.then(function () {
+		return device.rebootFirmware();
+	});
+	
 	// Maybe load a toast to confirm scan cancellation?
 }
