@@ -10,21 +10,27 @@
 	<script src="./script.js"></script>
 	<script src="./manage-scan-results.js"></script>
 </head>
-<body onload="createDateTimeSelect('images')">
+<body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('garden-scanning-menu.html')">Back</button>
-
-		<label for="date-time">Scan date & time:</label>
-		<select name="date-time" id="dateTimeSelect">
-		</select>
-
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select">
+				</select>
+			</div>
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
+				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+				</select>
+			</div>
+		</div>
+		
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button class="btn">View photos</button>
 			<button class="btn">View plant data</button>
-
 			<button class="btn btn-danger mt-5">Delete scan photos</button>
 		</div>
-
 	</div>
 </body>
 </html>

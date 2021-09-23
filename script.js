@@ -299,7 +299,12 @@ function createDateTimeSelect(type, userID) {
 	} else {
 		// No scans found.
 		let dateTimeOption = document.createElement("option");
-		dateTimeOption.textContent = "No scans found for this user";
+		if (type == "scans") {
+			dateTimeOption.textContent = "No scans found for this user";
+		} else {
+			dateTimeOption.textContent = "No renders found for this user";
+		}
+		
 		selectList.appendChild(dateTimeOption);
 	}
 }
@@ -311,10 +316,10 @@ function createUserSelect() {
 	// Add values to select list.
 	const selectList = document.getElementById("user-select");
 	for (let i = 0; i < userIDList.length; i++) {
-		let dateTimeOption = document.createElement("option");
-		dateTimeOption.textContent = userIDList[i];
-		dateTimeOption.value = userIDList[i];
-		selectList.appendChild(dateTimeOption);
+		let userOption = document.createElement("option");
+		userOption.textContent = userIDList[i];
+		userOption.value = userIDList[i];
+		selectList.appendChild(userOption);
 	}
 }
 
