@@ -386,6 +386,7 @@ function pageStartUp() {
 	});
 }
 
+// TODO: Change this to the updated version in change-user when it uses db.
 function setUserName() {
 	return new Promise((resolve, reject) => {
 		var settings = {
