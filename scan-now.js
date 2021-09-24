@@ -36,7 +36,7 @@ function testtest() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
-	loadingBar = document.getElementById("scan-progress-bar"),
+	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
 	// Create folder and get filepath.
@@ -52,8 +52,8 @@ function testtest() {
 	// Show cancel button.
 	cancelBtn.classList.remove("d-none");
 	
-	// Show loading bar.
-	loadingBar.classList.remove("d-none");
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
 
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
@@ -188,12 +188,11 @@ function downloadOnce(){// DEL AFTER
 	downloadImages(98, scanFilepath);
 }
 
-///////////////////////
 function createScan() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
-	loadingBar = document.getElementById("scan-progress-bar"),
+	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
 	// Create new soft limited lengths
@@ -211,8 +210,8 @@ function createScan() {
 	// Show cancel button.
 	cancelBtn.classList.remove("d-none");
 	
-	// Show loading bar.
-	loadingBar.classList.remove("d-none");
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
 
 	// Create folder and get filepath.
 	const scanFilepath = createScanFolder();
@@ -317,8 +316,8 @@ function createScan() {
 			// Re-enable and show button.
 			startBtn.removeAttribute("disabled");
 			startBtn.classList.remove("d-none");
-			// Re-hide loading bar.
-			loadingBar.classList.add("d-none");
+			// Re-hide loading spinner.
+			loadingSpinner.classList.add("d-none");
 			// Re-hide scan date & time.
 			dateTimeInfoHolder.classList.add("d-none");
 			// Re-hide cancel button.
@@ -341,8 +340,6 @@ function createScan() {
 			});
 		});
 }
-
-//////////////////////
 
 function pageStartUp() {
 	return new Promise((resolve, reject) => {
@@ -412,14 +409,14 @@ function cancelScan() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
-	loadingBar = document.getElementById("scan-progress-bar"),
+	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
 	// Re-enable and show button.
 	startBtn.removeAttribute("disabled");
 	startBtn.classList.remove("d-none");
-	// Re-hide loading bar.
-	loadingBar.classList.add("d-none");
+	// Re-hide loading spinner.
+	loadingSpinner.classList.add("d-none");
 	// Re-hide scan date & time.
 	dateTimeInfoHolder.classList.add("d-none");
 	// Re-hide cancel button.
@@ -434,11 +431,11 @@ function cancelScan() {
 	// Delete scan entry in database.
 
 	// Cancel scan sequence.
-	var device = new farmbot.Farmbot({ token: sessionToken });
+	/* var device = new farmbot.Farmbot({ token: sessionToken });
 	device.connect()
 	.then(function () {
 		return device.rebootFirmware();
-	});
+	}); */
 	
 	// Maybe load a toast to confirm scan cancellation?
 }
