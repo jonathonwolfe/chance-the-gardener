@@ -137,3 +137,50 @@ function clearMeshroomCache() {
 		failToast.show();
 	}
 }
+
+var device_id;
+const sqlite3 = require('sqlite3').verbose();
+function save() {
+	return new Promise((resolve, reject) => {
+
+	var settings = {
+		"url": "https://my.farmbot.io/api/device",
+		"method": "GET",
+		"timeout": 0,
+		"headers": {
+			"Authorization": "Bearer " + sessionToken,
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		},
+	};
+
+	$.ajax(settings).done(function (response) {
+		device_id=response.id;
+		device_name=response.name;
+		OS_Version = response.fbos_version;
+
+		deviceXmax = document.getElementById("inputXAxis").value;
+		deviceYmax = document.getElementById("inputYAxis").value;
+		lightPin = document.getElementById("inputLightPinNum").value;
+		console.log(device_id,device_name,OS_Version,deviceXmax,deviceYmax,lightPin);
+
+
+		let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
+		let sql_select_2 = 'SELECT userID FROM value_holder WHERE id =(select max(id) from value_holder)';
+		db.get(sql_select_2, function(err,row) {
+		if (err) {
+			return console.error(err.message);
+		}
+		userID=row.userID;
+		console.log(userID);
+		let sql = 'INSERT into Device_Settings ( device_id, Name, OS_Version,"x-max","y-max",light_pin_num,user_id) values  ('+device_id+',"' +device_name+'" ,"'+ OS_Version+'","'+deviceXmax+'","'+deviceYmax+'","'+lightPin+'",'+userID+')';
+		db.run(sql, function(err) {
+			if (err) {
+				return console.error(err.message);
+			}
+			});
+});		
+	});
+	});
+}
+
