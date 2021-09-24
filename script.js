@@ -292,8 +292,10 @@ function createDateTimeSelect(type, userID) {
 	if (folderList.length >= 1) {
 		for (let i = 0; i < folderList.length; i++) {
 			let dateTimeOption = document.createElement("option");
-			dateTimeOption.textContent = folderList[i];
 			dateTimeOption.value = folderList[i];
+			// Make it more readable.
+			dateTimeOption.textContent = formatDateTimeReadable(folderList[i]);
+
 			selectList.appendChild(dateTimeOption);
 		}
 	} else {
@@ -307,6 +309,14 @@ function createDateTimeSelect(type, userID) {
 		
 		selectList.appendChild(dateTimeOption);
 	}
+}
+
+function formatDateTimeReadable(dateTime) {
+	const moment = require('moment'),
+	momentDateTime = moment(dateTime, 'YYYY-MM-DD HH-mm-ss'),
+	formattedDateTime = momentDateTime.format('D MMM YYYY hh:mm:ss A');
+
+	return formattedDateTime;
 }
 
 function createUserSelect() {
