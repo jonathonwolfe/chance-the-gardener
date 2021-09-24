@@ -8,7 +8,7 @@ function mainMenuStartUp() {
 		// Check if a session token was passed from the previous page.
 		sessionToken = window.location.hash.substring(1);
 
-		if (sessionToken == null || sessionToken == "") {
+		if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 			// If none found, generate new one.
 			// Check which user was last logged in.
 			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');

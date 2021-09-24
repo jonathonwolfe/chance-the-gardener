@@ -10,12 +10,20 @@
 	<script src="./script.js"></script>
 	<script src="./manage-3d-gardens.js"></script>
 </head>
-<body onload="createDateTimeSelect('renders')">
+<body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
-
-		<label for="date-time">Scan date & time:</label>
-		<select name="date-time" id="dateTimeSelect">
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select">
+				</select>
+			</div>
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
+				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+			</div>
+		</div>
 	</div>
 </body>
 </html>

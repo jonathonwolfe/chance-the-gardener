@@ -15,7 +15,7 @@
 	<div class="container-fluid">
 		<div class="d-flex justify-content-between">
 			<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
-			<a href="change-user.html">Change user</a>
+			<button class="btn mt-2" onclick="changePage('change-user.html')">Change user</button>
 		</div>
 		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
 			<fieldset class="border p-3">
@@ -23,22 +23,22 @@
 				<div class="row mb-3">
 					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
 					<div class="col-sm-5">
-						<input type="number" step=".1" class="form-control" id="inputXAxis">
+						<input type="number" step=".1" class="form-control" id="inputXAxis" required>
 					</div>
-					<div class="col-sm-1">mm</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
 				</div>
-				<div class="row mb-3">
+				<div class="row">
 					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
 					<div class="col-sm-5">
-						<input type="number" step=".1" class="form-control" id="inputYAxis">
+						<input type="number" step=".1" class="form-control" id="inputYAxis" required>
 					</div>
-					<div class="col-sm-1">mm</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
 				</div>
 			</fieldset>
 			<div class="row mb-3 mt-3">
 				<label for="inputLightPinNum" class="col-3 col-form-label me-auto">Light pin</label>
 				<div class="col-sm-5">
-					<input type="number" step="1" class="form-control" id="inputLightPinNum">
+					<input type="number" step="1" class="form-control" id="inputLightPinNum" required>
 				</div>
 			</div>
 		</div>
@@ -49,14 +49,45 @@
 					This action cannot be undone."></i>
 			</div>
 			<div class="d-flex mt-5">
-				<button class="btn btn-run col-11 ms-2" onclick="">Clear 3D render cache</button>
+				<button class="btn btn-run col-11 ms-2" onclick="clearMeshroomCache()">Clear 3D render cache</button>
 				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="This will clear the 3D rendering cache. <br>
-					Try this if you experience issues when trying to generate a 3D garden, or want to free up some disk space."></i>
+					Try this if you experience issues when trying to generate a 3D garden, or want to free up some disk space.<br>
+					Note that this function has only been tested on Windows."></i>
 			</div>
-			<button class="btn btn-run mt-3" onclick="">Regenerate session token - MAYBE NOT NEEDED?</button>
 		</div>
 		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-5">
 			<button class="btn btn-confirm" disabled>Save</button>
+		</div>
+	</div>
+	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
+			<div id="autoDetectSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Success</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					Farm details have been updated and saved.
+				</div>
+			</div>
+			<div id="delSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Success</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					3D rendering cache deleted.
+				</div>
+			</div>
+			<div id="delFailToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Failure</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					There was an issue when trying to delete the 3D rendering cache.
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
