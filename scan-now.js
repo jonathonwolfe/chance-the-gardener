@@ -10,12 +10,12 @@ $(document).ready(function() {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
 	// Load modal.
-	var myModal = document.getElementById('cancelScanModal');
+	var myModal = document.getElementById('cancel-scan-modal');
 	var myInput = document.getElementById('cancel-scan-btn');
 
 	myModal.addEventListener('shown.bs.modal', function () {
 		myInput.focus();
-	})
+	});
 });
 
 const { Console } = require("console");
@@ -228,6 +228,8 @@ function createScan() {
 	// Get plant data.
 	savePlantData(scanFilepath);
 
+	// TODO: Get farm size from db and save to CSV.
+
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
@@ -360,7 +362,7 @@ function pageStartUp() {
 			// Check which user was last logged in.
 			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
 
-			// Get the user's credentials from db, using the user ID.
+			// TODO: Get the user's credentials from db, using lastLoggedInUserID.
 			// For testing purposes, these are hard coded as Jonathon's.
 			let emailAdd = "***REMOVED***",
 			password = "***REMOVED***";
@@ -392,6 +394,7 @@ function pageStartUp() {
 	});
 }
 
+// TODO: Change this to the updated version in change-user when it uses db.
 function setUserName() {
 	return new Promise((resolve, reject) => {
 		var settings = {
@@ -439,6 +442,11 @@ function cancelScan() {
 	// Delete scan entry in database.
 
 	// Cancel scan sequence.
-
+	var device = new farmbot.Farmbot({ token: sessionToken });
+	device.connect()
+	.then(function () {
+		return device.rebootFirmware();
+	});
+	
 	// Maybe load a toast to confirm scan cancellation?
 }

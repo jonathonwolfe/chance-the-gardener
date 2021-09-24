@@ -6,15 +6,37 @@ $(document).ready(function() {
 	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
+
+	// Activate toasts.
+	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+	var toastList = toastElList.map(function (toastEl) {
+		return new bootstrap.Toast(toastEl)
+	});
 });
 
 var lightPin;
 var deviceXmax, deviceYmax;
 
 async function autoDetectFarmDetails() {
+	const farmSizeXInput = document.getElementById("inputXAxis"),
+	farmSizeYInput = document.getElementById("inputYAxis"),
+	lightPinInput = document.getElementById("inputLightPinNum"),
+	successToastEle = document.getElementById('autoDetectSuccessToast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle);
+
+	// Get the farm details.
 	await getFarmSize();
 	await findLightPin();
-	console.log("AutoDetect Results: " + lightPin + " " + deviceXmax + " " + deviceYmax);
+
+	// TODO: Save to database new values.
+
+	// Update form with new values.
+	farmSizeXInput.value = deviceXmax;
+	farmSizeYInput.value = deviceYmax;
+	lightPinInput.value = lightPin;
+
+	// Notify user.
+	successToast.show();
 }
 
 // Find the PIN that has LIGHTING
@@ -93,4 +115,25 @@ function getFarmSize(){
 			});
 		});
 	});
+}
+
+function clearMeshroomCache() {
+	const fs = require('fs'),
+	electron = require('electron'),
+	successToastEle = document.getElementById('delSuccessToast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	failToastEle = document.getElementById('delFailToast'),
+	failToast = bootstrap.Toast.getInstance(failToastEle);
+
+	const meshroomCachePath = (electron.app || electron.remote.app).getPath('temp') + '\\MeshroomCache';
+	fs.rmdirSync(meshroomCachePath, { recursive: true });
+
+	// Check if deleted and notify user on results.
+	if (!fs.existsSync(meshroomCachePath)) {
+		// Success.
+		successToast.show();
+	} else {
+		// Failure.
+		failToast.show();
+	}
 }
