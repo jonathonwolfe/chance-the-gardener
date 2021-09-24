@@ -134,7 +134,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 
 				// Call python script and pass arguments to save the image to appropraite folder.
 				const spawn = require("child_process").spawn;
-				const pythonProcess = spawn('python', ["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id, scanFolderPath]);
+				const pythonProcess = spawn('python', ["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id, scanFolderPath, sessionToken]);
 				i += 1;
 			}
 		}).then(function(response){
