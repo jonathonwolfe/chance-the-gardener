@@ -22,8 +22,8 @@ const { Console } = require("console");
 
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
-var deviceXmax = 2700;
-var deviceYmax = 1200;
+var deviceXmax = 200;//2700
+var deviceYmax = 200;//1200
 var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
@@ -178,6 +178,14 @@ function savePlantData(scanFolderPath) {
 		}).then(function(response){
 			resolve(response);
 		});
+	});
+}
+
+function testStop(){
+	var device = new farmbot.Farmbot({ token: sessionToken });
+	device.connect()
+	.then(function () {
+	  return bot.rebootFirmware();
 	});
 }
 
