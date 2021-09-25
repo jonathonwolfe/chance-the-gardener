@@ -98,55 +98,81 @@ function createScanFolder() {
 		fs.mkdirSync(dir);
 	}
 
+	// Create a thumbnail folder.
+	if (!fs.existsSync(dir + "/thumbs")) {
+		fs.mkdirSync(dir + "/thumbs");
+	}
+
 	// Send back name and location of new folder.
 	return dir;
 }
 
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
-	return new Promise((resolve, reject) => {
-		const download = require('image-downloader');
-		// Set the settings for the API request.
-		var settings = {
-			"url": "https://my.farm.bot/api/images",
-			"method": "GET",
-			"timeout": 0,
-			"headers": {
-				"Authorization": "Bearer " + sessionToken
-			},
-		};
+	const sharp = require('sharp'),
+	fs = require('fs');
 
-		// Make var to store the response
-		var savedResponse;
+	// Set the settings for the API request.
+	var settings = {
+		"url": "https://my.farm.bot/api/images",
+		"method": "GET",
+		"timeout": 0,
+		"headers": {
+			"Authorization": "Bearer " + sessionToken
+		},
+	};
 
-		// Access the response and save it to the variable
-		$.ajax(settings).done(function (response) {
-			savedResponse = response;
-			console.log(savedResponse[0]);
+	// Make var to store the response
+	var savedResponse;
 
-			// x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
-			var x = numberOfImagesToDownload;
-			// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
-			var i = 0;
+	// Access the response and save it to the variable
+	$.ajax(settings).done(async function (response) {
+		savedResponse = response;
+		console.log(savedResponse[0]);
 
-			while (i <= x) {
-				// Download the image.
-				const options = {
-					url: savedResponse[i].attachment_url,
-					dest: scanFolderPath + "/" + savedResponse[i].id +".jpg"
+		// x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
+		var x = numberOfImagesToDownload;
+		// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
+		var i = 0;
+
+		while (i <= x) {
+			// Download the image.
+			await downloadSingleImage(savedResponse[i], scanFolderPath);
+
+			// Create thumbnail.
+			fs.readFile(scanFolderPath + "/" + savedResponse[i].id + ".jpg", (err, img) => {
+				if (err) throw err;
+				if (!fs.existsSync(scanFolderPath + "/thumbs/" + savedResponse[i].id + ".jpg")) {
+					sharp(img)
+					.resize({ width: 100 })
+					.toFile(scanFolderPath + "/thumbs/" + savedResponse[i].id + ".jpg")
+					.then( data => { console.log(data) })
+					.catch(err => { console.error(err) });
 				}
+			});
 
-				download.image(options)
-					.then(({ filename }) => {
-						console.log('Saved to', filename);
-					})
-					.catch((err) => console.error(err));
+			i += 1;
+		}
+	}).then(function(response){
+		resolve('Done dowloading images');
+	});
+	
+}
 
-				i += 1;
-			}
-		}).then(function(response){
-			resolve('Done dowloading  images');
-		});
+function downloadSingleImage(savedResponse, scanFolderPath) {
+	return new Promise((resolve, reject) => {
+		const download = require('image-downloader'),
+		options = {
+			url: savedResponse.attachment_url,
+			dest: scanFolderPath + "/" + savedResponse.id + ".jpg"
+		}
+
+		download.image(options)
+			.then(({ filename }) => {
+				console.log('Saved to', filename);
+				resolve();
+			})
+			.catch((err) => console.error(err));
 	});
 }
 
