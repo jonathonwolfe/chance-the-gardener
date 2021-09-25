@@ -109,9 +109,6 @@ function createScanFolder() {
 
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
-	const sharp = require('sharp'),
-	fs = require('fs');
-
 	// Set the settings for the API request.
 	var settings = {
 		"url": "https://my.farm.bot/api/images",
@@ -140,16 +137,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 			await downloadSingleImage(savedResponse[i], scanFolderPath);
 
 			// Create thumbnail.
-			fs.readFile(scanFolderPath + "/" + savedResponse[i].id + ".jpg", (err, img) => {
-				if (err) throw err;
-				if (!fs.existsSync(scanFolderPath + "/thumbs/" + savedResponse[i].id + ".jpg")) {
-					sharp(img)
-					.resize({ width: 100 })
-					.toFile(scanFolderPath + "/thumbs/" + savedResponse[i].id + ".jpg")
-					.then( data => { console.log(data) })
-					.catch(err => { console.error(err) });
-				}
-			});
+			await generateImageThumbnail(savedResponse[i], scanFolderPath);
 
 			i += 1;
 		}
@@ -173,6 +161,27 @@ function downloadSingleImage(savedResponse, scanFolderPath) {
 				resolve();
 			})
 			.catch((err) => console.error(err));
+	});
+}
+
+function generateImageThumbnail(savedResponse, scanFolderPath) {
+	return new Promise((resolve, reject) => {
+		const sharp = require('sharp'),
+		fs = require('fs');
+
+		fs.readFile(scanFolderPath + "/" + savedResponse.id + ".jpg", (err, img) => {
+			if (err) throw err;
+			if (!fs.existsSync(scanFolderPath + "/thumbs/" + savedResponse.id + ".jpg")) {
+				sharp(img)
+				.resize({ width: 100 })
+				.toFile(scanFolderPath + "/thumbs/" + savedResponse.id + ".jpg")
+				.then(data => { 
+					console.log(data);
+					resolve(); 
+				})
+				.catch(err => { console.error(err) });
+			}
+		});
 	});
 }
 
