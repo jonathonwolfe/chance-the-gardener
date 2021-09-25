@@ -64,6 +64,9 @@ function testtest() {
 	// Show date-time of current scan.
 	dateTimeInfoHolder.classList.remove("d-none");
 	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
+
+	// Download images.
+	downloadImages(5, scanFilepath);
 }
 
 
@@ -102,6 +105,7 @@ function createScanFolder() {
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 	return new Promise((resolve, reject) => {
+		const download = require('image-downloader');
 		// Set the settings for the API request.
 		var settings = {
 			"url": "https://my.farm.bot/api/images",
@@ -115,9 +119,8 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 		// Make var to store the response
 		var savedResponse;
 
-		// Acess the response and save it to the variable
+		// Access the response and save it to the variable
 		$.ajax(settings).done(function (response) {
-			//console.log(response);
 			savedResponse = response;
 			console.log(savedResponse[0]);
 
@@ -127,14 +130,18 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 			var i = 0;
 
 			while (i <= x) {
+				// Download the image.
+				const options = {
+					url: savedResponse[i].attachment_url,
+					dest: scanFolderPath + "/" + savedResponse[i].id +".jpg"
+				}
 
-				// Print the ith image's url
-				console.log(i);
-				console.log(savedResponse[i].attachment_url);
+				download.image(options)
+					.then(({ filename }) => {
+						console.log('Saved to', filename);
+					})
+					.catch((err) => console.error(err));
 
-				// Call python script and pass arguments to save the image to appropraite folder.
-				const spawn = require("child_process").spawn;
-				const pythonProcess = spawn('python', ["saveImage.py", savedResponse[i].attachment_url, savedResponse[i].id, scanFolderPath, sessionToken]);
 				i += 1;
 			}
 		}).then(function(response){
