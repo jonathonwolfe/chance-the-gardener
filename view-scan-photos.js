@@ -202,18 +202,19 @@ function loadFolderPhotos(photosFolder) {
 	gallery = document.getElementById('plant-photos-gallery');
 
 	// Load each image into the page.
-	const files = fs.readdirSync(photosFolder);
+	const photos = fs.readdirSync(photosFolder), 
+	thumbFiles = fs.readdirSync(photosFolder + "/thumbs");
 
-	for (const file of files) {
-		if (path.extname(file) === ".jpg") {
+	for (let i = 0; i < photos.length; i++) {
+		if (path.extname(photos[i]) === ".jpg") {
 			// Get image dimension.
-			const imagePath = photosFolder + "/" + file,
+			const imagePath = photosFolder + "/" + photos[i],
 			dimensions = sizeOf(imagePath);
 			console.log(imagePath);
 			// Create the image elements.
 			let imgEle = document.createElement("figure");
 			imgEle.setAttribute("class", "col-1");
-			imgEle.innerHTML = '<a href="'+ imagePath.substring(2) + '" data-size="' + dimensions.width + 'x' + dimensions.height + '"><img class="mw-100" src="' + photosFolder.substring(2) + "/thumbs/" + file + '"/></a>';
+			imgEle.innerHTML = '<a href="'+ imagePath.substring(2) + '" data-size="' + dimensions.width + 'x' + dimensions.height + '"><img class="mw-100" src="' + photosFolder.substring(2) + "/thumbs/" + thumbFiles[i] + '"/></a>';
 			gallery.appendChild(imgEle);
 		}
 	}
