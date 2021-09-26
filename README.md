@@ -57,7 +57,9 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 - Full Scan 50mm Increments (FS-50) - Roughly 1300 images - 5:30PM to 4:00AM Render Time (11 Hours)
 
 ## Default FarmBot Camera Increment Quality Comparison
+![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera).png)
 ![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera)%202.png)
-![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/blob/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera)%202.png)
+
+https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera).png
 
 
