@@ -56,4 +56,8 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 
 - Full Scan 50mm Increments (FS-50) - Roughly 1300 images - 5:30PM to 4:00AM Render Time (11 Hours)
 
+## Default FarmBot Camera Increment Quality Comparison
+![Test](https://raw.githubusercontent.com/jeffheaton/pretrained-gan-fish/main/fish-gan.jpg)
+![Test](https://raw.githubusercontent.com/jeffheaton/pretrained-gan-fish/main/fish-gan.jpg)
+
 
