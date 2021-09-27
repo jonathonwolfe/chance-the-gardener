@@ -16,21 +16,24 @@ $(document).ready(function() {
 	myModal.addEventListener('shown.bs.modal', function () {
 		myInput.focus();
 	});
+
+	document.getElementById("inputStartingZ").value = "-200";
 });
 
 const { Console } = require("console");
 
+const farmSizeXInput = document.getElementById("inputXAxis"),
+farmSizeYInput = document.getElementById("inputYAxis"),
+scanStartingZ = document.getElementById("inputStartingZ");
+
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
-var deviceXmax = 200;
-var deviceYmax = 200;
 var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
 var startingX = 0;
 var startingY = 0;
-var startingZ = -200;
 
 function testtest() {
 	// Elements for hiding/showing when scanning.
@@ -39,11 +42,11 @@ function testtest() {
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
-	// Create folder and get filepath.
-	const scanFilepath = createScanFolder();
+	// Create folder and get folderpath.
+	const scanFolderpath = createScanFolder();
 
 	// Get plant data.
-	savePlantData(scanFilepath);
+	savePlantData(scanFolderpath);
 
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
@@ -58,15 +61,15 @@ function testtest() {
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFilepathSplit = scanFilepath.split("/");
-	const dateTimeFolName = scanFilepathSplit[3];
+	const scanFolderpathSplit = scanFolderpath.split("/");
+	const dateTimeFolName = scanFolderpathSplit[3];
 
 	// Show date-time of current scan.
 	dateTimeInfoHolder.classList.remove("d-none");
 	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
 
 	// Download images.
-	downloadImages(5, scanFilepath);
+	downloadImages(5, scanFolderpath);
 }
 
 
@@ -223,11 +226,27 @@ function savePlantData(scanFolderPath) {
 	});
 }
 
+function saveFarmSize(scanFolderPath) {
+	const xAxis = farmSizeXInput.value,
+	yAxis = farmSizeYInput.value;
 
-function downloadOnce(){// DEL AFTER
-	// Create folder and get filepath.
-	const scanFilepath = createScanFolder();
-	downloadImages(98, scanFilepath);
+
+	// Filter out non-plants.
+	let plantDataJson = [];
+
+	for (let i = 0; i < Object.keys(response).length; i++) {
+		if (response[i].pointer_type == "Plant") {
+			plantDataJson.push(response[i]);
+		}
+	}
+	JSON.stringify(plantDataJson);
+
+	// Save as CSV.
+	const json2csvParser = new Parser();
+	const csv = json2csvParser.parse(plantDataJson);
+	
+	fs.writeFileSync(scanFolderPath + "/farm_size.csv", csv);
+	
 }
 
 function createScan() {
@@ -238,8 +257,8 @@ function createScan() {
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
 
 	// Create new soft limited lengths
-	var softLimitedDeviceXmax = parseInt(deviceXmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
-	var softLimitedDeviceYmax = parseInt(deviceYmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+	var softLimitedDeviceXmax = parseInt(farmSizeXInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+	var softLimitedDeviceYmax = parseInt(farmSizeYInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
 	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
 	stepX = Math.trunc(softLimitedDeviceXmax/stepQuality);
@@ -255,19 +274,20 @@ function createScan() {
 	// Show loading spinner.
 	loadingSpinner.classList.remove("d-none");
 
-	// Create folder and get filepath.
-	const scanFilepath = createScanFolder();
+	// Create folder and get folderpath.
+	const scanFolderpath = createScanFolder();
 
 	// Get plant data.
-	savePlantData(scanFilepath);
+	savePlantData(scanFolderpath);
 
 	// TODO: Get farm size from db and save to CSV.
+	saveFarmSize(scanFolderpath);
 
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFilepathSplit = scanFilepath.split("/");
-	const dateTimeFolName = scanFilepathSplit[3];
+	const scanFolderpathSplit = scanFolderpath.split("/");
+	const dateTimeFolName = scanFolderpathSplit[3];
 
 	// Show date-time of current scan.
 	dateTimeInfoHolder.classList.remove("d-none");
@@ -319,7 +339,7 @@ function createScan() {
 	-- Set a starting X coordinate to do a grid scan of.
 	starting_x = ${startingX}
 	starting_y = ${startingY}
-	starting_z = ${startingZ}
+	starting_z = ${scanStartingZ}
 	
 	-- Loop ${stepY} times, calling scanX on a different "lane" in the
 	-- Y coordinate:
@@ -349,7 +369,7 @@ function createScan() {
 		logNumber++;
 		if (log.message == "download images now") {
 			// Download images from API
-			downloadImages(98, scanFilepath);
+			downloadImages(98, scanFolderpath);
 			// Maybe delete old images
 			// Move bot to next row (A1, A2, etc..)
 			console.log("Download images now...");
@@ -422,6 +442,14 @@ function pageStartUp() {
 		} else {
 			setUserName();
 		}
+
+		// Pre-fill farm size.
+		
+		// TODO: Get farm size from database.
+		var dbXAxis, dbYAxis;
+
+		//farmSizeXInput.value = dbXAxis;
+		//farmSizeYInput.value = dbYAxis;
 	});
 }
 
@@ -472,7 +500,7 @@ function cancelScan() {
 
 	// Delete scan entry in database.
 
-	// Cancel scan sequence.
+	// TODO: Cancel scan sequence.
 	/* var device = new farmbot.Farmbot({ token: sessionToken });
 	device.connect()
 	.then(function () {

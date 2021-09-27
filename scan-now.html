@@ -35,6 +35,39 @@
 				<p id="current-scan-datetime" class="col-sm-8 w-fit-content"></p>
 			</div>
 		</div>
+		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
+			<fieldset class="border p-3">
+				<legend class="w-auto">
+					Scan Farm Size
+					<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="How much of your farm you want to scan.<br>
+						Both values must be a minimum of 100mm.<br>
+						This is pre-filled with your entire farm size."></i>
+				</legend>
+				
+				<div class="row mb-3">
+					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputXAxis" min="100" required>
+					</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				</div>
+				<div class="row">
+					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputYAxis" min="100" required>
+					</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				</div>
+			</fieldset>
+			<div class="row mb-3 mt-3">
+				<label for="inputStartingZ" class="col-3 col-form-label me-auto">Z axis</label>
+				<div class="col-sm-5">
+					<input type="number" step="1" class="form-control" id="inputStartingZ" required>
+				</div>
+				<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What height (z axis) to use for the scan."></i>
+			</div>
+		</div>
 		<div id="scan-progress-spinner" class="d-flex justify-content-center d-none">
 			<div class="spinner-border" role="status">
 				<span class="visually-hidden">Loading...</span>
@@ -47,7 +80,7 @@
 
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<h3>To be removed after dev:</h3>
-			<button class="btn btn-danger" onclick="testtest()">Get plant data and save as CSV - Emulate scan</button>
+			<button class="btn btn-danger" onclick="testtest()">Emulate scan - Everything except actually moving the FarmBot</button>
 		</div>
 	</div>
 	<div id="cancel-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
