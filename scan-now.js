@@ -22,10 +22,6 @@ $(document).ready(function() {
 
 const { Console } = require("console");
 
-const farmSizeXInput = document.getElementById("inputXAxis"),
-farmSizeYInput = document.getElementById("inputYAxis"),
-scanStartingZ = document.getElementById("inputStartingZ");
-
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
 var deviceLightPinNo = 7;
@@ -70,6 +66,8 @@ function testtest() {
 
 	// Download images.
 	downloadImages(5, scanFolderpath);
+
+	saveFarmSize(scanFolderpath);
 }
 
 
@@ -227,26 +225,26 @@ function savePlantData(scanFolderPath) {
 }
 
 function saveFarmSize(scanFolderPath) {
-	const xAxis = farmSizeXInput.value,
-	yAxis = farmSizeYInput.value;
+	const xAxis = document.getElementById("inputXAxis").value,
+	yAxis = document.getElementById("inputYAxis").value;
 
-
-	// Filter out non-plants.
-	let plantDataJson = [];
-
-	for (let i = 0; i < Object.keys(response).length; i++) {
-		if (response[i].pointer_type == "Plant") {
-			plantDataJson.push(response[i]);
-		}
-	}
-	JSON.stringify(plantDataJson);
-
-	// Save as CSV.
-	const json2csvParser = new Parser();
-	const csv = json2csvParser.parse(plantDataJson);
+	const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+	const csvWriter = createCsvWriter({
+		path: scanFolderPath + '/farm_size.csv',
+		header: [
+			{id: 'xAxisCol', title: 'x-axis'},
+			{id: 'yAxisCol', title: 'y-axis'}
+		]
+	});
 	
-	fs.writeFileSync(scanFolderPath + "/farm_size.csv", csv);
+	const records = [
+		{xAxisCol: xAxis,  yAxisCol: yAxis}
+	];
 	
+	csvWriter.writeRecords(records)
+		.then(() => {
+			console.log('...Done');
+		});
 }
 
 function createScan() {
@@ -254,7 +252,10 @@ function createScan() {
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
-	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
+	farmSizeXInput = document.getElementById("inputXAxis"),
+	farmSizeYInput = document.getElementById("inputYAxis"),
+	scanStartingZ = document.getElementById("inputStartingZ");
 
 	// Create new soft limited lengths
 	var softLimitedDeviceXmax = parseInt(farmSizeXInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
