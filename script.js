@@ -319,16 +319,34 @@ function formatDateTimeReadable(dateTime) {
 	return formattedDateTime;
 }
 
-function createUserSelect() {
-	// TODO: Create an array of user IDs from the database.
-	var userIDList = [];
+async function dbGet(query){
+    return new Promise(function(resolve,reject){
+		const sqlite3 = require('sqlite3').verbose();
+		let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
+        db.get(query, function(err,rows){
+           if(err){return reject(err);}
+           resolve(rows);
+         });
+    });
+}
 
+async function createUserSelect() {
+	// Get total number of users in the database.
+	const totalNumUsers = (await dbGet('SELECT COUNT(*) FROM User'))["COUNT(*)"];
+
+	// Create an array of user IDs and their emails from the database.
+	var userIDList = [];
+	for (let i = 1; i <= totalNumUsers; i++) {
+		let sqlGetUsersQuery = 'SELECT email, User_ID FROM User WHERE User_ID = ' + i;
+		userIDList.push(await dbGet(sqlGetUsersQuery));
+	}
+	
 	// Add values to select list.
 	const selectList = document.getElementById("user-select");
 	for (let i = 0; i < userIDList.length; i++) {
 		let userOption = document.createElement("option");
-		userOption.textContent = userIDList[i];
-		userOption.value = userIDList[i];
+		userOption.textContent = userIDList[i].Email;
+		userOption.value = userIDList[i].User_ID;
 		selectList.appendChild(userOption);
 	}
 }
