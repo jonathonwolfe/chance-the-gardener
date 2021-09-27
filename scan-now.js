@@ -36,7 +36,8 @@ function testtest() {
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
-	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
+	backBtn = document.getElementsByClassName("btn-back")[0];
 
 	// Create folder and get folderpath.
 	const scanFolderpath = createScanFolder();
@@ -47,6 +48,9 @@ function testtest() {
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
 	startBtn.classList.add("d-none");
+
+	// Disable back button.
+	backBtn.setAttribute("disabled", "");
 
 	// Show cancel button.
 	cancelBtn.classList.remove("d-none");
@@ -253,7 +257,9 @@ function createScan() {
 	cancelBtn = document.getElementById("cancel-scan-btn"),
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
-	farmSizeXInput = document.getElementById("inputXAxis"),
+	backBtn = document.getElementsByClassName("btn-back")[0];
+	// Elements for grabbing scan settings.
+	const farmSizeXInput = document.getElementById("inputXAxis"),
 	farmSizeYInput = document.getElementById("inputYAxis"),
 	scanStartingZ = document.getElementById("inputStartingZ");
 
@@ -268,6 +274,9 @@ function createScan() {
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
 	startBtn.classList.add("d-none");
+
+	// Disable back button.
+	backBtn.setAttribute("disabled", "");
 
 	// Show cancel button.
 	cancelBtn.classList.remove("d-none");
@@ -379,6 +388,8 @@ function createScan() {
 			// Re-enable and show button.
 			startBtn.removeAttribute("disabled");
 			startBtn.classList.remove("d-none");
+			// Re-enable back button.
+			backBtn.removeAttribute("disabled");
 			// Re-hide loading spinner.
 			loadingSpinner.classList.add("d-none");
 			// Re-hide scan date & time.
@@ -481,11 +492,14 @@ function cancelScan() {
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
-	dateTimeInfoHolder = document.getElementById("scan-datetime-info");
+	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
+	backBtn = document.getElementsByClassName("btn-back")[0];
 
 	// Re-enable and show button.
 	startBtn.removeAttribute("disabled");
 	startBtn.classList.remove("d-none");
+	// Re-enable back button.
+	backBtn.removeAttribute("disabled");
 	// Re-hide loading spinner.
 	loadingSpinner.classList.add("d-none");
 	// Re-hide scan date & time.
