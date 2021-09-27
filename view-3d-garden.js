@@ -1,4 +1,5 @@
 $(document).ready(function() {
 	getSessionToken();
-	createDateTimeSelect('renders');
+	createUserSelect();
+	createDateTimeSelect("renders", localStorage.getItem('lastLoginUserID'));
 });

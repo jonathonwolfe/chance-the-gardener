@@ -16,13 +16,20 @@
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
 			<div class="row">
 				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
-				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select">
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('renders')">
 				</select>
 			</div>
 			<div class="row">
 				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
 				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+				</select>
 			</div>
+		</div>
+		
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button class="btn" onclick="loadPhotoViewer()">View photos</button>
+			<button class="btn" onclick="loadPlantDataViewer()">View plant data</button>
+			<button id="delete-render-btn" class="btn btn-danger mt-5" data-bs-toggle="modal" data-bs-target="#delete-render-modal" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
 		</div>
 	</div>
 </body>
