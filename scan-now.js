@@ -27,8 +27,8 @@ var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
-var startingX = 520;
-var startingY = 50;
+var startingX = 0;
+var startingY = 0;
 
 function testtest() {
 	// Elements for hiding/showing when scanning.
