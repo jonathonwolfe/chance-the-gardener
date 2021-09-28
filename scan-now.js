@@ -289,7 +289,7 @@ function createScan() {
 	// Get plant data.
 	savePlantData(scanFolderpath);
 
-	// TODO: Get farm size from db and save to CSV.
+	// Get current scan's farm size and save it in scan folder.
 	saveFarmSize(scanFolderpath);
 
 	// TODO: Save scan to database in the createScanFolder() function.
