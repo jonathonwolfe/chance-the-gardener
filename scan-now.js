@@ -22,14 +22,14 @@ const { Console } = require("console");
 
 // REMOVE VARIABLES ON RELEASE
 var lightPin = 7;
-var deviceXmax = 200;//2700
-var deviceYmax = 200;//1200
+var deviceXmax = 620;//2700
+var deviceYmax = 150;//1200
 var deviceLightPinNo = 7;
-var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
+var stepQuality = 10; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
-var startingX = 0;
-var startingY = 0;
+var startingX = 520;
+var startingY = 50;
 var startingZ = -200;
 
 function testtest() {
@@ -209,8 +209,8 @@ function createScan() {
 	var softLimitedDeviceYmax = parseInt(deviceYmax) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
 	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
-	stepX = Math.trunc(softLimitedDeviceXmax/stepQuality);
-	stepY = Math.trunc(softLimitedDeviceYmax/stepQuality);
+	stepX = Math.trunc((softLimitedDeviceXmax-startingX)/stepQuality);
+	stepY = Math.trunc((softLimitedDeviceYmax-startingY)/stepQuality);
 
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
