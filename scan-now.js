@@ -23,14 +23,12 @@ $(document).ready(function() {
 const { Console } = require("console");
 
 // REMOVE VARIABLES ON RELEASE
-var lightPin = 7;
 var deviceLightPinNo = 7;
-var stepQuality = 10; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
+var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
 var startingX = 520;
 var startingY = 50;
-var startingZ = -200;
 
 function testtest() {
 	// Elements for hiding/showing when scanning.
