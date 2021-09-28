@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 const { Console } = require("console");
 
-// REMOVE VARIABLES ON RELEASE
+// Remove Variable "VALUES" on Release!
 var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
