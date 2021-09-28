@@ -261,13 +261,13 @@ function createScan() {
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
 	backBtn = document.getElementsByClassName("btn-back")[0];
 	// Elements for grabbing scan settings.
-	const farmSizeXInput = document.getElementById("inputXAxis"),
-	farmSizeYInput = document.getElementById("inputYAxis"),
-	scanStartingZ = document.getElementById("inputStartingZ");
+	const farmSizeXInput = document.getElementById("inputXAxis").value,
+	farmSizeYInput = document.getElementById("inputYAxis").value,
+	scanStartingZ = document.getElementById("inputStartingZ").value;
 
 	// Create new soft limited lengths
-	var softLimitedDeviceXmax = parseInt(farmSizeXInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
-	var softLimitedDeviceYmax = parseInt(farmSizeYInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+	var softLimitedDeviceXmax = parseInt(farmSizeXInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+	var softLimitedDeviceYmax = parseInt(farmSizeYInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
 	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
 	stepX = Math.trunc((softLimitedDeviceXmax-startingX)/stepQuality);
