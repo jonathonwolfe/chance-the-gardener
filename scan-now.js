@@ -113,6 +113,7 @@ function createScanFolder() {
 
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
+	return new Promise((resolve, reject) => {
 	// Set the settings for the API request.
 	var settings = {
 		"url": "https://my.farm.bot/api/images",
@@ -128,6 +129,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 
 	// Access the response and save it to the variable
 	$.ajax(settings).done(async function (response) {
+		
 		savedResponse = response;
 		console.log(savedResponse[0]);
 
@@ -147,6 +149,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 		}
 	}).then(function(response){
 		resolve('Done dowloading images');
+	});
 	});
 	
 }
