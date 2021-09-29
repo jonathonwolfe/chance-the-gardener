@@ -60,5 +60,9 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 ![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera).png)
 ![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20the%20default%20Farmbot%20camera)%202.png)
 
+## High Res Camera Increment Quality Comparison
+![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20a%20high%20res%20camera).png)
+![Test](https://gitops.westernsydney.edu.au/professional-experience/spring-2021/PS2102/farmbot-3d-garden/-/raw/wathik/Render%20Quality%20Comparison%20(Using%20a%20high%20res%20camera)%202.png)
+
 
 
