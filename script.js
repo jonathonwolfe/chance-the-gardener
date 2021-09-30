@@ -334,21 +334,20 @@ async function dbGet(query){
 
 async function createUserSelect() {
 	// Get total number of users in the database.
-	const totalNumUsers = (await dbGet('SELECT COUNT(*) FROM User'))["COUNT(*)"];
+	const totalNumUsers = await getDbLength('User');
 
 	// Create an array of user IDs and their emails from the database.
 	var userIDList = [];
 	for (let i = 1; i <= totalNumUsers; i++) {
-		let sqlGetUsersQuery = 'SELECT email, User_ID FROM User WHERE User_ID = ' + i;
-		userIDList.push(await dbGet(sqlGetUsersQuery));
+		userIDList.push(await dbQuery('Email, User_ID', 'User', ' WHERE User_ID = ' + i));
 	}
 	
 	// Add values to select list.
 	const selectList = document.getElementById("user-select");
 	for (let i = 0; i < userIDList.length; i++) {
 		let userOption = document.createElement("option");
-		userOption.textContent = userIDList[i].Email;
-		userOption.value = userIDList[i].User_ID;
+		userOption.textContent = userIDList[i][0].Email;
+		userOption.value = userIDList[i][0].User_ID;
 		selectList.appendChild(userOption);
 	}
 }
@@ -387,15 +386,17 @@ function getDbLength(tableName) {
 	});
 }
 
-// TODO: Delete later. Keeping for template.
-function dbQuery() {
-	alasql.promise('SELECT * FROM CSV("test.csv", {headers:true}) WHERE Email="***REMOVED***"')
-	.then(function(data) {
-		console.log('SQL Statement: SELECT * FROM User WHERE Email="***REMOVED***"');
-		console.log("Results:");
-		console.log(data);
-		resolve(data); 
-	}).catch(function(err) {
-		console.log('Error:', err);
+// TODO: Delete later?
+function dbQuery(select, tableName, where) {
+	return new Promise(function(resolve,reject){
+		alasql.promise('SELECT '+ select +' FROM CSV("./db/'+ tableName +'.csv", {headers:true})'+ where)
+		.then(function(data) {
+			console.log('SQL Statement: ' + 'SELECT '+ select +' FROM CSV("./db/'+ tableName +'.csv", {headers:true})'+ where);
+			console.log("Results:");
+			console.log(data);
+			resolve(data); 
+		}).catch(function(err) {
+			console.log('Error:', err);
+		});
 	});
 }
