@@ -4,105 +4,63 @@ $(document).ready(async function() {
 
 async function appStartUp() {
 	const fs = require('fs');
-	// Check if database exists.
-	if (fs.existsSync("./database/db.json")) {
-		await mainMenuStartUp();
-		await setWelcomeMsgName();
+	// Check if user database exists.
+	if (fs.existsSync('./db/User.csv')) {
+		// Check if there's actually data in it.
+		const userDbLength = await getDbLength('User');
+		console.log(userDbLength);
+		if (userDbLength >= 1) {
+			await mainMenuStartUp();
+			await setWelcomeMsgName();
+		}
 	} else {
 		// Fresh install, go to login and set up files.
-/*  		const dbStore = new Store();
-/*		var mybase = new alasql.Database();
-		mybase.exec('CREATE TABLE User (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER AUTO_INCREMENT, PRIMARY KEY(User_ID))');
-		mybase.exec('INSERT INTO User (Email, Password) VALUES ("***REMOVED***", "***REMOVED***");');
-		mybase.exec('INSERT INTO User (Email, Password) VALUES ("notjon@email.com", "***REMOVED***");');
-		var results = mybase.exec("SELECT * FROM User");
-		console.log(results);
-		dbStore.set('UserDb', results);
-		console.log(dbStore.get('UserDb'));
- 		var storedDb = dbStore.get('UserDb');
-		console.log(storedDb);
-/* 		var testDb = new alasql.Database();
-		testDb.exec('CREATE TABLE User; SELECT * INTO User FROM JSON(' + storedDb + ')');
-		var results = testDb.exec("SELECT * FROM User"); 
-		console.log(results); 
+		// Check if database folder exists yet, and create if not.
+		if (!fs.existsSync('./db')) {
+			fs.mkdirSync('./db');
+		}
+		await createNewDb('Device', 'Device_ID INTEGER NOT NULL, Name TEXT, OS_Version TEXT, X_max REAL, Y_max REAL, Light_pin_num INTEGER, User_ID INTEGER, PRIMARY KEY(Device_ID)');
+		await createNewDb('Render', 'Render_ID INTEGER NOT NULL, DateTime TEXT NOT NULL, Folder_path TEXT NOT NULL, User_ID INTEGER NOT NULL, PRIMARY KEY(Render_ID)');
+		await createNewDb('Scan', 'Scan_ID INTEGER, DateTime TEXT, Folder_path TEXT, User_ID INTEGER, PRIMARY KEY(Scan_ID)');
+		await createNewDb('User', 'Email TEXT UNIQUE, Password TEXT, User_ID INTEGER, PRIMARY KEY(User_ID)');
 
-		var results = alasql('SELECT User_ID, COUNT(*) AS Email FROM ? GROUP BY User_ID',[storedDb]);
-		console.log(results); */
-
-		/* This also works?
-		var myDb = new alasql.Database();
-		myDb.exec('CREATE TABLE User (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER AUTO_INCREMENT, PRIMARY KEY(User_ID))');
-		myDb.exec('INSERT INTO User (Email, Password) VALUES ("***REMOVED***", "***REMOVED***");');
-		myDb.exec('INSERT INTO User (Email, Password) VALUES ("notjon@email.com", "***REMOVED***");');
-
-		var results = myDb.exec("SELECT * FROM User");
-		alasql.promise('SELECT * INTO CSV("test.csv", {headers:true}) FROM ?',[results])
-			.then(function(){
-				console.log('Data saved');
-			}).catch(function(err){
-				console.log('Error:', err);
-			});;
-
-		 */
-		
-/* 		 // This section works??
-		alasql.promise('SELECT * FROM CSV("test.csv", {headers:true}) WHERE Email="***REMOVED***"')
-			.then(function(data){
-					console.log('SQL Statement: SELECT * FROM User WHERE Email="***REMOVED***"');
-					console.log("Results:");
-					console.log(data); 
-			}).catch(function(err){
-					console.log('Error:', err);
-			}); */
-
-	
-		await getDbTable();
-		await addDbUser();
-		await updateDbTableCSV();
-		
-/* 		var usersTable = alasql("SELECT * FROM User");
-		alasql.promise('SELECT * INTO CSV("test.csv", {headers:true}) FROM ?',[usersTable])
-			.then(function(){
-				console.log('Data saved');
-			}).catch(function(err){
-				console.log('Error:', err);
-			});; */
-
-		
-/* 		var testDb = new alasql.Database();
-		testDb.exec('CREATE TABLE User (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER AUTO_INCREMENT, PRIMARY KEY(User_ID)); SELECT * INTO User FROM CSV("test.csv")');
-		console.log('SQL Statement: SELECT * FROM User WHERE User_ID="***REMOVED***"')
-		var results = testDb.exec('SELECT * FROM User WHERE User_ID="***REMOVED***"'); 
-		console.log("Results:");
-		console.log(results); */
+		//await importDbTable();
+		//await addDbUser();
+		//await updateDbTableCSV();
 	}
 }
 
-function getDbTable() {
+function createNewDb(tableName, fields) {
 	return new Promise((resolve, reject) => {
-		alasql.promise([
-			'CREATE TABLE User (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER, PRIMARY KEY(User_ID))',
-			'SELECT * INTO User FROM CSV("test.csv", {headers:true})'
-		])
-			.then(function(data){
-				console.log(data);
+		var myDb = new alasql.Database();
+		myDb.exec('CREATE TABLE ' + tableName + ' ('+ fields + ')');
+		// TODO: Delete testing lines.
+//		myDb.exec('INSERT INTO ' + tableName + ' (Email, Password) VALUES ("***REMOVED***", "***REMOVED***");');
+//		myDb.exec('INSERT INTO ' + tableName + ' (Email, Password) VALUES ("notjon@email.com", "***REMOVED***");');
+
+		var tableContent = myDb.exec('SELECT * FROM ' + tableName);
+		alasql.promise('SELECT * INTO CSV("./db/' + tableName + '.csv", {headers:true}) FROM ?',[tableContent])
+			.then(function() {
+				console.log(tableName + ' table created.');
 				resolve();
-			}).catch(function(err){
+			}).catch(function(err) {
 				console.log('Error:', err);
-			});
+			});;
 	});
 }
 
-function updateDbTableCSV() {
+function importDbTable(tableName) {
 	return new Promise((resolve, reject) => {
-		var table = alasql("SELECT * FROM User");
-		alasql.promise('SELECT * INTO CSV("test.csv", {headers:true}) FROM ?',[table])
-			.then(function(){
-				console.log('Data saved');
+		alasql.promise([
+			'CREATE TABLE ' + tableName + ' (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER, PRIMARY KEY(User_ID))',
+			'SELECT * INTO User FROM CSV("./db/' + tableName + '.csv", {headers:true})'
+		])
+			.then(function(data) {
+				console.log(data);
 				resolve();
-			}).catch(function(err){
+			}).catch(function(err) {
 				console.log('Error:', err);
-			});;
+			});
 	});
 }
 

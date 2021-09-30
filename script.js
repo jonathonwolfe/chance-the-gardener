@@ -362,3 +362,40 @@ function reloadDateTimeSelect(type) {
 	// Create new list.
 	createDateTimeSelect(type, user);
 }
+
+function updateDbTableCSV(tableName) {
+	return new Promise((resolve, reject) => {
+		var table = alasql("SELECT * FROM " + tableName);
+		alasql.promise('SELECT * INTO CSV("./db/' + tableName + '.csv", {headers:true}) FROM ?',[table])
+			.then(function() {
+				console.log('Data saved');
+				resolve();
+			}).catch(function(err) {
+				console.log('Error:', err);
+			});;
+	});
+}
+
+function getDbLength(tableName) {
+	return new Promise((resolve, reject) => {
+		alasql.promise('SELECT COUNT(*) FROM CSV("./db/' + tableName + '.csv", {headers:true})')
+			.then(function(data) {
+				resolve(data[0]["COUNT(*)"]);
+			}).catch(function(err) {
+				console.log('Error:', err);
+			});
+	});
+}
+
+// TODO: Delete later. Keeping for template.
+function dbQuery() {
+	alasql.promise('SELECT * FROM CSV("test.csv", {headers:true}) WHERE Email="***REMOVED***"')
+	.then(function(data) {
+		console.log('SQL Statement: SELECT * FROM User WHERE Email="***REMOVED***"');
+		console.log("Results:");
+		console.log(data);
+		resolve(data); 
+	}).catch(function(err) {
+		console.log('Error:', err);
+	});
+}
