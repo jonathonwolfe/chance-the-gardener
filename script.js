@@ -1,6 +1,7 @@
 const farmbot = require('farmbot');
 window.$ = window.jQuery = require('jquery');
 window.bootstrap = require('bootstrap');
+const alasql = require('alasql');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var gardenX=2700;
@@ -320,14 +321,15 @@ function formatDateTimeReadable(dateTime) {
 }
 
 async function dbGet(query){
-    return new Promise(function(resolve,reject){
+	return new Promise(function(resolve,reject){
 		const sqlite3 = require('sqlite3').verbose();
 		let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
-        db.get(query, function(err,rows){
-           if(err){return reject(err);}
-           resolve(rows);
-         });
-    });
+		db.get(query, function(err,rows){
+			if(err){return reject(err);}
+			db.close();
+			resolve(rows);
+		});
+	});
 }
 
 async function createUserSelect() {
