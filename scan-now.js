@@ -360,8 +360,11 @@ function createScan() {
 		label = "A" .. i
 		scanX(label, ${stepX})
 		starting_y = starting_y + ${stepQuality}
+		wait(5000)
+		collectgarbage()
 	end
 	send_message("info", "download images now")
+	wait(10000)
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
 
@@ -374,6 +377,7 @@ function createScan() {
 	else
 		send_message("info", "LED is OFF")
 	end
+	send_message("success", "Chance App done scanning farm")
 	`;
 	
 	device.on("logs", (log) => {
