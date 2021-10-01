@@ -22,15 +22,13 @@ $(document).ready(function() {
 
 const { Console } = require("console");
 
-// REMOVE VARIABLES ON RELEASE
-var lightPin = 7;
+// Remove Variable "VALUES" on Release!
 var deviceLightPinNo = 7;
-var stepQuality = 10; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
+var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
-var startingX = 520;
-var startingY = 50;
-var startingZ = -200;
+var startingX = 0;
+var startingY = 0;
 
 function testtest() {
 	// Elements for hiding/showing when scanning.
@@ -132,6 +130,7 @@ function createScanFolder() {
 
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
+	return new Promise((resolve, reject) => {
 	// Set the settings for the API request.
 	var settings = {
 		"url": "https://my.farm.bot/api/images",
@@ -147,6 +146,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 
 	// Access the response and save it to the variable
 	$.ajax(settings).done(async function (response) {
+		
 		savedResponse = response;
 		console.log(savedResponse[0]);
 
@@ -166,6 +166,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 		}
 	}).then(function(response){
 		resolve('Done dowloading images');
+	});
 	});
 	
 }
@@ -277,13 +278,13 @@ function createScan() {
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
 	backBtn = document.getElementsByClassName("btn-back")[0];
 	// Elements for grabbing scan settings.
-	const farmSizeXInput = document.getElementById("inputXAxis"),
-	farmSizeYInput = document.getElementById("inputYAxis"),
-	scanStartingZ = document.getElementById("inputStartingZ");
+	const farmSizeXInput = document.getElementById("inputXAxis").value,
+	farmSizeYInput = document.getElementById("inputYAxis").value,
+	scanStartingZ = document.getElementById("inputStartingZ").value;
 
 	// Create new soft limited lengths
-	var softLimitedDeviceXmax = parseInt(farmSizeXInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
-	var softLimitedDeviceYmax = parseInt(farmSizeYInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+	var softLimitedDeviceXmax = parseInt(farmSizeXInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+	var softLimitedDeviceYmax = parseInt(farmSizeYInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
 	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
 	stepX = Math.trunc((softLimitedDeviceXmax-startingX)/stepQuality);
@@ -376,8 +377,11 @@ function createScan() {
 		label = "A" .. i
 		scanX(label, ${stepX})
 		starting_y = starting_y + ${stepQuality}
+		wait(5000)
+		collectgarbage()
 	end
 	send_message("info", "download images now")
+	wait(10000)
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
 
@@ -390,6 +394,7 @@ function createScan() {
 	else
 		send_message("info", "LED is OFF")
 	end
+	send_message("success", "Chance App done scanning farm")
 	`;
 	
 	device.on("logs", (log) => {
