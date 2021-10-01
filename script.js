@@ -1,7 +1,9 @@
 const farmbot = require('farmbot');
 window.$ = window.jQuery = require('jquery');
 window.bootstrap = require('bootstrap');
-const alasql = require('alasql');
+const db = require('electron-db');
+const fs = require('fs');
+const path = require('path');
 
 // NO VALUES FOR THESE VARIABLES IN FINAL BUILD!!!
 var gardenX=2700;
@@ -103,7 +105,6 @@ function readCoordinates() {
 // Check current bot X Y Z
 function getPoints() {
 	const { Parser } = require('json2csv');
-	const fs = require('fs');
 
 	return new Promise((resolve, reject) => {
 		var settings = {
@@ -320,34 +321,16 @@ function formatDateTimeReadable(dateTime) {
 	return formattedDateTime;
 }
 
-async function dbGet(query){
-	return new Promise(function(resolve,reject){
-		const sqlite3 = require('sqlite3').verbose();
-		let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
-		db.get(query, function(err,rows){
-			if(err){return reject(err);}
-			db.close();
-			resolve(rows);
-		});
-	});
-}
-
 async function createUserSelect() {
-	// Get total number of users in the database.
-	const totalNumUsers = await getDbLength('User');
-
 	// Create an array of user IDs and their emails from the database.
-	var userIDList = [];
-	for (let i = 1; i <= totalNumUsers; i++) {
-		userIDList.push(await dbQuery('Email, User_ID', 'User', ' WHERE User_ID = ' + i));
-	}
-	
+	var userIDList = await getDbEntireTable('user');
+
 	// Add values to select list.
 	const selectList = document.getElementById("user-select");
 	for (let i = 0; i < userIDList.length; i++) {
 		let userOption = document.createElement("option");
-		userOption.textContent = userIDList[i][0].Email;
-		userOption.value = userIDList[i][0].User_ID;
+		userOption.textContent = userIDList[i].email;
+		userOption.value = userIDList[i].userId;
 		selectList.appendChild(userOption);
 	}
 }
@@ -362,41 +345,43 @@ function reloadDateTimeSelect(type) {
 	createDateTimeSelect(type, user);
 }
 
-function updateDbTableCSV(tableName) {
+async function addDbTableRow(tableName, rowObj) {
+	// Increment the ID.
+	const tableLength = await getDbTableSize(tableName),
+	newId = tableLength + 1,
+	idType = tableName + 'Id';
+	rowObj[idType] = newId;
+	
+	// Insert the new row.
+	const location = path.join(__dirname, 'db');
+	if (db.valid(tableName, location)) {
+		db.insertTableContent('user', location, rowObj, (succ, msg) => {
+			console.log("Success: " + succ);
+			console.log("Message: " + msg);
+		})
+	}
+}
+
+function getDbTableSize(tableName) {
 	return new Promise((resolve, reject) => {
-		var table = alasql("SELECT * FROM " + tableName);
-		alasql.promise('SELECT * INTO CSV("./db/' + tableName + '.csv", {headers:true}) FROM ?',[table])
-			.then(function() {
-				console.log('Data saved');
-				resolve();
-			}).catch(function(err) {
-				console.log('Error:', err);
-			});;
+		const location = path.join(__dirname, 'db');
+		db.count(tableName, location, (succ, data) => {
+			if (succ) {
+				resolve(data);
+			} else {
+				console.log('An error has occured.')
+				console.log(data)
+				reject(data);
+			}
+		})
 	});
 }
 
-function getDbLength(tableName) {
+function getDbEntireTable(tableName) {
 	return new Promise((resolve, reject) => {
-		alasql.promise('SELECT COUNT(*) FROM CSV("./db/' + tableName + '.csv", {headers:true})')
-			.then(function(data) {
-				resolve(data[0]["COUNT(*)"]);
-			}).catch(function(err) {
-				console.log('Error:', err);
-			});
-	});
-}
-
-// TODO: Delete later?
-function dbQuery(select, tableName, where) {
-	return new Promise(function(resolve,reject){
-		alasql.promise('SELECT '+ select +' FROM CSV("./db/'+ tableName +'.csv", {headers:true})'+ where)
-		.then(function(data) {
-			console.log('SQL Statement: ' + 'SELECT '+ select +' FROM CSV("./db/'+ tableName +'.csv", {headers:true})'+ where);
-			console.log("Results:");
-			console.log(data);
-			resolve(data); 
-		}).catch(function(err) {
-			console.log('Error:', err);
+		const location = path.join(__dirname, 'db');
+		db.getAll(tableName, location, (succ, data) => {
+			resolve(data);
 		});
 	});
 }

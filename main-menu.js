@@ -3,79 +3,54 @@ $(document).ready(async function() {
 });
 
 async function appStartUp() {
-	const fs = require('fs');
 	// Check if user database exists.
-	if (fs.existsSync('./db/User.csv')) {
+	if (fs.existsSync('./db/user.json')) {
 		// Check if there's actually data in it.
-		const userDbLength = await getDbLength('User');
+		const userDbLength = await getDbTableSize('user');
+		console.log('user db length:')
 		console.log(userDbLength);
 		if (userDbLength >= 1) {
 			await mainMenuStartUp();
 			await setWelcomeMsgName();
+		} else {
+			changePage('login.html');
 		}
 	} else {
 		// Fresh install, go to login and set up files.
-		// Check if database folder exists yet, and create if not.
-		if (!fs.existsSync('./db')) {
-			fs.mkdirSync('./db');
-		}
-		await createNewDb('Device', 'Device_ID INTEGER NOT NULL, Name TEXT, OS_Version TEXT, X_max REAL, Y_max REAL, Light_pin_num INTEGER, User_ID INTEGER, PRIMARY KEY(Device_ID)');
-		await createNewDb('Render', 'Render_ID INTEGER NOT NULL, DateTime TEXT NOT NULL, Folder_path TEXT NOT NULL, User_ID INTEGER NOT NULL, PRIMARY KEY(Render_ID)');
-		await createNewDb('Scan', 'Scan_ID INTEGER, DateTime TEXT, Folder_path TEXT, User_ID INTEGER, PRIMARY KEY(Scan_ID)');
-		await createNewDb('User', 'Email TEXT UNIQUE, Password TEXT, User_ID INTEGER, PRIMARY KEY(User_ID)');
+		setupDbFiles();
 
-		//await importDbTable();
-		//await addDbUser();
-		//await updateDbTableCSV();
+		/* TODO: Remove.
+		 * Test insert data to user
+		let obj = new Object();
+ 
+		obj.email = '***REMOVED***';
+		obj.password = '***REMOVED***';
+		
+		addDbTableRow('user', obj); */
 	}
 }
 
-function createNewDb(tableName, fields) {
-	return new Promise((resolve, reject) => {
-		var myDb = new alasql.Database();
-		myDb.exec('CREATE TABLE ' + tableName + ' ('+ fields + ')');
-		// TODO: Delete testing lines.
-//		myDb.exec('INSERT INTO ' + tableName + ' (Email, Password) VALUES ("***REMOVED***", "***REMOVED***");');
-//		myDb.exec('INSERT INTO ' + tableName + ' (Email, Password) VALUES ("notjon@email.com", "***REMOVED***");');
+function setupDbFiles() {
+	// Check if database folder exists yet, and create if not.
+	if (!fs.existsSync('./db')) {
+		fs.mkdirSync('./db');
+	}
 
-		var tableContent = myDb.exec('SELECT * FROM ' + tableName);
-		alasql.promise('SELECT * INTO CSV("./db/' + tableName + '.csv", {headers:true}) FROM ?',[tableContent])
-			.then(function() {
-				console.log(tableName + ' table created.');
-				resolve();
-			}).catch(function(err) {
-				console.log('Error:', err);
-			});;
-	});
+	// Create new db files.
+	createNewDbTable('device');
+	createNewDbTable('render');
+	createNewDbTable('scan');
+	createNewDbTable('user');
 }
 
-function importDbTable(tableName) {
-	return new Promise((resolve, reject) => {
-		alasql.promise([
-			'CREATE TABLE ' + tableName + ' (Email TEXT UNIQUE, Password TEXT, User_ID INTEGER, PRIMARY KEY(User_ID))',
-			'SELECT * INTO User FROM CSV("./db/' + tableName + '.csv", {headers:true})'
-		])
-			.then(function(data) {
-				console.log(data);
-				resolve();
-			}).catch(function(err) {
-				console.log('Error:', err);
-			});
-	});
-}
-
-function addDbUser() {
-	return new Promise((resolve, reject) => {
-		alasql.promise('SELECT * FROM User ORDER BY User_ID DESC LIMIT 1')
-			.then(function(data){
-				console.log(data);
-				var latestUserID = data[0].User_ID;
-				alasql('INSERT INTO User (Email, Password, User_ID) VALUES ("thirdjon@3mail.com", "***REMOVED***", '+ (latestUserID + 1) +');');
-				console.log(alasql("SELECT * FROM User"));
-				resolve();
-			}).catch(function(err){
-				console.log('Error:', err);
-			});
+function createNewDbTable(tableName) {
+	const location = path.join(__dirname, 'db');
+	db.createTable(tableName, location, (succ, msg) => {
+		if (succ) {
+			console.log(msg + 'JSON db created.')
+		} else {
+			console.log('An error has occured. ' + msg)
+		}
 	});
 }
 

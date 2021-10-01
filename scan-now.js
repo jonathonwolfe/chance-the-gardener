@@ -113,6 +113,7 @@ function createScanFolder() {
 
 // Downloads the x latest images on FarmBot system.
 function downloadImages(numberOfImagesToDownload, scanFolderPath) {
+	return new Promise((resolve, reject) => {
 	// Set the settings for the API request.
 	var settings = {
 		"url": "https://my.farm.bot/api/images",
@@ -148,7 +149,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 	}).then(function(response){
 		resolve('Done dowloading images');
 	});
-	
+});
 }
 
 function downloadSingleImage(savedResponse, scanFolderPath) {
@@ -191,7 +192,6 @@ function generateImageThumbnail(savedResponse, scanFolderPath) {
 
 function savePlantData(scanFolderPath) {
 	const { Parser } = require('json2csv');
-	const fs = require('fs');
 
 	return new Promise((resolve, reject) => {
 		var settings = {
@@ -260,7 +260,7 @@ function createScan() {
 	// Elements for grabbing scan settings.
 	const farmSizeXInput = document.getElementById("inputXAxis"),
 	farmSizeYInput = document.getElementById("inputYAxis"),
-	scanStartingZ = document.getElementById("inputStartingZ");
+	scanStartingZ = document.getElementById("inputStartingZ").value;
 
 	// Create new soft limited lengths
 	var softLimitedDeviceXmax = parseInt(farmSizeXInput.value) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails

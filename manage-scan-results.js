@@ -31,8 +31,7 @@ function getDeleteScanInfo() {
 }
 
 function deleteScan() {
-	const fs = require('fs'),
-	successToastEle = document.getElementById('delSuccessToast'),
+	const successToastEle = document.getElementById('delSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
