@@ -16,11 +16,10 @@ $(document).ready(function() {
 	myModal.addEventListener('shown.bs.modal', function () {
 		myInput.focus();
 	});
-
-	document.getElementById("inputStartingZ").value = "-200";
 });
 
-const { Console } = require("console");
+// TODO: Check if this is needed?
+//const { Console } = require("console");
 
 // Remove Variable "VALUES" on Release!
 var deviceLightPinNo = 7;
@@ -77,7 +76,7 @@ const sqlite3 = require('sqlite3').verbose();
 // Creates a scan folder for current user with date & time.
 function createScanFolder() {
 	// Get current user ID.
-	lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
 	// Get current date-time.
 	// Also adjust date/month for single digits.
 	let dateObj = new Date();
@@ -167,8 +166,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 	}).then(function(response){
 		resolve('Done dowloading images');
 	});
-	});
-	
+});
 }
 
 function downloadSingleImage(savedResponse, scanFolderPath) {
@@ -211,7 +209,6 @@ function generateImageThumbnail(savedResponse, scanFolderPath) {
 
 function savePlantData(scanFolderPath) {
 	const { Parser } = require('json2csv');
-	const fs = require('fs');
 
 	return new Promise((resolve, reject) => {
 		var settings = {
@@ -309,7 +306,7 @@ function createScan() {
 	// Get plant data.
 	savePlantData(scanFolderpath);
 
-	// TODO: Get farm size from db and save to CSV.
+	// Get current scan's farm size and save it in scan folder.
 	saveFarmSize(scanFolderpath);
 
 	// TODO: Save scan to database in the createScanFolder() function.
@@ -438,20 +435,23 @@ function createScan() {
 		});
 }
 
-function pageStartUp() {
+async function pageStartUp() {
+	// Check which user was last logged in.
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
+	// Get db data.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	devSettings = await getDbRowWhere('device', currentUserObj);
 	return new Promise((resolve, reject) => {
 		// Check if a session token was passed from the previous page.
 		sessionToken = window.location.hash.substring(1);
 
-		if (sessionToken == null || sessionToken == "") {
-			// If none found, generate new one.
-			// Check which user was last logged in.
-			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
 
-			// TODO: Get the user's credentials from db, using lastLoggedInUserID.
-			// For testing purposes, these are hard coded as Jonathon's.
-			let emailAdd = "***REMOVED***",
-			password = "***REMOVED***";
+		if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
+			// If none found, generate new one.
+			// Get the user's credentials from db, using lastLoggedInUserID.
+			const emailAdd = userCreds[0].email,
+			password = userCreds[0].password;
 
 			// Generate a session token for this user with the API.
 			var settings = {
@@ -478,13 +478,14 @@ function pageStartUp() {
 			setUserName();
 		}
 
-		// Pre-fill farm size.
-		
-		// TODO: Get farm size from database.
-		var dbXAxis, dbYAxis;
+		// Pre-fill scan settings form db.
+		const dbXAxis = devSettings[0].xMax,
+		dbYAxis = devSettings[0].yMax,
+		dbZHeight = devSettings[0].zScanHeight;
 
-		//farmSizeXInput.value = dbXAxis;
-		//farmSizeYInput.value = dbYAxis;
+		document.getElementById('inputXAxis').value = dbXAxis;
+		document.getElementById('inputYAxis').value = dbYAxis;
+		document.getElementById("inputStartingZ").value = dbZHeight;
 	});
 }
 

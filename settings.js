@@ -118,8 +118,7 @@ function getFarmSize(){
 }
 
 function clearMeshroomCache() {
-	const fs = require('fs'),
-	electron = require('electron'),
+	const electron = require('electron'),
 	successToastEle = document.getElementById('delSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('delFailToast'),
@@ -138,8 +137,8 @@ function clearMeshroomCache() {
 	}
 }
 
+/* TODO: Delete later???
 var device_id;
-const sqlite3 = require('sqlite3').verbose();
 function save() {
 	return new Promise((resolve, reject) => {
 
@@ -182,5 +181,5 @@ function save() {
 });		
 	});
 	});
-}
+} */
 

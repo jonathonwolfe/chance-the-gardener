@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(async function() {
 	getSessionToken();
 	loadFolderPhotos(localStorage.getItem('photosToView'));
 	createUserSelect();
@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// TODO: Test this further when user list from db is done.
 	// Set dropdown values to loaded photos.
 	const loadedScanFilepathSplit = localStorage.getItem('photosToView').split("/");
-	// document.getElementById("user-select").value = scanFilepathSplit[2];
+	// document.getElementById("user-select").value = loadedScanFilepathSplit[2];
 	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
 
 	initialisePhotoGallery();
@@ -196,8 +196,7 @@ function initialisePhotoGallery() {
 }
 
 function loadFolderPhotos(photosFolder) {
-	const fs = require('fs'),
-	sizeOf = require('image-size'),
+	const sizeOf = require('image-size'),
 	path = require('path'),
 	gallery = document.getElementById('plant-photos-gallery');
 
@@ -219,9 +218,9 @@ function loadFolderPhotos(photosFolder) {
 }
 
 function reloadPhotos () {
-	// TODO: Test this further when user list from db is done.
-	const user = 1,
-	//user = document.getElementById("date-time-select").value,
+	// TODO: Update this for new folder path later.
+	// When user or scan selection changes, load the new photos.
+	const user = document.getElementById("user-select").value,
 	dateTime = document.getElementById("date-time-select").value;
 
 	// Delete current photos.

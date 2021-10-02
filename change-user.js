@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 
 function setUserDetails() {
-	lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
 	let userName, emailAdd;
 	
 	// Get user details from database.

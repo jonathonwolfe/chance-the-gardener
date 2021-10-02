@@ -1,22 +1,72 @@
 $(document).ready(async function() {
-	await mainMenuStartUp();
-	await setWelcomeMsgName();
+	appStartUp();
 });
 
-function mainMenuStartUp() {
+async function appStartUp() {
+	// Check if user database exists.
+	if (fs.existsSync('./db/user.json')) {
+		// Check if there's actually data in it.
+		const userDbLength = await getDbTableSize('user');
+		if (userDbLength >= 1) {
+			await mainMenuStartUp();
+			await setWelcomeMsgName();
+		} else {
+			changePage('login.html');
+		}
+	} else {
+		// Fresh install, go to login and set up files.
+		setupDbFiles();
+
+		/* TODO: Remove.
+		 * Test insert data to user
+		let obj = new Object();
+ 
+		obj.email = '***REMOVED***';
+		obj.password = '***REMOVED***';
+		
+		addDbTableRow('user', obj); */
+	}
+}
+
+function setupDbFiles() {
+	// Check if database folder exists yet, and create if not.
+	if (!fs.existsSync('./db')) {
+		fs.mkdirSync('./db');
+	}
+
+	// Create new db files.
+	createNewDbTable('device');
+	createNewDbTable('render');
+	createNewDbTable('scan');
+	createNewDbTable('user');
+}
+
+function createNewDbTable(tableName) {
+	const location = path.join(__dirname, 'db');
+	db.createTable(tableName, location, (succ, msg) => {
+		if (succ) {
+			console.log(msg + 'JSON db created.')
+		} else {
+			console.log('An error has occured. ' + msg)
+		}
+	});
+}
+
+async function mainMenuStartUp() {
+	// Check which user was last logged in.
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
+	// Get db data.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	userCreds = await getDbRowWhere('user', currentUserObj);
 	return new Promise((resolve, reject) => {
 		// Check if a session token was passed from the previous page.
 		sessionToken = window.location.hash.substring(1);
 
 		if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 			// If none found, generate new one.
-			// Check which user was last logged in.
-			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
-
 			// Get the user's credentials from db, using the user ID.
-			// For testing purposes, these are hard coded as Jonathon's.
-			let emailAdd = "***REMOVED***",
-			password = "***REMOVED***";
+			const emailAdd = userCreds[0].email,
+			password = userCreds[0].password;
 
 			// Generate a session token for this user with the API.
 			var settings = {
