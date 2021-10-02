@@ -2,19 +2,20 @@ $(document).ready(function() {
 	
 });
 
+// TODO: Change these to single const obj if only used in one function.
 let emailAdd,
-password,
+pw,
 userID;
 
-// DELETE THIS FUNC IN FINAL BUILD!!!
+// TODO: DELETE THIS FUNC IN FINAL BUILD!!!
 function tempLogin() {
-	document.getElementById("email").value = "***REMOVED***";
-	document.getElementById("password").value = "***REMOVED***";
+	document.getElementById("emailInput").value = "***REMOVED***";
+	document.getElementById("passwordInput").value = "***REMOVED***";
 }
 
 function saveCredentials() {
-	emailAdd = document.getElementById("email").value;
-	password = document.getElementById("password").value;
+	emailAdd = document.getElementById("emailInput").value;
+	pw = document.getElementById("passwordInput").value;
 
 	// Check if there are other past users in the app.
 
@@ -25,22 +26,9 @@ function saveCredentials() {
 	// If merging, update the db entry with new credentials.
 
 	// If not merging, create new user in db.
-	let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
-
 	// Insert new user into table.
-	let sql = 'INSERT into User( Email, Password) values ("' + emailAdd + '", "' + password + '")';
-	// Output the INSERT statement
-	console.log(sql);
-
-	db.run(sql, function(err) {
-	if (err) {
-		return console.error(err.message);
-	}
-	console.log(`Rows inserted ${this.changes}`);
-	});
-
-	// Close the database connection.
-	db.close();
+	const userCreds = {email: emailAdd, password: pw}
+	addDbTableRow('user', userCreds);
 
 	// Generate a session token for this user with the API.
 	var settings = {
@@ -53,7 +41,7 @@ function saveCredentials() {
 		"data": JSON.stringify({
 			"user": {
 				"email": emailAdd,
-				"password": password
+				"password": pw
 			}
 		}),
 	};

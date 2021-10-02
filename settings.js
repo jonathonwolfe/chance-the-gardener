@@ -137,8 +137,8 @@ function clearMeshroomCache() {
 	}
 }
 
+/* TODO: Delete later???
 var device_id;
-const sqlite3 = require('sqlite3').verbose();
 function save() {
 	return new Promise((resolve, reject) => {
 
@@ -181,5 +181,5 @@ function save() {
 });		
 	});
 	});
-}
+} */
 
