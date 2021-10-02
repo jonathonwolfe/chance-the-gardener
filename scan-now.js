@@ -21,7 +21,7 @@ $(document).ready(function() {
 // TODO: Check if this is needed?
 //const { Console } = require("console");
 
-// Remove Variable "VALUES" on Release!
+// TODO: Remove Variable "VALUES" on Release!
 var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
@@ -29,7 +29,7 @@ var stepY;
 var startingX = 0;
 var startingY = 0;
 
-function testtest() {
+async function testtest() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
@@ -38,7 +38,7 @@ function testtest() {
 	backBtn = document.getElementsByClassName("btn-back")[0];
 
 	// Create folder and get folderpath.
-	const folderPaths = createScanFolder();
+	const folderPaths = await createScanFolder();
 
 	// Get plant data.
 	savePlantData(folderPaths[0]);
@@ -73,18 +73,22 @@ function testtest() {
 }
 
 // Creates a scan folder for current user with date & time.
-function createScanFolder() {
+async function createScanFolder() {
 	// Get current user ID.
 	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
+	// Get user's email.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email;
 	// Get current date-time.
+	// TODO: Convert this to moment.js.
 	// Also adjust date/month for single digits.
 	let dateObj = new Date();
 	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + " " + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
 
-	// TODO: convert userid to email here.
 	// Create folders with current date-time.
-	const scanDir = "./scans/" + lastLoggedInUserID + "/" + currentDateTime,
-	thumbsDir = "./thumbs/" + lastLoggedInUserID + "/" + currentDateTime;
+	const scanDir = "./scans/" + emailAdd + "/" + currentDateTime,
+	thumbsDir = "./thumbs/" + emailAdd + "/" + currentDateTime;
 
 	// Check if scans folder exists yet, and create if not.
 	if (!fs.existsSync("./scans")) {
@@ -92,8 +96,8 @@ function createScanFolder() {
 	}
 
 	// Check if user's scans folder exists yet, and create if not.
-	if (!fs.existsSync("./scans/" + lastLoggedInUserID)) {
-		fs.mkdirSync("./scans/" + lastLoggedInUserID);
+	if (!fs.existsSync("./scans/" + emailAdd)) {
+		fs.mkdirSync("./scans/" + emailAdd);
 	}
 
 	// Create the date-time scan folder.
@@ -101,15 +105,14 @@ function createScanFolder() {
 		fs.mkdirSync(scanDir);
 	}
 	
-	// TODO: Issue #22: move scan thumbs folder to its own.
 	// Check if thumbs folder exists yet, and create if not.
-	if (!fs.existsSync("/thumbs")) {
+	if (!fs.existsSync("./thumbs")) {
 		fs.mkdirSync("./thumbs");
 	}
 
 	// Check if user's thumbs folder exists yet, and create if not.
-	if (!fs.existsSync("./thumbs/" + lastLoggedInUserID)) {
-		fs.mkdirSync("./thumbs/" + lastLoggedInUserID);
+	if (!fs.existsSync("./thumbs/" + emailAdd)) {
+		fs.mkdirSync("./thumbs/" + emailAdd);
 	}
 
 	// Create the date-time thumbs folder.
@@ -265,7 +268,7 @@ function saveFarmSize(scanFolderPath) {
 		});
 }
 
-function createScan() {
+async function createScan() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
@@ -299,7 +302,7 @@ function createScan() {
 	loadingSpinner.classList.remove("d-none");
 
 	// Create folder and get folderpath.
-	const folderPaths = createScanFolder();
+	const folderPaths = await createScanFolder();
 
 	// Get plant data.
 	savePlantData(folderPaths[0]);
@@ -444,7 +447,6 @@ async function pageStartUp() {
 		// Check if a session token was passed from the previous page.
 		sessionToken = window.location.hash.substring(1);
 
-
 		if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 			// If none found, generate new one.
 			// Get the user's credentials from db, using lastLoggedInUserID.
@@ -487,7 +489,6 @@ async function pageStartUp() {
 	});
 }
 
-// TODO: Change this to the updated version in change-user when it uses db.
 function setUserName() {
 	return new Promise((resolve, reject) => {
 		var settings = {

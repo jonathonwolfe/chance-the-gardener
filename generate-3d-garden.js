@@ -1,5 +1,5 @@
 $(document).ready(function() {
 	getSessionToken();
 	createUserSelect();
-	createDateTimeSelect("scans", localStorage.getItem('lastLoginUserID'));
+	createDateTimeSelect("scans", parseInt(localStorage.getItem('lastLoginUserID')));
 });

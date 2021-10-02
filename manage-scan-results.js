@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(async function() {
 	getSessionToken();
 	createUserSelect();
-	createDateTimeSelect("scans", localStorage.getItem('lastLoginUserID'));
+	await createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// Load modal.
 	var myModal = document.getElementById('delete-scan-modal');
@@ -51,12 +51,17 @@ function deleteScan() {
 	}
 }
 
-function loadPhotoViewer() {
+async function loadPhotoViewer() {
 	// TODO: change scan user to email from db.
 	// Get the scan folder.
-	scanUser = document.getElementById('user-select').value,
-	scanDateTime = document.getElementById('date-time-select').value;
-	const folderPaths = [("./scans/" + scanUser + "/" + scanDateTime), ("./thumbs/" + scanUser + "/" + scanDateTime)];
+	const scanDateTime = document.getElementById('date-time-select').value;
+	// Get user's email from db.
+	const selectedUserId = parseInt(document.getElementById('user-select').value),
+	currentUserObj = {userId: selectedUserId},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email;
+
+	const folderPaths = [("./scans/" + emailAdd + "/" + scanDateTime), ("./thumbs/" + emailAdd + "/" + scanDateTime)];
 
 	// Store which folder to view.
 	localStorage.setItem("photosToView", JSON.stringify(folderPaths));

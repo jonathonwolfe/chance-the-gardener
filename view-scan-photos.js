@@ -1,8 +1,8 @@
 $(document).ready(async function() {
 	getSessionToken();
-	loadFolderPhotos(JSON.parse(localStorage.getItem("photosToView")));
+	loadFolderPhotos(JSON.parse(localStorage.getItem('photosToView')));
 	createUserSelect();
-	createDateTimeSelect("scans", localStorage.getItem('lastLoginUserID'));
+	createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// TODO: Test this further when user list from db is done.
 	// TODO: Change this to email not user id later.
@@ -217,15 +217,26 @@ function loadFolderPhotos(folders) {
 	}
 }
 
-function reloadPhotos () {
+async function reloadPhotos () {
 	// TODO: Update this for new folder path later.
 	// When user or scan selection changes, load the new photos.
-	const user = document.getElementById("user-select").value,
-	dateTime = document.getElementById("date-time-select").value;
+	const user = parseInt(document.getElementById("user-select").value),
+	dateTime = document.getElementById("date-time-select").value,
+	// Get user's email from db.
+	currentUserObj = {userId: user},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email,
+	folders = ["./scans/" + emailAdd + "/" + dateTime, "./thumbs/" + emailAdd + "/" + dateTime];
 
 	// Delete current photos.
 	document.getElementById("plant-photos-gallery").innerHTML = "";
 
-	// Load new photos.
-	loadFolderPhotos("./scans/" + user + "/" + dateTime);
+	// Check if this user actually has photos to view.
+	if (fs.existsSync("./scans/" + emailAdd)) {
+		// Load new photos.
+		loadFolderPhotos(folders);
+	} else {
+		// TODO: Error.
+	}
+	
 }
