@@ -19,8 +19,7 @@ $(document).ready(function() {
 });
 
 let scanUser,
-scanDateTime,
-folderPath;
+scanDateTime;
 
 function getDeleteScanInfo() {
 	scanUser = document.getElementById('user-select').value,
@@ -36,7 +35,7 @@ function deleteScan() {
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
-	folderPath = "./scans/" + scanUser + "/" + scanDateTime;
+	let folderPath = "./scans/" + scanUser + "/" + scanDateTime;
 
 	// TODO: Test this when getting user lists from db is done.
 	// Delete scan folder.
@@ -53,15 +52,14 @@ function deleteScan() {
 }
 
 function loadPhotoViewer() {
-	// TODO: Test this when getting user lists from db is done.
+	// TODO: change scan user to email from db.
 	// Get the scan folder.
-	//scanUser = document.getElementById('user-select').value,
-	scanUser = "1";
+	scanUser = document.getElementById('user-select').value,
 	scanDateTime = document.getElementById('date-time-select').value;
-	folderPath = "./scans/" + scanUser + "/" + scanDateTime;
+	const folderPaths = [("./scans/" + scanUser + "/" + scanDateTime), ("./thumbs/" + scanUser + "/" + scanDateTime)];
 
 	// Store which folder to view.
-	localStorage.setItem('photosToView', folderPath);
+	localStorage.setItem("photosToView", JSON.stringify(folderPaths));
 
 	changePage("view-scan-photos.html");
 }

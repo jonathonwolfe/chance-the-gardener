@@ -1,12 +1,13 @@
 $(document).ready(async function() {
 	getSessionToken();
-	loadFolderPhotos(localStorage.getItem('photosToView'));
+	loadFolderPhotos(JSON.parse(localStorage.getItem("photosToView")));
 	createUserSelect();
 	createDateTimeSelect("scans", localStorage.getItem('lastLoginUserID'));
 
 	// TODO: Test this further when user list from db is done.
+	// TODO: Change this to email not user id later.
 	// Set dropdown values to loaded photos.
-	const loadedScanFilepathSplit = localStorage.getItem('photosToView').split("/");
+	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split("/");
 	// document.getElementById("user-select").value = loadedScanFilepathSplit[2];
 	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
 
@@ -195,23 +196,22 @@ function initialisePhotoGallery() {
 	initPhotoSwipeFromDOM('.my-gallery');
 }
 
-function loadFolderPhotos(photosFolder) {
+function loadFolderPhotos(folders) {
 	const sizeOf = require('image-size'),
-	path = require('path'),
 	gallery = document.getElementById('plant-photos-gallery');
 
 	// Load each image into the page.
-	const files = fs.readdirSync(photosFolder);
+	const files = fs.readdirSync(folders[0]);
 
 	for (const file of files) {
 		if (path.extname(file) === ".jpg") {
 			// Get image dimension.
-			const imagePath = photosFolder + "/" + file,
+			const imagePath = folders[0] + "/" + file,
 			dimensions = sizeOf(imagePath);
 			// Create the image elements.
 			let imgEle = document.createElement("figure");
 			imgEle.setAttribute("class", "col-1");
-			imgEle.innerHTML = '<a href="'+ imagePath.substring(2) + '" data-size="' + dimensions.width + 'x' + dimensions.height + '"><img class="mw-100" src="' + photosFolder.substring(2) + "/thumbs/" + file + '"/></a>';
+			imgEle.innerHTML = '<a href="'+ imagePath.substring(2) + '" data-size="' + dimensions.width + 'x' + dimensions.height + '"><img class="mw-100" src="' + folders[1] + '/' + file + '"/></a>';
 			gallery.appendChild(imgEle);
 		}
 	}
