@@ -7,8 +7,6 @@ async function appStartUp() {
 	if (fs.existsSync('./db/user.json')) {
 		// Check if there's actually data in it.
 		const userDbLength = await getDbTableSize('user');
-		console.log('user db length:')
-		console.log(userDbLength);
 		if (userDbLength >= 1) {
 			await mainMenuStartUp();
 			await setWelcomeMsgName();
@@ -54,20 +52,21 @@ function createNewDbTable(tableName) {
 	});
 }
 
-function mainMenuStartUp() {
+async function mainMenuStartUp() {
+	// Check which user was last logged in.
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
+	// Get db data.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	userCreds = await getDbRowWhere('user', currentUserObj);
 	return new Promise((resolve, reject) => {
 		// Check if a session token was passed from the previous page.
 		sessionToken = window.location.hash.substring(1);
 
 		if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 			// If none found, generate new one.
-			// Check which user was last logged in.
-			lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
-
 			// Get the user's credentials from db, using the user ID.
-			// For testing purposes, these are hard coded as Jonathon's.
-			let emailAdd = "***REMOVED***",
-			password = "***REMOVED***";
+			const emailAdd = userCreds[0].email,
+			password = userCreds[0].password;
 
 			// Generate a session token for this user with the API.
 			var settings = {

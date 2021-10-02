@@ -12,14 +12,15 @@ var gardenY=1200;
 let lastLoggedInUserID,
 sessionToken;
 
-function loadLastUser() {
+async function loadLastUser() {
 	// Check which user was last logged in.
-	lastLoggedInUserID = localStorage.getItem('lastLoginUserID');
+	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
 
-	// TODO: Get the user's credentials from db, using the user ID.
-	// For testing purposes, these are hard coded as Jonathon's.
-	let emailAdd = "***REMOVED***",
-	password = "***REMOVED***";
+	// Get the user's credentials from db, using the user ID.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email,
+	password = userCreds[0].password;
 
 	// Generate a session token for this user with the API.
 	var settings = {
@@ -364,13 +365,14 @@ async function addDbTableRow(tableName, rowObj) {
 
 function getDbTableSize(tableName) {
 	return new Promise((resolve, reject) => {
+		// Returns the length of a table as an integer.
 		const location = path.join(__dirname, 'db');
 		db.count(tableName, location, (succ, data) => {
 			if (succ) {
 				resolve(data);
 			} else {
-				console.log('An error has occured.')
-				console.log(data)
+				console.log('An error has occured.');
+				console.log(data);
 				reject(data);
 			}
 		})
@@ -379,9 +381,27 @@ function getDbTableSize(tableName) {
 
 function getDbEntireTable(tableName) {
 	return new Promise((resolve, reject) => {
+		// Returns an array of the entire table.
 		const location = path.join(__dirname, 'db');
 		db.getAll(tableName, location, (succ, data) => {
 			resolve(data);
 		});
 	});
+}
+
+function getDbRowWhere(tableName, where) {
+	return new Promise((resolve, reject) => {
+		// "where" is an object of values to match.
+		const location = path.join(__dirname, 'db');
+		db.getRows(tableName, location, where, (succ, result) => {
+			if (succ) {
+				// Returns an array of matching row objects.
+				resolve(result);
+			} else {
+				console.log('An error has occured.');
+				console.log(result);
+				reject(result);
+			}
+		})
+	});	
 }
