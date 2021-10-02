@@ -40,7 +40,6 @@ function deleteScan() {
 
 	// TODO: Test this when getting user lists from db is done.
 	// Delete scan folder.
-	//const fs = require("fs");
 	//fs.rmdirSync(folderPath, { recursive: true });
 
 	// Check if deleted and notify user on results.

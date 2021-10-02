@@ -106,8 +106,6 @@ function sendLogMessage() {
 // Start rendering a set of images to create a 3D model
 function createRenders() {
 	// Check if renders folder exists yet, and create if not.
-	const fs = require("fs");
-
 	if (!fs.existsSync("./renders")) {
 		fs.mkdirSync("./renders");
 	}

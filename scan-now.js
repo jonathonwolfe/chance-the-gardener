@@ -38,10 +38,10 @@ function testtest() {
 	backBtn = document.getElementsByClassName("btn-back")[0];
 
 	// Create folder and get folderpath.
-	const scanFolderpath = createScanFolder();
+	const folderPaths = createScanFolder();
 
 	// Get plant data.
-	savePlantData(scanFolderpath);
+	savePlantData(folderPaths[0]);
 
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
@@ -59,7 +59,7 @@ function testtest() {
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFolderpathSplit = scanFolderpath.split("/");
+	const scanFolderpathSplit = folderPaths[0].split("/");
 	const dateTimeFolName = scanFolderpathSplit[3];
 
 	// Show date-time of current scan.
@@ -67,12 +67,11 @@ function testtest() {
 	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
 
 	// Download images.
-	downloadImages(5, scanFolderpath);
+	downloadImages(5, folderPaths[0], folderPaths[1]);
 
-	saveFarmSize(scanFolderpath);
+	saveFarmSize(folderPaths[0]);
 }
 
-const sqlite3 = require('sqlite3').verbose();
 // Creates a scan folder for current user with date & time.
 function createScanFolder() {
 	// Get current user ID.
@@ -82,39 +81,50 @@ function createScanFolder() {
 	let dateObj = new Date();
 	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + " " + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
 
-	// Create folder with current date-time.
-	const fs = require("fs");
-	let dir = "./scans/" + lastLoggedInUserID + "/" + currentDateTime;
+	// TODO: convert userid to email here.
+	// Create folders with current date-time.
+	const scanDir = "./scans/" + lastLoggedInUserID + "/" + currentDateTime,
+	thumbsDir = "./thumbs/" + lastLoggedInUserID + "/" + currentDateTime;
 
 	// Check if scans folder exists yet, and create if not.
 	if (!fs.existsSync("./scans")) {
 		fs.mkdirSync("./scans");
 	}
 
-	// Check if user's scan folder exists yet, and create if not.
+	// Check if user's scans folder exists yet, and create if not.
 	if (!fs.existsSync("./scans/" + lastLoggedInUserID)) {
 		fs.mkdirSync("./scans/" + lastLoggedInUserID);
 	}
 
-	// Create the date-time folder.
-	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir);
+	// Create the date-time scan folder.
+	if (!fs.existsSync(scanDir)) {
+		fs.mkdirSync(scanDir);
 	}
 	
 	// TODO: Issue #22: move scan thumbs folder to its own.
-	// Create a thumbnail folder.
-	if (!fs.existsSync(dir + "/thumbs")) {
-		fs.mkdirSync(dir + "/thumbs");
+	// Check if thumbs folder exists yet, and create if not.
+	if (!fs.existsSync("/thumbs")) {
+		fs.mkdirSync("./thumbs");
+	}
+
+	// Check if user's thumbs folder exists yet, and create if not.
+	if (!fs.existsSync("./thumbs/" + lastLoggedInUserID)) {
+		fs.mkdirSync("./thumbs/" + lastLoggedInUserID);
+	}
+
+	// Create the date-time thumbs folder.
+	if (!fs.existsSync(thumbsDir)) {
+		fs.mkdirSync(thumbsDir);
 	}
 
 	// TODO: Create db entry for scan.
 
-	// Send back name and location of new folder.
-	return dir;
+	// Send back name and location of new scan folder.
+	return [scanDir, thumbsDir];
 }
 
 // Downloads the x latest images on FarmBot system.
-function downloadImages(numberOfImagesToDownload, scanFolderPath) {
+function downloadImages(numberOfImagesToDownload, scanFolderPath, thumbsFolderPath) {
 	return new Promise((resolve, reject) => {
 	// Set the settings for the API request.
 	var settings = {
@@ -145,7 +155,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 			await downloadSingleImage(savedResponse[i], scanFolderPath);
 
 			// Create thumbnail.
-			await generateImageThumbnail(savedResponse[i], scanFolderPath);
+			await generateImageThumbnail(savedResponse[i], scanFolderPath, thumbsFolderPath);
 
 			i += 1;
 		}
@@ -156,6 +166,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath) {
 }
 
 function downloadSingleImage(savedResponse, scanFolderPath) {
+	// Download one image to scan folder.
 	return new Promise((resolve, reject) => {
 		const download = require('image-downloader'),
 		options = {
@@ -172,17 +183,18 @@ function downloadSingleImage(savedResponse, scanFolderPath) {
 	});
 }
 
-function generateImageThumbnail(savedResponse, scanFolderPath) {
+function generateImageThumbnail(savedResponse, scanFolderPath, thumbsFolderPath) {
+	// Create thumbnail from given image.
 	return new Promise((resolve, reject) => {
 		const sharp = require('sharp'),
 		fs = require('fs');
 
 		fs.readFile(scanFolderPath + "/" + savedResponse.id + ".jpg", (err, img) => {
 			if (err) throw err;
-			if (!fs.existsSync(scanFolderPath + "/thumbs/" + savedResponse.id + ".jpg")) {
+			if (!fs.existsSync(thumbsFolderPath + "/" + savedResponse.id + ".jpg")) {
 				sharp(img)
 				.resize({ width: 100 })
-				.toFile(scanFolderPath + "/thumbs/" + savedResponse.id + ".jpg")
+				.toFile(thumbsFolderPath + "/" + savedResponse.id + ".jpg")
 				.then(data => { 
 					console.log(data);
 					resolve(); 
@@ -249,7 +261,7 @@ function saveFarmSize(scanFolderPath) {
 	
 	csvWriter.writeRecords(records)
 		.then(() => {
-			console.log('...Done');
+			console.log('Farm size saved to folder.');
 		});
 }
 
@@ -287,18 +299,18 @@ function createScan() {
 	loadingSpinner.classList.remove("d-none");
 
 	// Create folder and get folderpath.
-	const scanFolderpath = createScanFolder();
+	const folderPaths = createScanFolder();
 
 	// Get plant data.
-	savePlantData(scanFolderpath);
+	savePlantData(folderPaths[0]);
 
 	// Get current scan's farm size and save it in scan folder.
-	saveFarmSize(scanFolderpath);
+	saveFarmSize(folderPaths[0]);
 
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFolderpathSplit = scanFolderpath.split("/");
+	const scanFolderpathSplit = folderPaths[0].split("/");
 	const dateTimeFolName = scanFolderpathSplit[3];
 
 	// Show date-time of current scan.
@@ -385,7 +397,7 @@ function createScan() {
 		logNumber++;
 		if (log.message == "download images now") {
 			// Download images from API
-			downloadImages(98, scanFolderpath);
+			downloadImages(98, folderPaths[0], folderPaths[1]);
 			// Maybe delete old images
 			// Move bot to next row (A1, A2, etc..)
 			console.log("Download images now...");
@@ -520,7 +532,6 @@ function cancelScan() {
 	// Get scan location from database.
 
 	// Delete scan folder.
-	//const fs = require("fs");
 	//fs.rmdirSync(folderPathFromDb, { recursive: true });
 
 	// Delete scan entry in database.
