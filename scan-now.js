@@ -86,23 +86,6 @@ function createScanFolder() {
 	const fs = require("fs");
 	let dir = "./scans/" + lastLoggedInUserID + "/" + currentDateTime;
 
-	
-	let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
-	let sql = 'SELECT userID FROM value_holder WHERE id =(select max(id) from value_holder)';
-	db.get(sql, function(err,row) {
-	if (err) {
-		return console.error(err.message);
-	}
-	userID=row.userID;
-	console.log(userID);
-	let sql = 'INSERT into Scan (DateTime, Folder_path,user_id) values  ("' +currentDateTime+'" ,"'+ dir+'","'+user_id+'")';
-	db.run(sql, function(err) {
-		if (err) {
-			return console.error(err.message);
-		}
-		});
-	
-
 	// Check if scans folder exists yet, and create if not.
 	if (!fs.existsSync("./scans")) {
 		fs.mkdirSync("./scans");
@@ -117,11 +100,14 @@ function createScanFolder() {
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
 	}
-
+	
+	// TODO: Issue #22: move scan thumbs folder to its own.
 	// Create a thumbnail folder.
 	if (!fs.existsSync(dir + "/thumbs")) {
 		fs.mkdirSync(dir + "/thumbs");
 	}
+
+	// TODO: Create db entry for scan.
 
 	// Send back name and location of new folder.
 	return dir;
