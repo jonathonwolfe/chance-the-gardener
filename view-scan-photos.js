@@ -2,20 +2,26 @@ $(document).ready(async function() {
 	getSessionToken();
 	loadFolderPhotos(JSON.parse(localStorage.getItem('photosToView')));
 	createUserSelect();
-	createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// Set dropdown values to loaded photos.
+	// Find user ID of current scan's user email.
 	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split("/"),
-	userIdToLoad = loadedScanFilepathSplit[2];
-	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
+	userEmailToLoad = loadedScanFilepathSplit[2],
+	userToLoadObj = {email: userEmailToLoad},
+	loadedUserDetails = await getDbRowWhere('user', userToLoadObj);
 	$(function() {
 		$('#user-select').find('option').filter(function() {
-			return this.innerHTML == userIdToLoad;
+			return this.innerHTML == userEmailToLoad;
 		}).attr("selected", true);
-	})
+	});
+	
+	await createDateTimeSelect('scans', loadedUserDetails[0].userId);
+	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
 
 	initialisePhotoGallery();
 });
+
+var testV;
 
 function initialisePhotoGallery() {
 	var initPhotoSwipeFromDOM = function(gallerySelector) {

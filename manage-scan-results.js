@@ -52,7 +52,6 @@ function deleteScan() {
 }
 
 async function loadPhotoViewer() {
-	// TODO: change scan user to email from db.
 	// Get the scan folder.
 	const scanDateTime = document.getElementById('date-time-select').value;
 	// Get user's email from db.
@@ -69,7 +68,19 @@ async function loadPhotoViewer() {
 	changePage("view-scan-photos.html");
 }
 
-function loadPlantDataViewer() {
+async function loadPlantDataViewer() {
+	// Get the scan folder.
+	const scanDateTime = document.getElementById('date-time-select').value;
+	// Get user's email from db.
+	const selectedUserId = parseInt(document.getElementById('user-select').value),
+	currentUserObj = {userId: selectedUserId},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email;
+
+	const folderPath = "./scans/" + emailAdd + "/" + scanDateTime;
+
+	// Store which folder to view.
+	localStorage.setItem("plantDataToView", JSON.stringify(folderPath));
 
 	changePage("view-scan-plant-data.html");
 }
