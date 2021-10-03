@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - View Scan Plant Data</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./view-scan-plant-data.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="d-flex mt-2 mb-3 w-100">
+			<button class="btn btn-back me-auto" onclick="changePage('manage-scan-results.html')">Back</button>
+			<label class="p-2 fw-bold" for="user-picker" >User:</label>
+			<select class="p-2 me-5" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans', this.value);reloadPhotos()">
+			</select>
+			<label class="p-2 fw-bold" for="date-time-picker" >Scan date & time:</label>
+			<select class="p-2" name="date-time-picker" id="date-time-select" onchange="reloadPhotos()">
+			</select>
+		</div>
+		<div>
+			<table id="plant-data-table" class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Age</th>
+						<th scope="col">X Position</th>
+						<th scope="col">Y Position</th>
+						<th scope="col">Z Position</th>
+						<th scope="col">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</body>
+</html>
