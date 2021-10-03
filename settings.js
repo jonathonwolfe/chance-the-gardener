@@ -1,5 +1,6 @@
-$(document).ready(function() {
+$(document).ready(async function() {
 	getSessionToken();
+	await getCurrentSettings();
 
 	// Activate tooltips.
 	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -14,29 +15,48 @@ $(document).ready(function() {
 	});
 });
 
-var lightPin;
-var deviceXmax, deviceYmax;
+var currentUserId;
+
+async function getCurrentSettings() {
+	// Get user's settings from db.
+	currentUserId = parseInt(localStorage.getItem('lastLoginUserID'));
+	const currentUserObj = {userId: currentUserId},
+	userCreds = await getDbRowWhere('device', currentUserObj),
+	xMax = userCreds[0].xMax,
+	yMax = userCreds[0].yMax,
+	lightPinNum = userCreds[0].lightPinNum,
+	zScanHeight = userCreds[0].zScanHeight;
+
+	// Set inputs to these values.
+	document.getElementById("inputXAxis").value = xMax;
+	document.getElementById("inputYAxis").value = yMax;
+	document.getElementById("inputLightPinNum").value = lightPinNum;
+	document.getElementById("inputZScanHeight").value = zScanHeight;
+}
+
+function enableSaveBtn() {
+	document.getElementById("save-settings-btn").removeAttribute("disabled");
+}
 
 async function autoDetectFarmDetails() {
 	const farmSizeXInput = document.getElementById("inputXAxis"),
 	farmSizeYInput = document.getElementById("inputYAxis"),
-	lightPinInput = document.getElementById("inputLightPinNum"),
-	successToastEle = document.getElementById('autoDetectSuccessToast'),
-	successToast = bootstrap.Toast.getInstance(successToastEle);
+	lightPinInput = document.getElementById("inputLightPinNum");
 
 	// Get the farm details.
-	await getFarmSize();
-	await findLightPin();
-
-	// TODO: Save to database new values.
+	const farmSize = await getFarmSize(),
+	lightPin = await findLightPin();
 
 	// Update form with new values.
-	farmSizeXInput.value = deviceXmax;
-	farmSizeYInput.value = deviceYmax;
+	farmSizeXInput.value = farmSize[0];
+	farmSizeYInput.value = farmSize[1];
 	lightPinInput.value = lightPin;
 
-	// Notify user.
-	successToast.show();
+	// Save to database new values.
+	saveSettings();
+
+	// Disable save button again if it isn't already.
+	document.getElementById("save-settings-btn").setAttribute("disabled", "");
 }
 
 // Find the PIN that has LIGHTING
@@ -60,7 +80,6 @@ function findLightPin() {
 		for (let i = 0; i < response.length; i++) {
 			if (response[i].label == "Lighting"){
 				console.log("Found Light on PIN " + response[i].pin);
-				lightPin = response[i].pin;
 				resolve(response[i].pin);
 			}
 		}
@@ -69,7 +88,8 @@ function findLightPin() {
 	});
 }
 
-function getFarmSize(){
+function getFarmSize() {
+	// Return an array with the current user's farm size.
 	return new Promise((resolve, reject) => {
 	var device = new farmbot.Farmbot({ token: sessionToken });
 	
@@ -96,7 +116,7 @@ function getFarmSize(){
 			deviceXmax = parseFloat(myArr[1]); 
 			deviceYmax = parseFloat(myArr[2]);
 			console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
-			resolve(deviceXmax + "," + deviceYmax);
+			resolve([deviceXmax, deviceYmax]);
 		}
 	});
 	
@@ -137,49 +157,28 @@ function clearMeshroomCache() {
 	}
 }
 
-/* TODO: Delete later???
-var device_id;
-function save() {
-	return new Promise((resolve, reject) => {
+async function saveSettings() {
+	const successToastEle = document.getElementById('autoDetectSuccessToast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle);
+	// Get the values to save.
+	const farmSizeX = document.getElementById("inputXAxis").value,
+	farmSizeY = document.getElementById("inputYAxis").value,
+	lightPin = document.getElementById("inputLightPinNum").value,
+	zHeight = document.getElementById("inputZScanHeight").value;
 
-	var settings = {
-		"url": "https://my.farmbot.io/api/device",
-		"method": "GET",
-		"timeout": 0,
-		"headers": {
-			"Authorization": "Bearer " + sessionToken,
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json"
-		},
+	// Save them to db.
+	const currentUserObj = {userId: currentUserId},
+	newValuesObj = {
+		xMax: farmSizeX,
+		yMax: farmSizeY,
+		lightPinNum: lightPin,
+		zScanHeight: zHeight
 	};
+	await updateDbRowWhere('device', currentUserObj, newValuesObj);
 
-	$.ajax(settings).done(function (response) {
-		device_id=response.id;
-		device_name=response.name;
-		OS_Version = response.fbos_version;
+	// Disable save button again.
+	document.getElementById("save-settings-btn").setAttribute("disabled", "");
 
-		deviceXmax = document.getElementById("inputXAxis").value;
-		deviceYmax = document.getElementById("inputYAxis").value;
-		lightPin = document.getElementById("inputLightPinNum").value;
-		console.log(device_id,device_name,OS_Version,deviceXmax,deviceYmax,lightPin);
-
-
-		let db = new sqlite3.Database('./database/Chance_the_Gardener.db');
-		let sql_select_2 = 'SELECT userID FROM value_holder WHERE id =(select max(id) from value_holder)';
-		db.get(sql_select_2, function(err,row) {
-		if (err) {
-			return console.error(err.message);
-		}
-		userID=row.userID;
-		console.log(userID);
-		let sql = 'INSERT into Device_Settings ( device_id, Name, OS_Version,"x-max","y-max",light_pin_num,user_id) values  ('+device_id+',"' +device_name+'" ,"'+ OS_Version+'","'+deviceXmax+'","'+deviceYmax+'","'+lightPin+'",'+userID+')';
-		db.run(sql, function(err) {
-			if (err) {
-				return console.error(err.message);
-			}
-			});
-});		
-	});
-	});
-} */
-
+	// Notify user.
+	successToast.show();
+}

@@ -293,3 +293,20 @@ function getDbRowWhere(tableName, where) {
 		})
 	});	
 }
+
+function updateDbRowWhere(tableName, where, newData) {
+	return new Promise((resolve, reject) => {
+		// "where" is an object of values to match.
+		// "newData" is an object of values to update.
+		const location = path.join(__dirname, 'db');
+		db.updateRow(tableName, location, where, newData, (succ, result) => {
+			if (succ) {
+				resolve(succ);
+			} else {
+				console.log('An error has occured.');
+				console.log(result);
+				reject(result);
+			}
+		})
+	});	
+}
