@@ -4,12 +4,15 @@ $(document).ready(async function() {
 	createUserSelect();
 	createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
-	// TODO: Test this further when user list from db is done.
-	// TODO: Change this to email not user id later.
 	// Set dropdown values to loaded photos.
-	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split("/");
-	// document.getElementById("user-select").value = loadedScanFilepathSplit[2];
+	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split("/"),
+	userIdToLoad = loadedScanFilepathSplit[2];
 	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
+	$(function() {
+		$('#user-select').find('option').filter(function() {
+			return this.innerHTML == userIdToLoad;
+		}).attr("selected", true);
+	})
 
 	initialisePhotoGallery();
 });
