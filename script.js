@@ -176,30 +176,32 @@ async function getFoldersList(type, user_Id) {
 }
 
 async function createDateTimeSelect(type, userID) {
-	const selectList = document.getElementById("date-time-select");
-	console.log(userID);
 	const folderList = await getFoldersList(type, parseInt(userID));
+	return new Promise((resolve, reject) => {
+		const selectList = document.getElementById("date-time-select");
 
-	if (folderList.length >= 1) {
-		for (let i = 0; i < folderList.length; i++) {
+		if (folderList.length >= 1) {
+			for (let i = 0; i < folderList.length; i++) {
+				let dateTimeOption = document.createElement("option");
+				dateTimeOption.value = folderList[i];
+				// Make it more readable.
+				dateTimeOption.textContent = formatDateTimeReadable(folderList[i]);
+
+				selectList.appendChild(dateTimeOption);
+			}
+		} else {
+			// No scans found.
 			let dateTimeOption = document.createElement("option");
-			dateTimeOption.value = folderList[i];
-			// Make it more readable.
-			dateTimeOption.textContent = formatDateTimeReadable(folderList[i]);
-
+			if (type == "scans") {
+				dateTimeOption.textContent = "No scans found for this user";
+			} else {
+				dateTimeOption.textContent = "No renders found for this user";
+			}
+			
 			selectList.appendChild(dateTimeOption);
 		}
-	} else {
-		// No scans found.
-		let dateTimeOption = document.createElement("option");
-		if (type == "scans") {
-			dateTimeOption.textContent = "No scans found for this user";
-		} else {
-			dateTimeOption.textContent = "No renders found for this user";
-		}
-		
-		selectList.appendChild(dateTimeOption);
-	}
+		resolve();
+	});
 }
 
 function formatDateTimeReadable(dateTime) {
@@ -224,14 +226,14 @@ async function createUserSelect() {
 	}
 }
 
-function reloadDateTimeSelect(type) {
+async function reloadDateTimeSelect(type) {
 	const user = document.getElementById("user-select").value;
 
 	// Remove old list.
 	$('#date-time-select').empty();
 
 	// Create new list.
-	createDateTimeSelect(type, user);
+	await createDateTimeSelect(type, user);
 }
 
 async function addDbTableRow(tableName, rowObj) {
