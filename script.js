@@ -154,13 +154,17 @@ function createRenders() {
 }
 
 // Get list of folders in a directory.
-function getFoldersList(type, userID) {
+async function getFoldersList(type, user_Id) {
 	const { readdirSync } = require('fs');
 	let foldersList = [];
+	// Get user's email from db.
+	const currentUserObj = {userId: user_Id},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email;
 
 	try {
 		foldersList = 
-		readdirSync(type + "\\" + userID, { withFileTypes: true })
+		readdirSync(type + "\\" + emailAdd, { withFileTypes: true })
 			.filter(dirent => dirent.isDirectory())
 			.map(dirent => dirent.name);
 	} catch (err) {
@@ -171,9 +175,10 @@ function getFoldersList(type, userID) {
 	return foldersList;
 }
 
-function createDateTimeSelect(type, userID) {
+async function createDateTimeSelect(type, userID) {
 	const selectList = document.getElementById("date-time-select");
-	const folderList = getFoldersList(type, userID);
+	console.log(userID);
+	const folderList = await getFoldersList(type, parseInt(userID));
 
 	if (folderList.length >= 1) {
 		for (let i = 0; i < folderList.length; i++) {
