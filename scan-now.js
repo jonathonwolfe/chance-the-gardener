@@ -74,6 +74,7 @@ async function testtest() {
 
 // Creates a scan folder for current user with date & time.
 async function createScanFolder() {
+	const moment = require('moment')
 	// Get current user ID.
 	lastLoggedInUserID = parseInt(localStorage.getItem('lastLoginUserID'));
 	// Get user's email.
@@ -81,14 +82,11 @@ async function createScanFolder() {
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
 	// Get current date-time.
-	// TODO: Convert this to moment.js.
-	// Also adjust date/month for single digits.
-	let dateObj = new Date();
-	let currentDateTime = dateObj.getFullYear() + "-" + ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + (("0" + dateObj.getDate()).slice(-2)) + " " + ("0" + (dateObj.getHours() + 1)).slice(-2) + "-" + ("0" + (dateObj.getMinutes() + 1)).slice(-2) + "-" + ("0" + (dateObj.getSeconds() + 1)).slice(-2);
+	var dateTime = moment().format("YYYY-MM-DD HH-mm-ss");
 
 	// Create folders with current date-time.
-	const scanDir = "./scans/" + emailAdd + "/" + currentDateTime,
-	thumbsDir = "./thumbs/" + emailAdd + "/" + currentDateTime;
+	const scanDir = "./scans/" + emailAdd + "/" + dateTime,
+	thumbsDir = "./thumbs/" + emailAdd + "/" + dateTime;
 
 	// Check if scans folder exists yet, and create if not.
 	if (!fs.existsSync("./scans")) {
