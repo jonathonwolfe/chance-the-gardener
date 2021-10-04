@@ -6,6 +6,7 @@
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
 	<script src="./script.js"></script>
 	<script src="./view-3d-garden.js"></script>
@@ -14,16 +15,13 @@
 <body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
-		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
-			<div class="row">
-				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
-				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('renders')">
-				</select>
-			</div>
-			<div class="row">
-				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
-				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
-				</select>
+		<div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto mt-3">
+			<div class="d-flex mx-auto">
+				<i class="bi bi-info-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>To view 3D gardens, an external 3D garden viewer program will be launched in a new window.</p>
+					<p>Chance the Gardener will remain open upon launching and/or exiting the 3D garden viewer.</p>
+				</div>
 			</div>
 		</div>
 		
