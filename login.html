@@ -15,13 +15,30 @@
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			Email: <input type="email" id="emailInput" placeholder="Alex@gmail.com" >
 			Password: <input type="password" id="passwordInput" placeholder="********" >
-			<button class="btn" onclick="saveCredentials()">Login</button>
+			<button class="btn" onclick="logIn()">Login</button>
 
 			<h3>To be removed after dev:</h3>
 			<button class="btn btn-danger mt-5" onclick="tempLogin()">Fill form with Jonathon's credentials</button>
 			<button class="btn btn-danger mt-5" onclick="changePage('change-user.html')">Test moving back to change-user</button>
 		</div>
-
+	</div>
+	<div id="merge-user-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Merge Accounts</h5>
+				</div>
+				<div class="modal-body">
+					<p>Did you wish to merge this account with the data of an existing user?</p>
+					<p>If you have used this application in the past, and have changed your account's email address, you can merge to update the email address of your previous application data with this new one.</p>
+					<p>If this is your first time using this application with this account, or you want to keep your application data seperate, you can choose "<b>No</b>".</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="saveUserToDb()">No</button>
+					<button type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="mergeAccount()">Merge</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

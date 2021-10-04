@@ -247,7 +247,7 @@ async function addDbTableRow(tableName, rowObj) {
 		// Insert the new row.
 		const location = path.join(__dirname, 'db');
 		if (db.valid(tableName, location)) {
-			db.insertTableContent('user', location, rowObj, (succ, msg) => {
+			db.insertTableContent(tableName, location, rowObj, (succ, msg) => {
 				if (succ) {
 					resolve(msg);
 				} else {
@@ -317,4 +317,79 @@ function updateDbRowWhere(tableName, where, newData) {
 			}
 		})
 	});	
+}
+
+function findLightPin() {
+	return new Promise((resolve, reject) => {
+		var apiRequest = {
+			"url": "https://my.farmbot.io/api/peripherals",
+			"method": "GET",
+			"timeout": 0,
+			"headers": {
+				"Authorization": "Bearer " + sessionToken,
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json"
+			},
+		};
+
+		$.ajax(apiRequest).done(function (response) {
+			console.log("Found this many PINs: " + response.length);
+			// Loop through the PINs to find the pin with LIGHTING as its label
+			for (let i = 0; i < response.length; i++) {
+				if (response[i].label == "Lighting"){
+					console.log("Found Light on PIN " + response[i].pin);
+					resolve(response[i].pin);
+				}
+			}
+		});
+	});
+}
+
+function getFarmSize() {
+	// Return an array with the current user's farm size.
+	return new Promise((resolve, reject) => {
+		var device = new farmbot.Farmbot({ token: sessionToken });
+		
+		// Lua Function
+		var myLua = `
+		function get_length(axis)
+			local steps_per_mm = read_status("mcu_params",
+											"movement_step_per_mm_" .. axis)
+			local nr_steps =
+				read_status("mcu_params", "movement_axis_nr_steps_" .. axis)
+			return nr_steps / steps_per_mm
+		end
+		xVal = get_length("x")
+		yVal = get_length("y")
+		message = "FarmBot Device Size:" .. xVal .. ":" .. yVal
+		send_message("info", message)
+		`;
+
+		device.on("logs", (log) => {
+			let str = log.message;
+			var myArr = str.split(":");
+			if (myArr[0] == "FarmBot Device Size") {
+				//Save the coordinates
+				deviceXmax = parseFloat(myArr[1]); 
+				deviceYmax = parseFloat(myArr[2]);
+				console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
+				resolve([deviceXmax, deviceYmax]);
+			}
+		});
+		
+		device
+			.connect()
+			.then(() => {
+				device.send({
+				kind: "rpc_request",
+				args: { label: "---", priority: 100 },
+				body: [
+					{
+					kind: "lua",
+					args: { lua: myLua }
+					},
+				]
+				});
+			});
+	});
 }
