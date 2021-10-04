@@ -8,8 +8,13 @@ async function appStartUp() {
 		// Check if there's actually data in it.
 		const userDbLength = await getDbTableSize('user');
 		if (userDbLength >= 1) {
-			await mainMenuStartUp();
-			await setWelcomeMsgName();
+			// Check if a user has logged in yet.
+			if (localStorage.getItem('lastLoginUserID')) {
+				await mainMenuStartUp();
+				await setWelcomeMsgName();
+			} else {
+				changePage('login.html');
+			}
 		} else {
 			changePage('login.html');
 		}
