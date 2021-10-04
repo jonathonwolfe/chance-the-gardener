@@ -237,20 +237,26 @@ async function reloadDateTimeSelect(type) {
 }
 
 async function addDbTableRow(tableName, rowObj) {
-	// Increment the ID.
-	const tableLength = await getDbTableSize(tableName),
-	newId = tableLength + 1,
-	idType = tableName + 'Id';
-	rowObj[idType] = newId;
-	
-	// Insert the new row.
-	const location = path.join(__dirname, 'db');
-	if (db.valid(tableName, location)) {
-		db.insertTableContent('user', location, rowObj, (succ, msg) => {
-			console.log("Success: " + succ);
-			console.log("Message: " + msg);
-		})
-	}
+	const tableLength = await getDbTableSize(tableName);
+	return new Promise((resolve, reject) => {
+		// Increment the ID.
+		const newId = tableLength + 1,
+		idType = tableName + 'Id';
+		rowObj[idType] = newId;
+		
+		// Insert the new row.
+		const location = path.join(__dirname, 'db');
+		if (db.valid(tableName, location)) {
+			db.insertTableContent('user', location, rowObj, (succ, msg) => {
+				if (succ) {
+					resolve(msg);
+				} else {
+					reject(msg);
+				}
+				
+			})
+		}
+	});
 }
 
 function getDbTableSize(tableName) {

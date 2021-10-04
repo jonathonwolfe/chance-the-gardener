@@ -21,15 +21,6 @@ async function appStartUp() {
 	} else {
 		// Fresh install, go to login and set up files.
 		setupDbFiles();
-
-		/* TODO: Remove.
-		 * Test insert data to user
-		let obj = new Object();
- 
-		obj.email = '***REMOVED***';
-		obj.password = '***REMOVED***';
-		
-		addDbTableRow('user', obj); */
 	}
 }
 
