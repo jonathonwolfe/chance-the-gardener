@@ -114,14 +114,26 @@ async function getFoldersList(type, user_Id) {
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
 
-	try {
-		foldersList = 
-		readdirSync(type + "\\" + emailAdd, { withFileTypes: true })
-			.filter(dirent => dirent.isDirectory())
-			.map(dirent => dirent.name);
-	} catch (err) {
-		// User folder probably doesn't exist.
-		console.log("Error reading user folder.");
+	if (type == 'scans') {
+		try {
+			foldersList = 
+			readdirSync(type + '/' + emailAdd, { withFileTypes: true })
+				.filter(dirent => dirent.isDirectory())
+				.map(dirent => dirent.name);
+		} catch (err) {
+			// User folder probably doesn't exist.
+			console.log('Error reading user folder.');
+		}
+	} else if (type =='renders') {
+		try {
+			foldersList = 
+			readdirSync('./garden_viewer/FarmBot 3D Viewer_Data/renders/' + emailAdd, { withFileTypes: true })
+				.filter(dirent => dirent.isDirectory())
+				.map(dirent => dirent.name);
+		} catch (err) {
+			// User folder probably doesn't exist.
+			console.log('Error reading user folder.');
+		}
 	}
 
 	return foldersList;
