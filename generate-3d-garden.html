@@ -6,6 +6,7 @@
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
 	<script src="./script.js"></script>
 	<script src="./generate-3d-garden.js"></script>
@@ -13,10 +14,21 @@
 <body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto mt-3">
+			<div class="d-flex mx-auto">
+				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>Generating a 3D garden will take a long amount of time, potentially hours, depending on your hardware specifications. </p>
+					<p>This is a resource intensive process, which means you will likely be unable to use your computer normally during this time.</p>
+					<p><strong>This application cannot be closed while the 3D garden generation is in progress, or you will have to restart the process.</strong></p>
+					<p>It is recommended that you set aside sufficient time for the process to complete.</p>
+				</div>
+			</div>
+		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
 			<div class="row">
 				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
-				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select">
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans')">
 				</select>
 			</div>
 			<div class="row">
@@ -24,6 +36,15 @@
 				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
 				</select>
 			</div>
+		</div>
+		<div id="render-progress-spinner" class="d-flex justify-content-center d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button id="start-scan-btn" class="btn btn-run" onclick="createRender()">Start 3D garden generation</button>
+			<button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
 		</div>
 	</div>
 </body>
