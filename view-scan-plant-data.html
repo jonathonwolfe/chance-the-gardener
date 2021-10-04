@@ -15,10 +15,10 @@
 		<div class="d-flex mt-2 mb-3 w-100">
 			<button class="btn btn-back me-auto" onclick="changePage('manage-scan-results.html')">Back</button>
 			<label class="p-2 fw-bold" for="user-picker" >User:</label>
-			<select class="p-2 me-5" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans', this.value);reloadPhotos()">
+			<select class="p-2 me-5" name="user-picker" id="user-select" onchange="plantDataUserSelectChange(this.value)">
 			</select>
 			<label class="p-2 fw-bold" for="date-time-picker" >Scan date & time:</label>
-			<select class="p-2" name="date-time-picker" id="date-time-select" onchange="reloadPhotos()">
+			<select class="p-2" name="date-time-picker" id="date-time-select" onchange="reloadPlantDataTable()">
 			</select>
 		</div>
 		<table id="plant-data-table" class="table table-hover table-bordered">
@@ -34,7 +34,6 @@
 				</tr>
 			</thead>
 			<tbody>
-				
 			</tbody>
 		</table>
 	</div>

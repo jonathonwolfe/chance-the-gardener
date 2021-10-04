@@ -19,23 +19,23 @@ $(document).ready(async function() {
 	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
 
 	// Load the plant data file.
-	const plantData = await loadCsv(JSON.parse(localStorage.getItem("plantDataToView")));
-	loadPlantDataTable(plantData, loadedScanFilepathSplit[3]);
+	loadPlantDataTable(JSON.parse(localStorage.getItem("plantDataToView")), loadedScanFilepathSplit[3]);
 });
 
-function loadCsv(csvFilepath) {
+function loadPlantDataCsv(scanFolder) {
 	return new Promise((resolve, reject) => {
 		const csv = require('@fast-csv/parse');
 		let plantData = [];
 
-		csv.parseFile(csvFilepath + '/plant_data.csv', { headers: true })
-			.on('error', error => console.error(error))
+		csv.parseFile(scanFolder + '/plant_data.csv', { headers: true })
+			.on('error', error => reject(error))
 			.on('data', row => plantData.push(row))
 			.on('end', rowCount => resolve(plantData));
 	});
 }
 
-function loadPlantDataTable(plantData, dateTime) {
+async function loadPlantDataTable(scanFolder, dateTime) {
+	const plantData = await loadPlantDataCsv(scanFolder);
 	const moment = require('moment');
 	const tableBody = document.getElementById('plant-data-table').children[1];
 	for (let i = 0; i < plantData.length; i++) {
@@ -49,4 +49,31 @@ function loadPlantDataTable(plantData, dateTime) {
 		tableRowEle.innerHTML = '<td>' + plantData[i].id +'</td><td>' + plantData[i].name +'</td><td>'+ plantAge +' days</td><td>' + plantData[i].x +'</td><td>' + plantData[i].y +'</td><td>' + plantData[i].z +'</td><td>' + plantData[i].plant_stage +'</td>';
 		tableBody.appendChild(tableRowEle);
 	}
+}
+
+async function reloadPlantDataTable() {
+	// When user or scan selection changes, load the new plant data.
+	const user = parseInt(document.getElementById("user-select").value),
+	dateTime = document.getElementById("date-time-select").value,
+	// Get user's email from db.
+	currentUserObj = {userId: user},
+	userCreds = await getDbRowWhere('user', currentUserObj),
+	emailAdd = userCreds[0].email,
+	folder = "./scans/" + emailAdd + "/" + dateTime;
+
+	// Delete current plant data.
+	document.getElementById("plant-data-table").children[1].innerHTML = "";
+
+	// Check if this user actually has plant data to view.
+	if (fs.existsSync(folder)) {
+		// Load new plant data.
+		loadPlantDataTable(folder, dateTime);
+	} else {
+		// TODO: Error.
+	}
+}
+
+async function plantDataUserSelectChange(userId) {
+	await reloadDateTimeSelect('scans', userId);
+	reloadPlantDataTable();
 }

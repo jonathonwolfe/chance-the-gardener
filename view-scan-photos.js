@@ -225,7 +225,6 @@ function loadFolderPhotos(folders) {
 }
 
 async function reloadPhotos () {
-	// TODO: Update this for new folder path later.
 	// When user or scan selection changes, load the new photos.
 	const user = parseInt(document.getElementById("user-select").value),
 	dateTime = document.getElementById("date-time-select").value,
@@ -246,4 +245,9 @@ async function reloadPhotos () {
 		// TODO: Error.
 	}
 	
+}
+
+async function photosUserSelectChange(userId) {
+	await reloadDateTimeSelect('scans', userId);
+	reloadPhotos();
 }
