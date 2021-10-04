@@ -35,7 +35,28 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="saveUserToDb()">No</button>
-					<button type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="mergeAccount()">Merge</button>
+					<button id="start-merge-proc-btn" type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="showMergeConfirmationModal()">Merge</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="merge-user-process-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Merge</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<label class="col-xs-3 w-fit-content fw-bold me-auto" for="user-picker" >Existing user to merge:</label>
+						<select class="col-xs-9 w-fit-content" name="user-picker" id="user-select">
+						</select>
+					</div>
+					<p class="mt-5"><strong>This action cannot be undone once you confirm the merge.</strong></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="backToMergePrompt()">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="mergeAccount()">Confirm Merge</button>
 				</div>
 			</div>
 		</div>

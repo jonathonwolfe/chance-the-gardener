@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	createUserSelect();
+});
+
 let emailAdd,
 pw;
 
@@ -28,10 +32,10 @@ function logIn() {
 	};
 	$.ajax(apiRequest)
 		.done(function (response) {
-			// If valid, save the session token and proceed with db stuff.
+			// If valid, save the session token and proceed.
 			sessionToken = response.token.encoded;
 			console.log("Session token generated: " + sessionToken);
-			saveCredentials();
+			processCredentials();
 		})
 		.fail(function (err) {
 			if (err.responseJSON.auth == "Bad email or password.") {
@@ -43,7 +47,7 @@ function logIn() {
 		});
 }
 
-async function saveCredentials() {
+async function processCredentials() {
 	// Check if there are other past users in the app.
 	const newUserEmailObj = {email: emailAdd},
 	matchingUser = await getDbRowWhere('user', newUserEmailObj);
@@ -58,6 +62,22 @@ async function saveCredentials() {
 		const mergeModal = new bootstrap.Modal(document.getElementById('merge-user-modal'));
 		mergeModal.show();
 	}
+}
+
+async function mergeAccount() {
+	const newUserCredsObj = {email: emailAdd, password: pw};
+	// Grab existing account from db.
+	const oldUserId = parseInt(document.getElementById("user-select").value),
+	oldUserIdObj = {userId: oldUserId};
+
+	// Update that db acc with new credentials.
+	await updateDbRowWhere('user', oldUserIdObj, newUserCredsObj);
+
+	// Save the user ID as last logged in.
+	localStorage.setItem('lastLoginUserID', oldUserId);
+
+	// Move to main menu when done.
+	changePage('main-menu.html');
 }
 
 async function saveUserToDb() {
@@ -84,5 +104,16 @@ async function saveUserToDb() {
 
 	await addDbTableRow('device', newDeviceObj);
 
-	changePage('main-menu.html')
+	// Move to main menu when done.
+	changePage('main-menu.html');
+}
+
+function backToMergePrompt() {
+	const mergeModal = new bootstrap.Modal(document.getElementById('merge-user-modal'));
+	mergeModal.show();
+}
+
+function showMergeConfirmationModal() {
+	const mergeModal = new bootstrap.Modal(document.getElementById('merge-user-process-modal'));
+	mergeModal.show();
 }
