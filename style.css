@@ -83,8 +83,37 @@ figure {
 }
 
 .btn-danger:hover {
-    background-color: #bb2d3b;
+	background-color: #bb2d3b;
 	border-color: #bb2d3b;
+}
+
+#plant-data-table {
+	display: flex;
+	flex-flow: column;
+	height: 88vh;
+}
+
+#plant-data-table tbody {
+	overflow-x: hidden;
+}
+
+#plant-data-table tr {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+}
+
+#plant-data-table thead {
+	min-height: 42px;
+	overflow-y: scroll;
+}
+
+#plant-data-table thead::-webkit-scrollbar {
+	opacity: 0;
+}
+
+#plant-data-table thead th {
+	height: 41px;
 }
 
 /* Old code from here onwards, likely deleted soon. */
