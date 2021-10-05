@@ -25,7 +25,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+		<div id="render-info" class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content d-none">
+			<div class="row">
+				<p class="col-3 w-fit-content fw-bold me-auto">User:</p>
+				<p id="render-user-info" class="col-sm-8 w-fit-content"></p>
+			</div>
+			<div class="row">
+				<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+				<p id="render-datetime-info" class="col-sm-8 w-fit-content"></p>
+			</div>
+		</div>
+		<div id="render-selection-form" class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
 			<div class="row">
 				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
 				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans')">
@@ -43,8 +53,8 @@
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button id="start-scan-btn" class="btn btn-run" onclick="createRender()">Start 3D garden generation</button>
-			<button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
+			<button id="start-render-btn" class="btn btn-run" onclick="createRender()">Start 3D garden generation</button>
+			<button id="cancel-render-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
 		</div>
 	</div>
 </body>
