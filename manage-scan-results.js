@@ -18,16 +18,16 @@ $(document).ready(async function() {
 	});
 });
 
-let scanUser,
-scanDateTime;
+let scanUserEmailToDel,
+scanDateTimeToDel;
 
-// TODO: Update this for emails.
 function getDeleteScanInfo() {
-	scanUser = document.getElementById('user-select').value,
-	scanDateTime = document.getElementById('date-time-select').value;
+	const scanUserToDelSelectEle = document.getElementById('user-select');
+	scanUserEmailToDel = scanUserToDelSelectEle[scanUserToDelSelectEle.selectedIndex].text,
+	scanDateTimeToDel = document.getElementById('date-time-select').value;
 
-	document.getElementById('chosen-scan-user').innerHTML = scanUser;
-	document.getElementById('chosen-scan-datetime').innerHTML = scanDateTime;
+	document.getElementById('chosen-scan-user').innerHTML = scanUserEmailToDel;
+	document.getElementById('chosen-scan-datetime').innerHTML = formatDateTimeReadable(scanDateTimeToDel);
 }
 
 function deleteScan() {
@@ -36,11 +36,10 @@ function deleteScan() {
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
-	let folderPath = "./scans/" + scanUser + "/" + scanDateTime;
+	let folderPath = "./scans/" + scanUserEmailToDel + "/" + scanDateTimeToDel;
 
-	// TODO: Test this when getting user lists from db is done.
 	// Delete scan folder.
-	//fs.rmdirSync(folderPath, { recursive: true });
+	fs.rmdirSync(folderPath, { recursive: true });
 
 	// Check if deleted and notify user on results.
 	if (!fs.existsSync(folderPath)) {
@@ -50,6 +49,8 @@ function deleteScan() {
 		// Failure.
 		failToast.show();
 	}
+
+	reloadDateTimeSelect('scans');
 }
 
 async function loadPhotoViewer() {
