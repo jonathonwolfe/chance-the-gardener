@@ -21,6 +21,7 @@ $(document).ready(async function() {
 let scanUser,
 scanDateTime;
 
+// TODO: Update this for emails.
 function getDeleteScanInfo() {
 	scanUser = document.getElementById('user-select').value,
 	scanDateTime = document.getElementById('date-time-select').value;
