@@ -4,6 +4,8 @@ $(document).ready(async function() {
 	await createDateTimeSelect("scans", parseInt(localStorage.getItem('lastLoginUserID')));
 });
 
+var meshroomExec;
+
 function createRender() {
 	// Grab info on which scan to generate.
 	const scanUserToRenderSelectEle = document.getElementById('user-select'),
@@ -14,7 +16,7 @@ function createRender() {
 
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById('start-render-btn'),
-	//cancelBtn = document.getElementById('cancel-render-btn'),
+	cancelBtn = document.getElementById('cancel-render-btn'),
 	loadingSpinner = document.getElementById('render-progress-spinner'),
 	renderInfoHolder = document.getElementById('render-info'),
 	userInfoHolder = document.getElementById('render-user-info'),
@@ -39,7 +41,6 @@ function createRender() {
 		return;
 	}
 
-	// TODO: Do stuff to show loading.
 	// Disable and hide scan button.
 	startBtn.setAttribute("disabled", "");
 	startBtn.classList.add("d-none");
@@ -48,7 +49,7 @@ function createRender() {
 	backBtn.setAttribute("disabled", "");
 
 	// Show cancel button.
-	//cancelBtn.classList.remove("d-none");
+	cancelBtn.classList.remove("d-none");
 
 	// Show loading spinner.
 	loadingSpinner.classList.remove("d-none");
@@ -74,19 +75,66 @@ function createRender() {
 	const executablePath = "Meshroom-2018.1.0/meshroom_photogrammetry.exe",
 	parameters = ["--input", scanToRenderPath, "--output", renderFolderPath, "--scale", "2"];
 
-/* 	child(executablePath, parameters, function (err, data) {
+ 	meshroomExec = child(executablePath, parameters, function (err, data, errData) {
 		console.log(err)
 		console.log(data.toString());
+		console.log(errData.toString())
 
 		let logData = data.toString();
 		let progress = 0;
-		progress = logData.search('[13/13]')
+		progress = logData.search('[13/13]');
 
-		if (progress != 0) {
-			// TODO: Success toast.
-			console.log('scan done! :)');
+		if (progress != -1) {
+			// Re-enable and show button.
+			startBtn.removeAttribute("disabled");
+			startBtn.classList.remove("d-none");
+			// Re-enable back button.
+			backBtn.removeAttribute("disabled");
+			// Re-hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+			// Re-hide chosen date & time.
+			renderInfoHolder.classList.add("d-none");
+			// Re-hide cancel button.
+			cancelBtn.classList.add("d-none");
+			// Re-show selection form.
+			renderSelectionForm.classList.remove("d-none");
+
+			// Success message.
+			console.log(progress);
+			const successModal = new bootstrap.Modal(document.getElementById('render-success-modal'));
+			successModal.show();
+		} else {
+			// Re-enable and show button.
+			startBtn.removeAttribute("disabled");
+			startBtn.classList.remove("d-none");
+			// Re-enable back button.
+			backBtn.removeAttribute("disabled");
+			// Re-hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+			// Re-hide chosen date & time.
+			renderInfoHolder.classList.add("d-none");
+			// Re-hide cancel button.
+			cancelBtn.classList.add("d-none");
+			// Re-show selection form.
+			renderSelectionForm.classList.remove("d-none");
+
+			// Clean up failure.
+			fs.rmdirSync(renderFolderPath, { recursive: true });
+			// Failure message.
+			// This also triggers when cancelling scan.
+			const FailureModal = new bootstrap.Modal(document.getElementById('render-failure-modal'));
+			FailureModal.show();
 		}
-	}); */
+	});
+}
 
-	// TODO: Hide the loading stuff.
+function cancelRender() {
+	meshroomExec.kill('SIGINT');
+
+	// Delete the folder.
+	const userEmail = document.getElementById('render-user-info').innerHTML,
+	dateTime = document.getElementById('render-datetime-info').innerHTML,
+	renderFolderPath = './garden_viewer/FarmBot 3D Viewer_Data/Renders/' + userEmail + '/' + dateTime;
+
+	fs.rmdirSync(renderFolderPath, { recursive: true });
 }

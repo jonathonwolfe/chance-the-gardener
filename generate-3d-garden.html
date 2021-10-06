@@ -57,5 +57,64 @@
 			<button id="cancel-render-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
 		</div>
 	</div>
+	<div id="cancel-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancel 3D Garden Generation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Cancelling will reset all progress made for the generation of this 3D garden.</p>
+					<p><i>This will also likely result in a corrupted 3D rendering cache, which can be cleared in <b>Settings</b>.</i></p>
+					<p>Are you sure you wish to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="cancelRender()">Cancel 3D garden generation</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="render-success-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Success</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Your 3D garden was successfully generated!.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="render-failure-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Failure</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Your 3D garden generation failed.</p>
+					<p>If you did not cancel it, this can happen for a number of possible reasons:
+						<ul>
+							<li>You need to <b>clear the 3D render cache</b> in <b>Settings</b> after a previous failure.</li>
+							<li>You do not have enough disk space for the 3D garden.</li>
+							<li>Your hardware does not meet the requirements — a CUDA-enabled NVIDIA GPU is compulsory.</li>
+							<li>Your chosen scan farm size was too small, resulting in too little images to turn into a 3D garden.</li>
+						</ul>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
