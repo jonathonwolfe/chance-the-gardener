@@ -36,8 +36,10 @@ function createRender() {
 	if (!fs.existsSync(renderFolderPath)) {
 		fs.mkdirSync(renderFolderPath);
 	} else {
-		// TODO: render already exists error.
-		console.log('no');
+		// Render already exists error.
+		const renderExistsToast = new bootstrap.Toast(document.getElementById('render-already-exists-toast'));
+		renderExistsToast.show();
+
 		return;
 	}
 
