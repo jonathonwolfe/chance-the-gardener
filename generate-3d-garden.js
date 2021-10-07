@@ -65,10 +65,10 @@ function createRender() {
 	renderSelectionForm.classList.add("d-none");
 
 	// Copy farm data to render folder.
-	fs.copyFile(path.join(__dirname, scanToRenderPath, 'farm_size.csv'), path.join(__dirname, renderFolderPath, 'farm_size.csv'), (err) => {
+	fs.copyFile(path.join(scanToRenderPath, 'farm_size.csv'), path.join(renderFolderPath, 'farm_size.csv'), (err) => {
 		if (err) throw err;
 	});
-	fs.copyFile(path.join(__dirname, scanToRenderPath, 'farm_size.csv'), path.join(__dirname, renderFolderPath, 'farm_size.csv'), (err) => {
+	fs.copyFile(path.join(scanToRenderPath, 'farm_size.csv'), path.join(renderFolderPath, 'farm_size.csv'), (err) => {
 		if (err) throw err;
 	});
 
