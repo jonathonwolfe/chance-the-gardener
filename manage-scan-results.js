@@ -3,14 +3,6 @@ $(document).ready(async function() {
 	createUserSelect();
 	await createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
-	// Load modal.
-	var myModal = document.getElementById('delete-scan-modal');
-	var myInput = document.getElementById('delete-scan-btn');
-
-	myModal.addEventListener('shown.bs.modal', function () {
-		myInput.focus();
-	});
-
 	// Activate toasts.
 	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
 	var toastList = toastElList.map(function (toastEl) {
@@ -26,14 +18,24 @@ function getDeleteScanInfo() {
 	scanUserEmailToDel = scanUserToDelSelectEle[scanUserToDelSelectEle.selectedIndex].text,
 	scanDateTimeToDel = document.getElementById('date-time-select').value;
 
-	document.getElementById('chosen-scan-user').innerHTML = scanUserEmailToDel;
-	document.getElementById('chosen-scan-datetime').innerHTML = formatDateTimeReadable(scanDateTimeToDel);
+	// Error and stop if no render chosen.
+	if (scanDateTimeToDel == 'No scans found for this user') {
+		// Show error.
+		const noScanToast = new bootstrap.Toast(document.getElementById('del-no-choice-toast'));
+		noScanToast.show();
+	} else {
+		document.getElementById('chosen-scan-user').innerHTML = scanUserEmailToDel;
+		document.getElementById('chosen-scan-datetime').innerHTML = formatDateTimeReadable(scanDateTimeToDel);
+		// Show confirmation modal.
+		const delConfModal = new bootstrap.Modal(document.getElementById('delete-scan-modal'));
+		delConfModal.show();
+	}
 }
 
 function deleteScan() {
-	const successToastEle = document.getElementById('delSuccessToast'),
+	const successToastEle = document.getElementById('del-success-toast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
-	failToastEle = document.getElementById('delFailToast'),
+	failToastEle = document.getElementById('del-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
 	let folderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel);

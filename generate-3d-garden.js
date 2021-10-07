@@ -124,8 +124,8 @@ function createRender() {
 			fs.rmdirSync(renderFolderPath, { recursive: true });
 			// Failure message.
 			// This also triggers when cancelling scan.
-			const FailureModal = new bootstrap.Modal(document.getElementById('render-failure-modal'));
-			FailureModal.show();
+			const failureModal = new bootstrap.Modal(document.getElementById('render-failure-modal'));
+			failureModal.show();
 		}
 	});
 }

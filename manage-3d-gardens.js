@@ -3,14 +3,6 @@ $(document).ready(async function() {
 	createUserSelect();
 	await createDateTimeSelect('renders', parseInt(localStorage.getItem('lastLoginUserID')));
 
-	// Load modal.
-	var myModal = document.getElementById('delete-render-modal');
-	var myInput = document.getElementById('delete-render-btn');
-
-	myModal.addEventListener('shown.bs.modal', function () {
-		myInput.focus();
-	});
-
 	// Activate toasts.
 	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
 	var toastList = toastElList.map(function (toastEl) {
@@ -26,16 +18,24 @@ function getDeleteRenderInfo() {
 	renderUserEmailToDel = scanUserToDelSelectEle[scanUserToDelSelectEle.selectedIndex].text,
 	renderDateTimeToDel = document.getElementById('date-time-select').value;
 
-	// TODO: Error and stop if no render chosen.
-
-	document.getElementById('chosen-garden-user').innerHTML = renderUserEmailToDel;
-	document.getElementById('chosen-garden-datetime').innerHTML = formatDateTimeReadable(renderDateTimeToDel);
+	// Error and stop if no render chosen.
+	if (renderDateTimeToDel == 'No renders found for this user') {
+		// Show error.
+		const noRenderToast = new bootstrap.Toast(document.getElementById('del-no-choice-toast'));
+		noRenderToast.show();
+	} else {
+		document.getElementById('chosen-garden-user').innerHTML = renderUserEmailToDel;
+		document.getElementById('chosen-garden-datetime').innerHTML = formatDateTimeReadable(renderDateTimeToDel);
+		// Show confirmation modal.
+		const delConfModal = new bootstrap.Modal(document.getElementById('delete-render-modal'));
+		delConfModal.show();
+	}
 }
 
 function deleteRender() {
-	const successToastEle = document.getElementById('delSuccessToast'),
+	const successToastEle = document.getElementById('del-success-toast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
-	failToastEle = document.getElementById('delFailToast'),
+	failToastEle = document.getElementById('del-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
 	const folderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', renderUserEmailToDel, renderDateTimeToDel);

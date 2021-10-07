@@ -29,7 +29,7 @@
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button class="btn" onclick="loadPhotoViewer()">View photos</button>
 			<button class="btn" onclick="loadPlantDataViewer()">View plant data</button>
-			<button id="delete-scan-btn" class="btn btn-danger mt-5" data-bs-toggle="modal" data-bs-target="#delete-scan-modal" onclick="getDeleteScanInfo()">Delete scan</button>
+			<button id="delete-scan-btn" class="btn btn-danger mt-5" onclick="getDeleteScanInfo()">Delete scan</button>
 		</div>
 	</div>
 	<div id="delete-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
@@ -63,7 +63,7 @@
 	</div>
 	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
 		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
-			<div id="delSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div id="del-success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 				<div class="toast-header">
 					<strong class="me-auto">Success</strong>
 					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -72,7 +72,7 @@
 					Scan deleted.
 				</div>
 			</div>
-			<div id="delFailToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div id="del-fail-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 				<div class="toast-header">
 					<strong class="me-auto">Failure</strong>
 					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -80,6 +80,15 @@
 				<div class="toast-body">
 					There was an issue when trying to delete the scan.<br>
 					Please ensure the files are not open in any programs, and try again.
+				</div>
+			</div>
+			<div id="del-no-choice-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Error</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					No scan has been selected.
 				</div>
 			</div>
 		</div>
