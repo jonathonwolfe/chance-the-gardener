@@ -127,7 +127,7 @@ async function getFoldersList(type, user_Id) {
 	} else if (type =='renders') {
 		try {
 			foldersList = 
-			readdirSync('./garden_viewer/FarmBot 3D Viewer_Data/renders/' + emailAdd, { withFileTypes: true })
+			readdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', emailAdd), { withFileTypes: true })
 				.filter(dirent => dirent.isDirectory())
 				.map(dirent => dirent.name);
 		} catch (err) {

@@ -85,17 +85,17 @@ async function createScanFolder() {
 	var dateTime = moment().format("YYYY-MM-DD HH-mm-ss");
 
 	// Create folders with current date-time.
-	const scanDir = "./scans/" + emailAdd + "/" + dateTime,
-	thumbsDir = "./thumbs/" + emailAdd + "/" + dateTime;
+	const scanDir = path.join(__dirname, 'scans', emailAdd, dateTime),
+	thumbsDir = path.join(__dirname, 'thumbs', emailAdd, dateTime);
 
 	// Check if scans folder exists yet, and create if not.
-	if (!fs.existsSync("./scans")) {
-		fs.mkdirSync("./scans");
+	if (!fs.existsSync(path.join(__dirname, 'scans'))) {
+		fs.mkdirSync(path.join(__dirname, 'scans'));
 	}
 
 	// Check if user's scans folder exists yet, and create if not.
-	if (!fs.existsSync("./scans/" + emailAdd)) {
-		fs.mkdirSync("./scans/" + emailAdd);
+	if (!fs.existsSync(path.join(__dirname, 'scans', emailAdd))) {
+		fs.mkdirSync(path.join(__dirname, 'scans', emailAdd));
 	}
 
 	// Create the date-time scan folder.
@@ -104,13 +104,13 @@ async function createScanFolder() {
 	}
 	
 	// Check if thumbs folder exists yet, and create if not.
-	if (!fs.existsSync("./thumbs")) {
-		fs.mkdirSync("./thumbs");
+	if (!fs.existsSync(path.join(__dirname, 'thumbs'))) {
+		fs.mkdirSync(path.join(__dirname, 'thumbs'));
 	}
 
 	// Check if user's thumbs folder exists yet, and create if not.
-	if (!fs.existsSync("./thumbs/" + emailAdd)) {
-		fs.mkdirSync("./thumbs/" + emailAdd);
+	if (!fs.existsSync(path.join(__dirname, 'thumbs', emailAdd))) {
+		fs.mkdirSync(path.join(__dirname, 'thumbs', emailAdd));
 	}
 
 	// Create the date-time thumbs folder.

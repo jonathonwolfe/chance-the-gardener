@@ -232,13 +232,13 @@ async function reloadPhotos () {
 	currentUserObj = {userId: user},
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email,
-	folders = ["./scans/" + emailAdd + "/" + dateTime, "./thumbs/" + emailAdd + "/" + dateTime];
+	folders = [path.join(__dirname, 'scans', emailAdd, dateTime), path.join(__dirname, 'thumbs', emailAdd, dateTime)];
 
 	// Delete current photos.
 	document.getElementById("plant-photos-gallery").innerHTML = "";
 
 	// Check if this user actually has photos to view.
-	if (fs.existsSync("./scans/" + emailAdd)) {
+	if (fs.existsSync(path.join(__dirname, 'scans', emailAdd))) {
 		// Load new photos.
 		loadFolderPhotos(folders);
 	} else {

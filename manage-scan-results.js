@@ -36,8 +36,7 @@ function deleteScan() {
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
-	let folderPath = "./scans/" + scanUserEmailToDel + "/" + scanDateTimeToDel;
-
+	let folderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel);
 	// Delete scan folder.
 	fs.rmdirSync(folderPath, { recursive: true });
 
@@ -62,7 +61,7 @@ async function loadPhotoViewer() {
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
 
-	const folderPaths = [("./scans/" + emailAdd + "/" + scanDateTime), ("./thumbs/" + emailAdd + "/" + scanDateTime)];
+	const folderPaths = [(path.join(__dirname, 'scans', emailAdd, scanDateTime)), (path.join(__dirname, 'thumbs', emailAdd, scanDateTime))];
 
 	// Store which folder to view.
 	localStorage.setItem("photosToView", JSON.stringify(folderPaths));
@@ -79,7 +78,7 @@ async function loadPlantDataViewer() {
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
 
-	const folderPath = "./scans/" + emailAdd + "/" + scanDateTime;
+	const folderPath = path.join(__dirname, 'scans', emailAdd, scanDateTime);
 
 	// Store which folder to view.
 	localStorage.setItem("plantDataToView", JSON.stringify(folderPath));

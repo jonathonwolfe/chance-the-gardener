@@ -59,7 +59,7 @@ async function reloadPlantDataTable() {
 	currentUserObj = {userId: user},
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email,
-	folder = "./scans/" + emailAdd + "/" + dateTime;
+	folder = path.join(__dirname, 'scans', emailAdd, dateTime);
 
 	// Delete current plant data.
 	document.getElementById("plant-data-table").children[1].innerHTML = "";

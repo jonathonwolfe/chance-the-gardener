@@ -4,7 +4,7 @@ $(document).ready(async function() {
 
 async function appStartUp() {
 	// Check if user database exists.
-	if (fs.existsSync('./db/user.json')) {
+	if (fs.existsSync(path.join(__dirname, 'db', 'user.json'))) {
 		// Check if there's actually data in it.
 		const userDbLength = await getDbTableSize('user');
 		if (userDbLength >= 1) {
@@ -26,8 +26,8 @@ async function appStartUp() {
 
 function setupDbFiles() {
 	// Check if database folder exists yet, and create if not.
-	if (!fs.existsSync('./db')) {
-		fs.mkdirSync('./db');
+	if (!fs.existsSync(path.join(__dirname, 'db'))) {
+		fs.mkdirSync(path.join(__dirname, 'db'));
 	}
 
 	// Create new db files.

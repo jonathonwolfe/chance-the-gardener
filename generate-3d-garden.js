@@ -11,8 +11,8 @@ function createRender() {
 	const scanUserToRenderSelectEle = document.getElementById('user-select'),
 	scanUserEmailToRender = scanUserToRenderSelectEle[scanUserToRenderSelectEle.selectedIndex].text,
 	scanDateTimeToRender = document.getElementById('date-time-select').value,
-	scanToRenderPath = 'scans/' + scanUserEmailToRender + '/' + scanDateTimeToRender,
-	renderFolderPath = './garden_viewer/FarmBot 3D Viewer_Data/Renders/' + scanUserEmailToRender + '/' + scanDateTimeToRender;
+	scanToRenderPath = path.join(__dirname, 'scans', scanUserEmailToRender, scanDateTimeToRender),
+	renderFolderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', scanUserEmailToRender, scanDateTimeToRender);
 
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById('start-render-btn'),
@@ -25,12 +25,12 @@ function createRender() {
 	renderSelectionForm = document.getElementById('render-selection-form');
 
 	// Check if renders folders exists yet, and create if not.
-	if (!fs.existsSync('./garden_viewer/FarmBot 3D Viewer_Data/Renders')) {
-		fs.mkdirSync('./garden_viewer/FarmBot 3D Viewer_Data/Renders');
+	if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders'))) {
+		fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders'));
 	}
 
-	if (!fs.existsSync('./garden_viewer/FarmBot 3D Viewer_Data/Renders/' + scanUserEmailToRender)) {
-		fs.mkdirSync('./garden_viewer/FarmBot 3D Viewer_Data/Renders/' + scanUserEmailToRender);
+	if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', scanUserEmailToRender))) {
+		fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', scanUserEmailToRender));
 	}
 
 	if (!fs.existsSync(renderFolderPath)) {
@@ -65,16 +65,16 @@ function createRender() {
 	renderSelectionForm.classList.add("d-none");
 
 	// Copy farm data to render folder.
-	fs.copyFile(scanToRenderPath + '/farm_size.csv', renderFolderPath + '/farm_size.csv', (err) => {
+	fs.copyFile(path.join(__dirname, scanToRenderPath, 'farm_size.csv'), path.join(__dirname, renderFolderPath, 'farm_size.csv'), (err) => {
 		if (err) throw err;
 	});
-	fs.copyFile(scanToRenderPath + '/plant_data.csv', renderFolderPath + '/plant_data.csv', (err) => {
+	fs.copyFile(path.join(__dirname, scanToRenderPath, 'farm_size.csv'), path.join(__dirname, renderFolderPath, 'farm_size.csv'), (err) => {
 		if (err) throw err;
 	});
 
 	// Execute Meshroom application through command line.
 	const child = require('child_process').execFile;
-	const executablePath = "Meshroom-2018.1.0/meshroom_photogrammetry.exe",
+	const executablePath = path.join(__dirname, 'Meshroom-2018.1.0', 'meshroom_photogrammetry.exe'),
 	parameters = ["--input", scanToRenderPath, "--output", renderFolderPath, "--scale", "2"];
 
  	meshroomExec = child(executablePath, parameters, function (err, data, errData) {
@@ -136,7 +136,7 @@ function cancelRender() {
 	// Delete the folder.
 	const userEmail = document.getElementById('render-user-info').innerHTML,
 	dateTime = document.getElementById('render-datetime-info').innerHTML,
-	renderFolderPath = './garden_viewer/FarmBot 3D Viewer_Data/Renders/' + userEmail + '/' + dateTime;
-
+	renderFolderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', userEmail, dateTime);
+	
 	fs.rmdirSync(renderFolderPath, { recursive: true });
 }
