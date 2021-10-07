@@ -38,12 +38,14 @@ function deleteScan() {
 	failToastEle = document.getElementById('del-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
-	let folderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel);
-	// Delete scan folder.
-	fs.rmdirSync(folderPath, { recursive: true });
+	let scanFolderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel),
+	thumbsFolderPath = path.join(__dirname, 'thumbs', scanUserEmailToDel, scanDateTimeToDel);
+	// Delete scan and thumbs folders.
+	fs.rmdirSync(scanFolderPath, { recursive: true });
+	fs.rmdirSync(thumbsFolderPath, { recursive: true });
 
 	// Check if deleted and notify user on results.
-	if (!fs.existsSync(folderPath)) {
+	if ((!fs.existsSync(scanFolderPath)) && (!fs.existsSync(thumbsFolderPath))) {
 		// Success.
 		successToast.show();
 	} else {
