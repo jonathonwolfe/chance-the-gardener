@@ -21,6 +21,8 @@ async function appStartUp() {
 	} else {
 		// Fresh install, go to login and set up files.
 		setupDbFiles();
+
+		changePage('login.html');
 	}
 }
 
