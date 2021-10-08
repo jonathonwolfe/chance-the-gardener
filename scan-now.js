@@ -414,7 +414,7 @@ async function createScan() {
 				console.log("Images are being downloaded to: " + folderPaths[0]);
 				console.log("Thumbnails are being created to: " + folderPaths[1]);
 				console.log("Download images now...");
-				downloadImages(imageCount, folderPaths[0], folderPaths[1]);
+				downloadImages(imageCount-1, folderPaths[0], folderPaths[1]);
 				// Maybe delete old images
 				// Move bot to next row (A1, A2, etc..)
 			}
