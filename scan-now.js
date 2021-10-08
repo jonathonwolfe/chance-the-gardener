@@ -376,7 +376,7 @@ async function createScan() {
 		wait(5000)
 		collectgarbage()
 	end
-	send_message("info", "download images now")
+	send_message("info", "PhotoCount:" .. photo_count)
 	wait(10000)
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
@@ -398,10 +398,35 @@ async function createScan() {
 		logNumber++;
 		if (log.message == "download images now") {
 			// Download images from API
+			console.log("Images are being downloaded to: " + folderPaths[0]);
+			console.log("Thumbnails are being created to: " + folderPaths[1]);
+			console.log("Download images now...");
 			downloadImages(98, folderPaths[0], folderPaths[1]);
 			// Maybe delete old images
 			// Move bot to next row (A1, A2, etc..)
-			console.log("Download images now...");
+		}
+		var myStr = log.message;
+		myArrStr = myStr.split(":");
+		if (myArrStr[0] == "PhotoCount") { 
+			var imageCount = parseInt(myArrStr[1]);
+			if (imageCount<101){//We have reached end of small scan
+				// Download images from API
+				console.log("Images are being downloaded to: " + folderPaths[0]);
+				console.log("Thumbnails are being created to: " + folderPaths[1]);
+				console.log("Download images now...");
+				downloadImages(imageCount, folderPaths[0], folderPaths[1]);
+				// Maybe delete old images
+				// Move bot to next row (A1, A2, etc..)
+			}
+			if (imageCount>101){//We have reached end of big scan
+				// Download images from API
+				console.log("Images are being downloaded to: " + folderPaths[0]);
+				console.log("Thumbnails are being created to: " + folderPaths[1]);
+				console.log("Download images now...");
+				downloadImages(100, folderPaths[0], folderPaths[1]);
+				// Maybe delete old images
+				// Move bot to next row (A1, A2, etc..)
+			}
 		}
 		if (log.message == "Chance App done scanning farm") {
 			// Re-enable and show button.
