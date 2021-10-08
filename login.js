@@ -57,6 +57,9 @@ async function processCredentials() {
 		// If there's a match, update the db entry with new password.
 		const newUserPwObj = {password: pw}
 		await updateDbRowWhere('user', newUserEmailObj, newUserPwObj);
+		
+		// Move to main menu when done.
+		changePage('main-menu.html');
 	} else {	
 		// If no matching email, ask if they updated email and want to merge with an existing user.
 		// Check if there's any users in db to merge with.
