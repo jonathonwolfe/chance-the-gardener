@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./main-menu.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="d-grid justify-content-end">
+			<button class="btn mt-2" onclick="changePage('change-user.html')">Change user</button>
+		</div>
+
+		<div class="col-sm-10 mx-auto mt-5">
+			<h2 id="welcome-msg" class="mx-auto w-fit-content">Hi, you aren't logged in!</h2>
+		</div>
+
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button class="btn" onclick="changePage('garden-scanning-menu.html')">Garden scanning</button>
+			<button class="btn" onclick="changePage('3d-garden-menu.html')">3D garden</button>
+			
+			<button class="btn btn-danger mt-3" onclick="setLEDon()">Do Not Click</button>
+
+			<input class="mt-5" type="text" id="logMessageText" placeholder="Hello World" >
+			<button class="btn btn-danger" onclick="sendLogMessage()">Send Log Message</button>
+
+		</div>
+
+		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 fixed-bottom">
+			<button class="btn" onclick="changePage('settings.html')">Settings</button>
+		</div>
+	</div>
+</body>
+</html>

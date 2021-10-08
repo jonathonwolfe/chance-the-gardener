@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - Generate 3D Garden</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+	<script src="./script.js"></script>
+	<script src="./generate-3d-garden.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto mt-3">
+			<div class="d-flex mx-auto">
+				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>Generating a 3D garden will take a long amount of time, potentially hours, depending on your hardware specifications. </p>
+					<p>This is a resource intensive process, which means you will likely be unable to use your computer normally during this time.</p>
+					<p><strong>This application cannot be closed while the 3D garden generation is in progress, or you will have to restart the process.</strong></p>
+					<p>It is recommended that you set aside sufficient time for the process to complete.</p>
+				</div>
+			</div>
+		</div>
+		<div id="render-info" class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content d-none">
+			<div class="row">
+				<p class="col-3 w-fit-content fw-bold me-auto">User:</p>
+				<p id="render-user-info" class="col-sm-8 w-fit-content"></p>
+			</div>
+			<div class="row">
+				<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+				<p id="render-datetime-info" class="col-sm-8 w-fit-content"></p>
+			</div>
+		</div>
+		<div id="render-selection-form" class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans')">
+				</select>
+			</div>
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
+				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+				</select>
+			</div>
+		</div>
+		<div id="render-progress-spinner" class="d-flex justify-content-center d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button id="start-render-btn" class="btn btn-run" onclick="createRender()">Start 3D garden generation</button>
+			<button id="cancel-render-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
+		</div>
+	</div>
+	<div id="cancel-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancel 3D Garden Generation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Cancelling will reset all progress made for the generation of this 3D garden.</p>
+					<p><i>This will also likely result in a corrupted 3D rendering cache, which can be cleared in <b>Settings</b>.</i></p>
+					<p>Are you sure you wish to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="cancelRender()">Cancel 3D garden generation</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="render-success-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Success</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Your 3D garden was successfully generated!.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="render-failure-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Failure</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Your 3D garden generation failed.</p>
+					<p>If you did not cancel it, this can happen for a number of possible reasons:
+						<ul>
+							<li>You need to <b>clear the 3D render cache</b> in <b>Settings</b> after a previous failure.</li>
+							<li>You do not have enough disk space for the 3D garden.</li>
+							<li>Your hardware does not meet the requirements — a CUDA-enabled NVIDIA GPU is compulsory.</li>
+							<li>Your chosen scan farm size was too small, resulting in too little images to turn into a 3D garden.</li>
+							<li>Uneven lighting in scan photos, usually caused by sunlight — ensure you perform scans at night with the LED light turned on.</li>
+							<li>Scan photos do not have at least 40% overlap. This can be caused by scan z heights being too low.</li>
+						</ul>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
+			<div id="render-already-exists-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Error</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					This 3D garden already exists.
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

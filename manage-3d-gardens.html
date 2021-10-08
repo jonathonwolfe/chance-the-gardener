@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - Manage 3D Gardens</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./manage-3d-gardens.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
+				<select class="col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('renders')">
+				</select>
+			</div>
+			<div class="row">
+				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
+				<select class="col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+				</select>
+			</div>
+		</div>
+		
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
+		</div>
+	</div>
+	<div id="delete-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Delete 3D Garden</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>The following 3D garden will be deleted:</p>
+					<div class="d-grid">
+						<div class="row">
+							<p class="col-3 w-fit-content fw-bold mb-0">User:</p>
+							<p id="chosen-garden-user" class="col-sm-8 w-fit-content mb-0"></p>
+						</div>
+						<div class="row">
+							<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+							<p id="chosen-garden-datetime" class="col-sm-8 w-fit-content"></p>
+						</div>
+					</div>
+					<p>This action cannot be undone.</p>
+					<p>Are you sure you wish to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteRender()">Delete 3D Garden</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
+			<div id="del-success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Success</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					3D garden deleted.
+				</div>
+			</div>
+			<div id="del-fail-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Failure</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					There was an issue when trying to delete the 3D garden.<br>
+					Please ensure the files are not open in any programs, and try again.
+				</div>
+			</div>
+			<div id="del-no-choice-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Error</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					No 3D garden has been selected.
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener- Garden Scanning Menu</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./garden-scanning-menu.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button class="btn" onclick="changePage('scan-now.html')">Scan garden now</button>
+			<button class="btn" onclick="changePage('manage-scan-results.html')">Manage scan results</button>
+		</div>
+	</div>
+</body>
+</html>

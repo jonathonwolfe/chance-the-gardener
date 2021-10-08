@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - View 3D Garden</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+	<script src="./script.js"></script>
+	<script src="./view-3d-garden.js"></script>
+</head>
+<!--change onload to be a function to load list of userse from available renders-->
+<body>
+	<div class="container-fluid">
+		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto mt-3">
+			<div class="d-flex mx-auto">
+				<i class="bi bi-info-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>To view 3D gardens, an external 3D garden viewer program will be launched in a new window.</p>
+					<p>Chance the Gardener will remain open upon launching and/or exiting the 3D garden viewer.</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button class="btn" onclick="launchGardenViewer()">Launch 3D garden viewer</button>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - Scan Garden Now</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="./style.css">
+
+	<script src="./script.js"></script>
+	<script src="./scan-now.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<button class="btn btn-back mt-2" onclick="changePage('garden-scanning-menu.html')">Back</button>
+		<div class="d-grid gap-2 col-sm-10 col-md-8 mx-auto mt-3">
+			<div class="d-flex mx-auto">
+				<i class="bi bi-exclamation-circle-fill col-1 align-self-center ms-2" style="font-size: 2rem;"></i>
+				<div class="d-flex flex-column ms-2">
+					<p>Scanning a garden will take some time, depending on the size of your garden and camera quality. </p>
+					<p><strong>This application cannot be closed while the scan is in progress, or you will have to restart the process.</strong></p>
+					<p>It is recommended that you set aside sufficient time for the process to complete.</p>
+				</div>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+			<div class="row">
+				<p class="col-3 w-fit-content fw-bold me-auto">User:</p>
+				<p id="current-user-name" class="col-sm-8 w-fit-content"></p>
+				<p class="col-1 align-self-center"><i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="If you'd like to scan the garden of a different user, you must first change user in the main menu or settings."></i></p>
+			</div>
+			<div id="scan-datetime-info" class="row d-none">
+				<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+				<p id="current-scan-datetime" class="col-sm-8 w-fit-content"></p>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
+			<fieldset class="border p-3">
+				<legend class="w-auto">
+					Scan Farm Size
+					<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="How much of your farm you want to scan.<br>
+						Both values must be a minimum of 100mm.<br>
+						This is pre-filled with your entire farm size."></i>
+				</legend>
+				
+				<div class="row mb-3">
+					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputXAxis" min="100" required>
+					</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				</div>
+				<div class="row">
+					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
+					<div class="col-sm-5">
+						<input type="number" step=".1" class="form-control" id="inputYAxis" min="100" required>
+					</div>
+					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				</div>
+			</fieldset>
+			<div class="row mb-3 mt-3">
+				<label for="inputStartingZ" class="col-3 col-form-label me-auto">Z axis</label>
+				<div class="col-sm-5">
+					<input type="number" step="1" class="form-control" id="inputStartingZ" required>
+				</div>
+				<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
+				<i class="bi bi-question-circle-fill col-1 align-self-center ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What height (z axis) to use for the scan.<br>
+					The default value can be changed in settings."></i>
+			</div>
+		</div>
+		<div id="scan-progress-spinner" class="d-flex justify-content-center d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<button id="start-scan-btn" class="btn btn-run" onclick="createScan()">Start scan</button>
+			<button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-scan-modal">Cancel</button>
+		</div>
+
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
+			<h3>To be removed after dev:</h3>
+			<button class="btn btn-danger" onclick="testtest()">Emulate scan - Everything except actually moving the FarmBot</button>
+		</div>
+	</div>
+	<div id="cancel-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cancel Scan</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Cancelling a scan will delete all currently saved photos for this scan.</p>
+					<p>Are you sure you wish to proceed?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="cancelScan()">Cancel Scan</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
