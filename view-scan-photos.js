@@ -1,4 +1,5 @@
 $(document).ready(async function() {
+	loggedInCheck();
 	getSessionToken();
 	loadFolderPhotos(JSON.parse(localStorage.getItem('photosToView')));
 	createUserSelect();

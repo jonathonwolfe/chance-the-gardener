@@ -1,4 +1,5 @@
 $(document).ready(async function() {
+	loggedInCheck();
 	await pageStartUp();
 	await setUserName();
 });

@@ -365,3 +365,16 @@ function getFarmSize() {
 			});
 	});
 }
+
+async function loggedInCheck() {
+	// Check if there's data in the user db.
+	const userDbLength = await getDbTableSize('user');
+	if (userDbLength >= 1) {
+		// Check if a user has logged in yet.
+		if (localStorage.getItem('lastLoginUserID') == null) {
+			changePage('login.html');
+		}
+	} else {
+		changePage('login.html');
+	}
+}

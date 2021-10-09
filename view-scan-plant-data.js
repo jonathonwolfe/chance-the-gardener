@@ -1,6 +1,6 @@
 $(document).ready(async function() {
+	loggedInCheck();
 	getSessionToken();
-	//loadFolderPhotos(JSON.parse(localStorage.getItem('plantDataToView')));
 	createUserSelect();
 
 	// Set dropdown values to loaded plant data.
