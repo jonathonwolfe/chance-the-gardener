@@ -4,6 +4,9 @@ window.bootstrap = require('bootstrap');
 const db = require('electron-db');
 const fs = require('fs');
 const path = require('path');
+const log = require('electron-log');
+
+console.log = log.log;
 
 let lastLoggedInUserID,
 sessionToken;

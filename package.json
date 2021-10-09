@@ -25,6 +25,7 @@
     "child_process": "^1.0.2",
     "csv-writer": "^1.6.0",
     "electron-db": "^0.15.7",
+    "electron-log": "^4.4.1",
     "farmbot": "^14.2.2",
     "image-downloader": "^4.0.3",
     "image-size": "^1.0.0",
