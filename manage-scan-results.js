@@ -12,17 +12,19 @@ $(document).ready(async function() {
 });
 
 let scanUserEmailToDel,
-scanDateTimeToDel;
+scanDateTimeToDel,
+scanUserEmailToExport,
+scanUserDateTimeToExport;
 
 function getDeleteScanInfo() {
 	const scanUserToDelSelectEle = document.getElementById('user-select');
 	scanUserEmailToDel = scanUserToDelSelectEle[scanUserToDelSelectEle.selectedIndex].text,
 	scanDateTimeToDel = document.getElementById('date-time-select').value;
 
-	// Error and stop if no render chosen.
+	// Error and stop if no scan chosen.
 	if (scanDateTimeToDel == 'No scans found for this user') {
 		// Show error.
-		const noScanToast = new bootstrap.Toast(document.getElementById('del-no-choice-toast'));
+		const noScanToast = new bootstrap.Toast(document.getElementById('scan-no-choice-toast'));
 		noScanToast.show();
 	} else {
 		document.getElementById('chosen-scan-user').innerHTML = scanUserEmailToDel;
@@ -38,8 +40,8 @@ function deleteScan() {
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('del-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
-	
-	let scanFolderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel),
+
+	const scanFolderPath = path.join(__dirname, 'scans', scanUserEmailToDel, scanDateTimeToDel),
 	thumbsFolderPath = path.join(__dirname, 'thumbs', scanUserEmailToDel, scanDateTimeToDel);
 	// Delete scan and thumbs folders.
 	fs.rmdirSync(scanFolderPath, { recursive: true });
@@ -89,4 +91,90 @@ async function loadPlantDataViewer() {
 	localStorage.setItem("plantDataToView", JSON.stringify(folderPath));
 
 	changePage("view-scan-plant-data.html");
+}
+
+function getExportScanInfo() {
+	const scanUserToExportSelectEle = document.getElementById('user-select');
+	scanUserEmailToExport = scanUserToExportSelectEle[scanUserToExportSelectEle.selectedIndex].text,
+	scanDateTimeToExport = document.getElementById('date-time-select').value;
+
+	// Error and stop if no render chosen.
+	if (scanDateTimeToExport == 'No scans found for this user') {
+		// Show error.
+		const noScanToast = new bootstrap.Toast(document.getElementById('scan-no-choice-toast'));
+		noScanToast.show();
+	} else {
+		document.getElementById('chosen-scan-export-user').innerHTML = scanUserEmailToExport;
+		document.getElementById('chosen-scan-export-datetime').innerHTML = formatDateTimeReadable(scanDateTimeToExport);
+		const exportFileName = 'Scan_' + scanUserEmailToExport + '_' + scanDateTimeToExport + '.zip',
+		exportPath = path.join(__dirname, 'exports', exportFileName);
+		document.getElementById('export-scan-path').innerHTML = exportPath;
+
+		// Show confirmation modal.
+		const exportConfModal = new bootstrap.Modal(document.getElementById('export-scan-modal'));
+		exportConfModal.show();
+	}
+}
+
+function exportScan() {
+	const archiver = require('archiver');
+
+	const successToastEle = document.getElementById('export-success-toast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	failToastEle = document.getElementById('export-fail-toast'),
+	failToast = bootstrap.Toast.getInstance(failToastEle);
+
+	const scanFolderPath = path.join(__dirname, 'scans', scanUserEmailToExport, scanDateTimeToExport),
+	thumbsFolderPath = path.join(__dirname, 'thumbs', scanUserEmailToExport, scanDateTimeToExport),
+	exportFileName = 'Scan_' + scanUserEmailToExport + '_' + scanDateTimeToExport + '.zip',
+	exportPath = path.join(__dirname, 'exports', exportFileName);
+
+	// Check if exports folder exists yet, and create if not.
+	if (!fs.existsSync(path.join(__dirname, 'exports'))) {
+		fs.mkdirSync(path.join(__dirname, 'exports'));
+	}
+
+	// TODO: Handle export already existing.
+
+	// Create a .zip file to stream data to.
+	const output = fs.createWriteStream(exportPath);
+	const archive = archiver('zip', {
+	zlib: { level: 9 } // Sets the compression level.
+	});
+
+	// Wait for finish.
+	output.on('close', function() {
+		log.info(archive.pointer() + ' total bytes');
+		log.info('archiver has been finalized and the output file descriptor has closed.');
+		// Success toast.
+		successToast.show();
+	});
+
+	archive.on('warning', function(err) {
+		if (err.code === 'ENOENT') {
+			// log warning
+			log.error(err);
+			failToast.show();
+		} else {
+			// throw error
+			log.error(err);
+			failToast.show();
+			throw err;
+		}
+	});
+
+	archive.on('error', function(err) {
+		log.error(err);
+		failToast.show();
+		throw err;
+	});
+
+	// Pipe data to the .zip file
+	archive.pipe(output);
+
+	// Append files from a the chosen scan and its thumbs folders.
+	archive.directory(scanFolderPath, path.join('scans', scanUserEmailToExport, scanDateTimeToExport));
+	archive.directory(thumbsFolderPath, path.join('thumbs', scanUserEmailToExport, scanDateTimeToExport));
+
+	archive.finalize();
 }
