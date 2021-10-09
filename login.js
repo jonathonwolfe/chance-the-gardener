@@ -57,6 +57,9 @@ async function processCredentials() {
 		// If there's a match, update the db entry with new password.
 		const newUserPwObj = {password: pw}
 		await updateDbRowWhere('user', newUserEmailObj, newUserPwObj);
+
+		// Set this user as logged in.
+		localStorage.setItem('lastLoginUserID', matchingUser[0].userId);
 		
 		// Move to main menu when done.
 		changePage('main-menu.html');
