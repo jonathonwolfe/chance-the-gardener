@@ -5,8 +5,8 @@ $(document).ready(async function() {
 
 	// Set dropdown values to loaded photos.
 	// Find user ID of current scan's user email.
-	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split("/"),
-	userEmailToLoad = loadedScanFilepathSplit[2],
+	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split(path.sep),
+	userEmailToLoad = loadedScanFilepathSplit[loadedScanFilepathSplit.length - 2],
 	userToLoadObj = {email: userEmailToLoad},
 	loadedUserDetails = await getDbRowWhere('user', userToLoadObj);
 	$(function() {
@@ -16,7 +16,7 @@ $(document).ready(async function() {
 	});
 	
 	await createDateTimeSelect('scans', loadedUserDetails[0].userId);
-	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
+	document.getElementById("date-time-select").value = loadedScanFilepathSplit[loadedScanFilepathSplit.length - 1];
 
 	initialisePhotoGallery();
 });

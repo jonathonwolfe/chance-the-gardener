@@ -5,8 +5,8 @@ $(document).ready(async function() {
 
 	// Set dropdown values to loaded plant data.
 	// Find user ID of current scan's user email.
-	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("plantDataToView")).split("/"),
-	userEmailToLoad = loadedScanFilepathSplit[2],
+	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("plantDataToView")).split(path.sep),
+	userEmailToLoad = loadedScanFilepathSplit[loadedScanFilepathSplit.length - 2],
 	userToLoadObj = {email: userEmailToLoad},
 	loadedUserDetails = await getDbRowWhere('user', userToLoadObj);
 	$(function() {
@@ -16,7 +16,7 @@ $(document).ready(async function() {
 	});
 	
 	await createDateTimeSelect('scans', loadedUserDetails[0].userId);
-	document.getElementById("date-time-select").value = loadedScanFilepathSplit[3];
+	document.getElementById("date-time-select").value = loadedScanFilepathSplit[loadedScanFilepathSplit.length - 1];
 
 	// Load the plant data file.
 	loadPlantDataTable(JSON.parse(localStorage.getItem("plantDataToView")), loadedScanFilepathSplit[3]);

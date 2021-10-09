@@ -59,8 +59,8 @@ async function testtest() {
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFolderpathSplit = folderPaths[0].split("/");
-	const dateTimeFolName = scanFolderpathSplit[3];
+	const scanFolderpathSplit = folderPaths[0].split(path.sep);
+	const dateTimeFolName = scanFolderpathSplit[scanFolderpathSplit.length - 1];
 
 	// Show date-time of current scan.
 	dateTimeInfoHolder.classList.remove("d-none");
@@ -311,8 +311,8 @@ async function createScan() {
 	// TODO: Save scan to database in the createScanFolder() function.
 	// Folder name is used as placeholder for now.
 	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFolderpathSplit = folderPaths[0].split("/");
-	const dateTimeFolName = scanFolderpathSplit[3];
+	const scanFolderpathSplit = folderPaths[0].split(path.sep);
+	const dateTimeFolName = scanFolderpathSplit[scanFolderpathSplit.length - 1];
 
 	// Show date-time of current scan.
 	dateTimeInfoHolder.classList.remove("d-none");
