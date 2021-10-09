@@ -7,13 +7,13 @@ pw;
 
 // TODO: DELETE THIS FUNC IN FINAL BUILD!!!
 function tempLogin() {
-	document.getElementById("emailInput").value = "***REMOVED***";
-	document.getElementById("passwordInput").value = "***REMOVED***";
+	document.getElementById("email-input").value = "***REMOVED***";
+	document.getElementById("password-input").value = "***REMOVED***";
 }
 
 function logIn() {
-	emailAdd = document.getElementById("emailInput").value;
-	pw = document.getElementById("passwordInput").value;
+	emailAdd = document.getElementById("email-input").value;
+	pw = document.getElementById("password-input").value;
 
 	// Check if credentials are valid, and generate a session token with the API.
 	var apiRequest = {
@@ -129,3 +129,18 @@ function showMergeConfirmationModal() {
 	const mergeModal = new bootstrap.Modal(document.getElementById('merge-user-process-modal'));
 	mergeModal.show();
 }
+
+function hideShowPwText() {
+	const pwInput = document.getElementById('password-input'),
+	hideShowIcon = document.getElementById('pw-hide-show-icon');
+
+	if (pwInput.type === 'password') {
+		pwInput.type = 'text';
+		hideShowIcon.classList.remove('bi-eye-slash-fill');
+		hideShowIcon.classList.add('bi-eye-fill');
+	} else {
+		pwInput.type = 'password';
+		hideShowIcon.classList.remove('bi-eye-fill');
+		hideShowIcon.classList.add('bi-eye-slash-fill');
+	}
+  }

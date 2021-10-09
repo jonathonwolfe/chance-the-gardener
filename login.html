@@ -6,15 +6,23 @@
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
 	<script src="./script.js"></script>
 	<script src="./login.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			Email: <input type="email" id="emailInput" placeholder="Alex@gmail.com" >
-			Password: <input type="password" id="passwordInput" placeholder="********" >
+		<div class="gap-2 col-sm-5 col-md-4 col-xl-3 mx-auto mt-5">
+			<label for="email-input" class="form-label w-fit-content">Email:</label>
+			<input type="email" id="email-input" class="form-control">
+			<label for="password-input" class="form-label mt-3 w-fit-content">Password:</label>
+			<div class="input-group">
+				<input type="password" id="password-input" class="form-control">
+				<button class="input-group-text" title="Show/Hide Password" onclick="hideShowPwText()"><i id="pw-hide-show-icon" class="bi bi-eye-slash-fill"></i></button>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">	
 			<button class="btn" onclick="logIn()">Login</button>
 
 			<h3>To be removed after dev:</h3>
