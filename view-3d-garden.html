@@ -24,9 +24,16 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button class="btn" onclick="launchGardenViewer()">Launch 3D garden viewer</button>
+			<button id="launch-viewer-btn" class="btn" onclick="launchGardenViewer()">Launch 3D garden viewer</button>
+		</div>
+		<div id="viewer-launch-spinner" class="d-flex justify-content-center mt-5 d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+		<div id="viewer-launch-msg" class="row mt-3 d-none">
+			<p class="text-center">Garden viewer launched, please wait...</p>
 		</div>
 	</div>
 </body>
