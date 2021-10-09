@@ -44,8 +44,14 @@ function changePage(pagePath) {
 }
 
 function getSessionToken() {
-	// Check if a session token was passed from the previous page.
-	sessionToken = window.location.hash.substring(1);
+	return new Promise((resolve, reject) => {
+		// Check if a session token was passed from the previous page.
+		sessionToken = window.location.hash.substring(1);
+	});
+}
+
+async function checkSessionToken() {
+	await getSessionToken();
 
 	if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 		// If none found, generate new one.
