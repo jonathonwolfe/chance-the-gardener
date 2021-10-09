@@ -119,11 +119,10 @@ async function getFoldersList(type, user_Id) {
 	const currentUserObj = {userId: user_Id},
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
-
 	if (type == 'scans') {
 		try {
 			foldersList = 
-			readdirSync(type + '/' + emailAdd, { withFileTypes: true })
+			readdirSync(path.join(__dirname, 'scans', emailAdd), { withFileTypes: true })
 				.filter(dirent => dirent.isDirectory())
 				.map(dirent => dirent.name);
 		} catch (err) {
