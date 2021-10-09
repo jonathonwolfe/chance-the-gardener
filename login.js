@@ -7,13 +7,24 @@ pw;
 
 // TODO: DELETE THIS FUNC IN FINAL BUILD!!!
 function tempLogin() {
-	document.getElementById("email-input").value = "***REMOVED***";
-	document.getElementById("password-input").value = "***REMOVED***";
+	document.getElementById('email-input').value = "***REMOVED***";
+	document.getElementById('password-input').value = "***REMOVED***";
 }
 
 function logIn() {
-	emailAdd = document.getElementById("email-input").value;
-	pw = document.getElementById("password-input").value;
+	const loginBtn = document.getElementById('login-btn'),
+	loadingSpinner = document.getElementById('login-progress-spinner'),
+	emailInput = document.getElementById('email-input'),
+	pwInput = document.getElementById('password-input');
+	// Disable inputs.
+	emailInput.setAttribute("disabled", "");
+	pwInput.setAttribute("disabled", "");
+	loginBtn.setAttribute("disabled", "");
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
+
+	emailAdd = emailInput.value;
+	pw = pwInput.value;
 
 	// Check if credentials are valid, and generate a session token with the API.
 	var apiRequest = {
@@ -44,6 +55,12 @@ function logIn() {
 			} else {
 				// TODO: Generic fail error.
 			}
+			// Re-enable inputs.
+			emailInput.removeAttribute("disabled");
+			pwInput.removeAttribute("disabled");
+			loginBtn.removeAttribute("disabled");
+			// Hide loading spinner.
+			loadingSpinner.classList.add("d-none");
 		});
 }
 
