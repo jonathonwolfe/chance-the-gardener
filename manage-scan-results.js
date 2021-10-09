@@ -122,12 +122,28 @@ function exportScan() {
 	const successToastEle = document.getElementById('export-success-toast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('export-fail-toast'),
-	failToast = bootstrap.Toast.getInstance(failToastEle);
+	failToast = bootstrap.Toast.getInstance(failToastEle),
+	loadingSpinner = document.getElementById('export-progress-spinner'),
+	buttons = document.getElementsByClassName('btn'),
+	scanUserSelect = document.getElementById('user-select'),
+	scanDateTimeSelect = document.getElementById('date-time-select');
 
 	const scanFolderPath = path.join(__dirname, 'scans', scanUserEmailToExport, scanDateTimeToExport),
 	thumbsFolderPath = path.join(__dirname, 'thumbs', scanUserEmailToExport, scanDateTimeToExport),
 	exportFileName = 'Scan_' + scanUserEmailToExport + '_' + scanDateTimeToExport + '.zip',
 	exportPath = path.join(__dirname, 'exports', exportFileName);
+
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
+
+	// Disable buttons.
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].setAttribute("disabled", "");
+	}
+
+	// Disable drop-downs.
+	scanUserSelect.setAttribute("disabled", "");
+	scanDateTimeSelect.setAttribute("disabled", "");
 
 	// Check if exports folder exists yet, and create if not.
 	if (!fs.existsSync(path.join(__dirname, 'exports'))) {
@@ -146,26 +162,78 @@ function exportScan() {
 	output.on('close', function() {
 		log.info(archive.pointer() + ' total bytes');
 		log.info('archiver has been finalized and the output file descriptor has closed.');
+
 		// Success toast.
 		successToast.show();
+
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		scanUserSelect.removeAttribute("disabled");
+		scanDateTimeSelect.removeAttribute("disabled");
 	});
 
 	archive.on('warning', function(err) {
 		if (err.code === 'ENOENT') {
-			// log warning
 			log.error(err);
+
 			failToast.show();
+
+			// Hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+
+			// Enable buttons.
+			for (let i = 0; i < buttons.length; i++) {
+				buttons[i].removeAttribute("disabled");
+			}
+
+			// Enable drop-downs.
+			scanUserSelect.removeAttribute("disabled");
+			scanDateTimeSelect.removeAttribute("disabled");
 		} else {
-			// throw error
 			log.error(err);
+
 			failToast.show();
+
+			// Hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+
+			// Enable buttons.
+			for (let i = 0; i < buttons.length; i++) {
+				buttons[i].removeAttribute("disabled");
+			}
+
+			// Enable drop-downs.
+			scanUserSelect.removeAttribute("disabled");
+			scanDateTimeSelect.removeAttribute("disabled");
+
 			throw err;
 		}
 	});
 
 	archive.on('error', function(err) {
 		log.error(err);
+
 		failToast.show();
+
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		scanUserSelect.removeAttribute("disabled");
+		scanDateTimeSelect.removeAttribute("disabled");
+
 		throw err;
 	});
 

@@ -32,6 +32,11 @@
 			<button class="btn btn-confirm mt-5" onclick="getExportScanInfo()">Export scan</button>
 			<button class="btn btn-run" onclick="importScanRender()">Import scan/garden</button>
 		</div>
+		<div id="export-progress-spinner" class="d-flex justify-content-center mt-3 d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
 	</div>
 	<div id="delete-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
