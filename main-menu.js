@@ -34,8 +34,6 @@ function setupDbFiles() {
 
 	// Create new db files.
 	createNewDbTable('device');
-	createNewDbTable('render');
-	createNewDbTable('scan');
 	createNewDbTable('user');
 }
 
