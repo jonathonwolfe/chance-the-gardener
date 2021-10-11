@@ -39,7 +39,7 @@ function deleteRender() {
 	failToastEle = document.getElementById('del-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
-	const folderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'Renders', renderUserEmailToDel, renderDateTimeToDel);
+	const folderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToDel, renderDateTimeToDel);
 	// Delete scan folder.
 	fs.rmdirSync(folderPath, { recursive: true });
 
