@@ -19,10 +19,10 @@
 		<div class="d-flex mt-2 mb-3 w-100">
 			<button class="btn btn-back me-auto" onclick="changePage('manage-scan-results.html')">Back</button>
 			<label class="p-2 fw-bold" for="user-picker" >User:</label>
-			<select class="p-2 me-5" name="user-picker" id="user-select" onchange="photosUserSelectChange(this.value)">
+			<select class="form-select p-2 me-5" name="user-picker" id="user-select" onchange="photosUserSelectChange(this.value)">
 			</select>
 			<label class="p-2 fw-bold" for="date-time-picker" >Scan date & time:</label>
-			<select class="p-2" name="date-time-picker" id="date-time-select" onchange="reloadPhotos()">
+			<select class="form-select p-2" name="date-time-picker" id="date-time-select" onchange="reloadPhotos()">
 			</select>
 		</div>
 		<div id="plant-photos-gallery" class="my-gallery d-flex flex-wrap gap-4">
