@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chance the Gardener - Login</title>
+
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+	<script src="./script.js"></script>
+	<script src="./login.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="gap-2 col-sm-5 col-md-4 col-xl-3 mx-auto mt-5">
+			<label for="email-input" class="form-label w-fit-content">Email:</label>
+			<input type="email" id="email-input" class="form-control">
+			<label for="password-input" class="form-label mt-3 w-fit-content">Password:</label>
+			<div class="input-group">
+				<input type="password" id="password-input" class="form-control">
+				<button class="input-group-text" title="Show/Hide Password" onclick="hideShowPwText()"><i id="pw-hide-show-icon" class="bi bi-eye-slash-fill"></i></button>
+			</div>
+		</div>
+		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">	
+			<button id="login-btn" class="btn" onclick="logIn()">Login</button>
+
+			<h3>To be removed after dev:</h3>
+			<button class="btn btn-danger mt-5" onclick="tempLogin()">Fill form with Jonathon's credentials</button>
+		</div>
+		<div id="login-progress-spinner" class="d-flex justify-content-center mt-5 d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+	</div>
+	<div id="merge-user-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Merge Accounts</h5>
+				</div>
+				<div class="modal-body">
+					<p>Did you wish to merge this account with the data of an existing user?</p>
+					<p>If you have used this application in the past, and have changed your account's email address, you can merge to update the email address of your previous application data with this new one.</p>
+					<p>If this is your first time using this application with this account, or you want to keep your application data seperate, you can choose "<b>No</b>".</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="saveUserToDb()">No</button>
+					<button id="start-merge-proc-btn" type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="showMergeConfirmationModal()">Merge</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="merge-user-process-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Merge</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<label class="col-xs-3 w-fit-content fw-bold me-auto" for="user-picker" >Existing user to merge:</label>
+						<select class="col-xs-9 w-fit-content" name="user-picker" id="user-select">
+						</select>
+					</div>
+					<p class="mt-5"><strong>This action cannot be undone once you confirm the merge.</strong></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="backToMergePrompt()">Back</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="mergeAccount()">Confirm Merge</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
