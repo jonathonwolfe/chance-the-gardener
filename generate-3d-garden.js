@@ -69,7 +69,7 @@ function createRender() {
 	fs.copyFile(path.join(scanToRenderPath, 'farm_size.csv'), path.join(renderFolderPath, 'farm_size.csv'), (err) => {
 		if (err) throw err;
 	});
-	fs.copyFile(path.join(scanToRenderPath, 'farm_size.csv'), path.join(renderFolderPath, 'farm_size.csv'), (err) => {
+	fs.copyFile(path.join(scanToRenderPath, 'plant_data.csv'), path.join(renderFolderPath, 'plant_data.csv'), (err) => {
 		if (err) throw err;
 	});
 
