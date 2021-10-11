@@ -28,8 +28,8 @@ renderDateTimeToExport,
 fileToImportFilepath;
 
 function getDeleteRenderInfo() {
-	const scanUserToDelSelectEle = document.getElementById('user-select');
-	renderUserEmailToDel = scanUserToDelSelectEle[scanUserToDelSelectEle.selectedIndex].text,
+	const renderUserToDelSelectEle = document.getElementById('user-select');
+	renderUserEmailToDel = renderUserToDelSelectEle[renderUserToDelSelectEle.selectedIndex].text,
 	renderDateTimeToDel = document.getElementById('date-time-select').value;
 
 	// Error and stop if no render chosen.
@@ -53,7 +53,7 @@ function deleteRender() {
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 	
 	const folderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToDel, renderDateTimeToDel);
-	// Delete scan folder.
+	// Delete render folder.
 	fs.rmdirSync(folderPath, { recursive: true });
 
 	// Check if deleted and notify user on results.
