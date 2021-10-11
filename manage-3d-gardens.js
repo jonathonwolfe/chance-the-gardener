@@ -1,7 +1,10 @@
+const { info } = require('electron-log');
+
 $(document).ready(async function() {
 	loggedInCheck();
 	getSessionToken();
 	createUserSelect();
+	createImportUserSelect()
 	await createDateTimeSelect('renders', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// Activate toasts.
@@ -25,7 +28,23 @@ let renderUserEmailToDel,
 renderDateTimeToDel,
 renderUserEmailToExport,
 renderDateTimeToExport,
-fileToImportFilepath;
+fileToImportFilepath,
+firstFilePath,
+importType;
+
+async function createImportUserSelect() {
+	// Create an array of user IDs and their emails from the database.
+	var userIDList = await getDbEntireTable('user');
+
+	// Add values to select list.
+	const selectList = document.getElementById("import-user-select");
+	for (let i = 0; i < userIDList.length; i++) {
+		let userOption = document.createElement("option");
+		userOption.textContent = userIDList[i].email;
+		userOption.value = userIDList[i].userId;
+		selectList.appendChild(userOption);
+	}
+}
 
 function getDeleteRenderInfo() {
 	const renderUserToDelSelectEle = document.getElementById('user-select');
@@ -230,26 +249,137 @@ async function importScanRender() {
 		return;
 	}
 
+	// Open the import zip.
 	const zip = new StreamZip.async({ file: fileToImportFilepath });
 	const zipContents = await zip.entries();
 
-	const firstFilePath = Object.keys(zipContents)[0],
+	// Get path of first file in zip, and then import type based on that.
+	firstFilePath = Object.keys(zipContents)[0],
 	importType = firstFilePath.split('/')[0];
 
+	// Grab email from import.
+	let importEmail;
 	if (importType == 'scans' || importType == 'thumbs') {
 		log.info('This is a scan!');
+		importEmail = firstFilePath.split('/')[1];
 	} else if (importType == 'garden_viewer') {
 		log.info('This is a garden render!');
-		// TODO: Check anc create render folder structure.
+		importEmail = firstFilePath.split('/')[4];
 	} else {
 		// TODO: Error.
 		log.error('Invalid import');
+		return;
 	}
 
-	await zip.extract(null, __dirname);
+	// Check if email exists in db.
+	const newUserEmailObj = {email: importEmail},
+	matchingUser = await getDbRowWhere('user', newUserEmailObj);
 
+	// Ask to merge if no match, otherwise do it automatically.
+	if (matchingUser.length == 0) {
+		// If no matching email, ask if they want to merge with an existing user.
+		const mergeModal = new bootstrap.Modal(document.getElementById('merge-import-modal'));
+		mergeModal.show();
+		// Close zip.
+		await zip.close();
+	} else {
+		// Extract the files.
+		await zip.extract(null, __dirname);
+		// Close zip.
+		await zip.close();
+		// TODO: Toast import complete.
+	}
+}
+
+async function normalImport() {
+	const StreamZip = require('node-stream-zip');
+
+	// Open the import zip.
+	const zip = new StreamZip.async({ file: fileToImportFilepath });
+
+	// Extract the files.
+	await zip.extract(null, __dirname);
 	// Close zip.
 	await zip.close();
 
+	// Grab email from import.
+	let importEmail;
+	if (importType == 'scans' || importType == 'thumbs') {
+		importEmail = firstFilePath.split('/')[1];
+	} else if (importType == 'garden_viewer') {
+		importEmail = firstFilePath.split('/')[4];
+	}
+
+	// Create new user entry in db.
+	const newUserCredsObj = {email: importEmail, password: ''};
+	await addDbTableRow('user', newUserCredsObj);
+
 	// TODO: Toast import complete.
+}
+
+async function mergeImport() {
+	const StreamZip = require('node-stream-zip');
+
+	// Grab which existing user to merge into.
+	const renderUserToMergeImportSelectEle = document.getElementById('import-user-select'),
+	renderUserEmailToMergeImport = renderUserToMergeImportSelectEle[renderUserToMergeImportSelectEle.selectedIndex].text;
+
+	// Open the import zip.
+	const zip = new StreamZip.async({ file: fileToImportFilepath });
+	const zipContents = await zip.entries();
+
+	if (importType == 'scans' || importType == 'thumbs') {
+		let importEmail = firstFilePath.split('/')[1];
+
+		// Check if scans & thumbs folders exist yet, and create if not.
+		if (!fs.existsSync(path.join(__dirname, 'scans'))) {
+			fs.mkdirSync(path.join(__dirname, 'scans'));
+		}
+		if (!fs.existsSync(path.join(__dirname, 'thumbs'))) {
+			fs.mkdirSync(path.join(__dirname, 'thumbs'));
+		}
+
+		if (!fs.existsSync(path.join(__dirname, 'scans', renderUserEmailToMergeImport))) {
+			fs.mkdirSync(path.join(__dirname, 'scans', renderUserEmailToMergeImport));
+		}
+		if (!fs.existsSync(path.join(__dirname, 'thumbs', renderUserEmailToMergeImport))) {
+			fs.mkdirSync(path.join(__dirname, 'thumbs', renderUserEmailToMergeImport));
+		}
+
+		// Extract the files.
+		await zip.extract('scans/' + importEmail, path.join(__dirname, 'scans', renderUserEmailToMergeImport));
+		await zip.extract('thumbs/' + importEmail, path.join(__dirname, 'thumbs', renderUserEmailToMergeImport));
+	} else if (importType == 'garden_viewer') {
+		let importEmail = firstFilePath.split('/')[4];
+
+		// Check if renders folders exist yet, and create if not.
+		if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData'))) {
+			fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData'));
+		}
+
+		if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders'))) {
+			fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders'));
+		}
+
+		if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToMergeImport))) {
+			fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToMergeImport));
+		}
+
+		// Extract the files.
+		await zip.extract('garden_viewer/FarmBot 3D Viewer_Data/FarmBotData/Renders/' + importEmail, path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToMergeImport));
+	}
+
+	// Close zip.
+	await zip.close();
+	// TODO: Toast import complete.
+}
+
+function showImportMergeConfirmationModal() {
+	const mergeModal = new bootstrap.Modal(document.getElementById('merge-import-process-modal'));
+	mergeModal.show();
+}
+
+function backToImportPrompt() {
+	const mergeModal = new bootstrap.Modal(document.getElementById('merge-import-modal'));
+	mergeModal.show();
 }

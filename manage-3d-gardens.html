@@ -113,6 +113,45 @@
 			</div>
 		</div>
 	</div>
+	<div id="merge-import-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Merge Import</h5>
+				</div>
+				<div class="modal-body">
+					<p>This import contains data for a user that has not logged into this application yet.</p>
+					<p>Do you wish to merge this import data with the data of an existing user?</p>
+					<p>If you want to keep this import data as a seperate user, you can choose "<b>No</b>", and all future imports from this user will be kept seperate.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="normalImport()">No</button>
+					<button id="start-merge-proc-btn" type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="showImportMergeConfirmationModal()">Merge</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="merge-import-process-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Merge Import</h5>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<label class="col-xs-3 w-fit-content fw-bold me-auto" for="user-picker" >Existing user to merge:</label>
+						<select class="form-select col-xs-9 w-fit-content" name="user-picker" id="import-user-select">
+						</select>
+						<p class="mt-4">Please note that if a scan/garden already exists with the same date & time, the files will be overwritten with the imported ones.</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="backToImportPrompt()">Back</button>
+					<button type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="mergeImport()">Merge Import</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
 		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
 			<div id="del-success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

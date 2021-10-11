@@ -77,6 +77,24 @@ async function processCredentials() {
 
 		// Set this user as logged in.
 		localStorage.setItem('lastLoginUserID', matchingUser[0].userId);
+
+		// Check if user only exists due to import, and grab their farm data if so.
+		const newUserIdObj = {userId: matchingUser[0].userId},
+		matchingUserDevice = await getDbRowWhere('device', newUserIdObj);
+		if (matchingUserDevice.length = 0) {
+			// Get their farm details and save to db.
+			const lightPin = await findLightPin(),
+			farmSize = await getFarmSize(),
+			newDeviceObj = {
+				xMax: farmSize[0],
+				yMax: farmSize[1],
+				lightPinNum: lightPin,
+				zScanHeight: 0,
+				userId: matchingUser[0].userId
+			};
+
+			await addDbTableRow('device', newDeviceObj);
+		}
 		
 		// Move to main menu when done.
 		changePage('main-menu.html');
