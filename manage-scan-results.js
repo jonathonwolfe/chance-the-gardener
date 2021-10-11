@@ -9,12 +9,32 @@ $(document).ready(async function() {
 	var toastList = toastElList.map(function (toastEl) {
 		return new bootstrap.Toast(toastEl)
 	});
+
+	// Load modal.
+	var myModal = document.getElementById('import-modal');
+	var myInput = document.getElementById('import-btn');
+
+	myModal.addEventListener('shown.bs.modal', function () {
+		myInput.focus();
+	});
+
+	// Set up detecting import filepath.
+	$('#import-file-input').change(function (data) {
+		const fileToImportInfo = data.target.files[0];
+		if (fileToImportInfo === undefined) {
+			fileToImportFilepath = undefined;
+		} else {
+			fileToImportFilepath = fileToImportInfo.path;
+		}
+	});
+	
 });
 
 let scanUserEmailToDel,
 scanDateTimeToDel,
 scanUserEmailToExport,
-scanUserDateTimeToExport;
+scanDateTimeToExport,
+fileToImportFilepath;
 
 function getDeleteScanInfo() {
 	const scanUserToDelSelectEle = document.getElementById('user-select');
@@ -245,4 +265,36 @@ function exportScan() {
 	archive.directory(thumbsFolderPath, path.join('thumbs', scanUserEmailToExport, scanDateTimeToExport));
 
 	archive.finalize();
+}
+
+async function importScanRender() {
+	const StreamZip = require('node-stream-zip');
+
+	if (fileToImportFilepath === undefined) {
+		// TODO: Error nothing chosen
+		log.error('No file chosen for import.');
+		return;
+	}
+
+	const zip = new StreamZip.async({ file: fileToImportFilepath });
+	const zipContents = await zip.entries();
+
+	const firstFilePath = Object.keys(zipContents)[0],
+	importType = firstFilePath.split('/')[0];
+
+	if (importType == 'scans' || importType == 'thumbs') {
+		log.info('This is a scan!');
+	} else if (importType == 'Renders') {
+		log.info('This is a garden render!');
+	} else {
+		// TODO: Error.
+		log.error('Invalid import');
+	}
+
+	const count = await zip.extract(null, __dirname);
+
+	// Close zip.
+	await zip.close();
+
+	// TODO: Toast import complete.
 }
