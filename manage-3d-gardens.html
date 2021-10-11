@@ -25,11 +25,15 @@
 				</select>
 			</div>
 		</div>
-		
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
 			<button class="btn btn-confirm mt-5" onclick="getExportRenderInfo()">Export 3D garden</button>
 			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/garden</button>
+		</div>
+		<div id="export-progress-spinner" class="d-flex justify-content-center mt-3 d-none">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
 		</div>
 	</div>
 	<div id="delete-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
@@ -57,6 +61,35 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteRender()">Delete 3D Garden</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="export-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Export 3D Garden</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>The following 3D garden will be exported:</p>
+					<div class="d-grid">
+						<div class="row">
+							<p class="col-3 w-fit-content fw-bold mb-0">User:</p>
+							<p id="chosen-render-export-user" class="col-sm-8 w-fit-content mb-0"></p>
+						</div>
+						<div class="row">
+							<p class="col-3 w-fit-content fw-bold">Scan date & time:</p>
+							<p id="chosen-render-export-datetime" class="col-sm-8 w-fit-content"></p>
+						</div>
+					</div>
+					<p class="mt-4">The exported file will be saved as:</p>
+					<p id="export-render-path" class="col-sm-8 w-fit-content mb-0"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="exportRender()">Export 3D Garden</button>
 				</div>
 			</div>
 		</div>
@@ -101,7 +134,25 @@
 					Please ensure the files are not open in any programs, and try again.
 				</div>
 			</div>
-			<div id="del-no-choice-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div id="export-success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Success</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					3D garden exported.
+				</div>
+			</div>
+			<div id="export-fail-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Failure</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					There was an issue when trying to export the 3D garden.
+				</div>
+			</div>
+			<div id="render-no-choice-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 				<div class="toast-header">
 					<strong class="me-auto">Error</strong>
 					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

@@ -23,6 +23,8 @@ $(document).ready(async function() {
 
 let renderUserEmailToDel,
 renderDateTimeToDel,
+renderUserEmailToExport,
+renderDateTimeToExport,
 fileToImportFilepath;
 
 function getDeleteRenderInfo() {
@@ -33,7 +35,7 @@ function getDeleteRenderInfo() {
 	// Error and stop if no render chosen.
 	if (renderDateTimeToDel == 'No renders found for this user') {
 		// Show error.
-		const noRenderToast = new bootstrap.Toast(document.getElementById('del-no-choice-toast'));
+		const noRenderToast = new bootstrap.Toast(document.getElementById('render-no-choice-toast'));
 		noRenderToast.show();
 	} else {
 		document.getElementById('chosen-garden-user').innerHTML = renderUserEmailToDel;
@@ -67,7 +69,155 @@ function deleteRender() {
 }
 
 function getExportRenderInfo() {
+	const renderUserToExportSelectEle = document.getElementById('user-select');
+	renderUserEmailToExport = renderUserToExportSelectEle[renderUserToExportSelectEle.selectedIndex].text,
+	renderDateTimeToExport = document.getElementById('date-time-select').value;
 
+	// Error and stop if no render chosen.
+	if (renderDateTimeToExport == 'No renders found for this user') {
+		// Show error.
+		const noRenderToast = new bootstrap.Toast(document.getElementById('render-no-choice-toast'));
+		noRenderToast.show();
+	} else {
+		document.getElementById('chosen-render-export-user').innerHTML = renderUserEmailToExport;
+		document.getElementById('chosen-render-export-datetime').innerHTML = formatDateTimeReadable(renderDateTimeToExport);
+		const exportFileName = 'Render_' + renderUserEmailToExport + '_' + renderDateTimeToExport + '.zip',
+		exportPath = path.join(__dirname, 'exports', exportFileName);
+		document.getElementById('export-render-path').innerHTML = exportPath;
+
+		// Show confirmation modal.
+		const exportConfModal = new bootstrap.Modal(document.getElementById('export-render-modal'));
+		exportConfModal.show();
+	}
+}
+
+function exportRender() {
+	const archiver = require('archiver');
+
+	const successToastEle = document.getElementById('export-success-toast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	failToastEle = document.getElementById('export-fail-toast'),
+	failToast = bootstrap.Toast.getInstance(failToastEle),
+	loadingSpinner = document.getElementById('export-progress-spinner'),
+	buttons = document.getElementsByClassName('btn'),
+	renderUserSelect = document.getElementById('user-select'),
+	renderDateTimeSelect = document.getElementById('date-time-select');
+
+	const renderFolderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToExport, renderDateTimeToExport),
+	exportFileName = 'Render_' + renderUserEmailToExport + '_' + renderDateTimeToExport + '.zip',
+	exportPath = path.join(__dirname, 'exports', exportFileName);
+
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
+
+	// Disable buttons.
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].setAttribute("disabled", "");
+	}
+
+	// Disable drop-downs.
+	renderUserSelect.setAttribute("disabled", "");
+	renderDateTimeSelect.setAttribute("disabled", "");
+
+	// Check if exports folder exists yet, and create if not.
+	if (!fs.existsSync(path.join(__dirname, 'exports'))) {
+		fs.mkdirSync(path.join(__dirname, 'exports'));
+	}
+
+	// TODO: Handle export already existing.
+
+	// Create a .zip file to stream data to.
+	const output = fs.createWriteStream(exportPath);
+	const archive = archiver('zip', {
+	zlib: { level: 9 } // Sets the compression level.
+	});
+
+	// Wait for finish.
+	output.on('close', function() {
+		log.info(archive.pointer() + ' total bytes');
+		log.info('archiver has been finalized and the output file descriptor has closed.');
+
+		// Success toast.
+		successToast.show();
+
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		renderUserSelect.removeAttribute("disabled");
+		renderDateTimeSelect.removeAttribute("disabled");
+	});
+
+	archive.on('warning', function(err) {
+		if (err.code === 'ENOENT') {
+			log.error(err);
+
+			failToast.show();
+
+			// Hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+
+			// Enable buttons.
+			for (let i = 0; i < buttons.length; i++) {
+				buttons[i].removeAttribute("disabled");
+			}
+
+			// Enable drop-downs.
+			renderUserSelect.removeAttribute("disabled");
+			renderDateTimeSelect.removeAttribute("disabled");
+		} else {
+			log.error(err);
+
+			failToast.show();
+
+			// Hide loading spinner.
+			loadingSpinner.classList.add("d-none");
+
+			// Enable buttons.
+			for (let i = 0; i < buttons.length; i++) {
+				buttons[i].removeAttribute("disabled");
+			}
+
+			// Enable drop-downs.
+			renderUserSelect.removeAttribute("disabled");
+			renderDateTimeSelect.removeAttribute("disabled");
+
+			throw err;
+		}
+	});
+
+	archive.on('error', function(err) {
+		log.error(err);
+
+		failToast.show();
+
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		renderUserSelect.removeAttribute("disabled");
+		renderDateTimeSelect.removeAttribute("disabled");
+
+		throw err;
+	});
+
+	// Pipe data to the .zip file
+	archive.pipe(output);
+
+	// Append files from a the chosen render folder.
+	archive.directory(renderFolderPath, path.join('garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToExport, renderDateTimeToExport));
+
+	archive.finalize();
 }
 
 // TODO: Hide/show loading spinner.
@@ -90,6 +240,7 @@ async function importScanRender() {
 		log.info('This is a scan!');
 	} else if (importType == 'Renders') {
 		log.info('This is a garden render!');
+		// TODO: Check anc create render folder structure.
 	} else {
 		// TODO: Error.
 		log.error('Invalid import');
