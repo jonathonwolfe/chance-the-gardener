@@ -284,7 +284,7 @@ async function importScanRender() {
 
 	if (importType == 'scans' || importType == 'thumbs') {
 		log.info('This is a scan!');
-	} else if (importType == 'Renders') {
+	} else if (importType == 'garden_viewer') {
 		log.info('This is a garden render!');
 	} else {
 		// TODO: Error.
