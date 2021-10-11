@@ -28,6 +28,8 @@
 		
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
+			<button class="btn btn-confirm mt-5" onclick="getExportRenderInfo()">Export 3D garden</button>
+			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/garden</button>
 		</div>
 	</div>
 	<div id="delete-render-modal" class="modal fade" tabindex="-1" aria-hidden="true">
@@ -55,6 +57,25 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteRender()">Delete 3D Garden</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="import-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Import Scan/Garden</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<label for="import-file-input" class="form-label">Please select the scan/garden you wish to import:</label>
+					<input id="import-file-input" class="form-control" type="file" accept=".zip">
+					<p class="mt-4">Please note that if the imported scan/garden already exists, the files will be overwritten with the imported ones.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-run" data-bs-dismiss="modal" onclick="importScanRender()">Import</button>
 				</div>
 			</div>
 		</div>

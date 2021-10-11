@@ -27,7 +27,6 @@ $(document).ready(async function() {
 			fileToImportFilepath = fileToImportInfo.path;
 		}
 	});
-	
 });
 
 let scanUserEmailToDel,
@@ -267,6 +266,7 @@ function exportScan() {
 	archive.finalize();
 }
 
+// TODO: Hide/show loading spinner.
 async function importScanRender() {
 	const StreamZip = require('node-stream-zip');
 
@@ -291,7 +291,7 @@ async function importScanRender() {
 		log.error('Invalid import');
 	}
 
-	const count = await zip.extract(null, __dirname);
+	await zip.extract(null, __dirname);
 
 	// Close zip.
 	await zip.close();

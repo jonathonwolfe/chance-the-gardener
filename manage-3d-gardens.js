@@ -9,10 +9,21 @@ $(document).ready(async function() {
 	var toastList = toastElList.map(function (toastEl) {
 		return new bootstrap.Toast(toastEl)
 	});
+
+	// Set up detecting import filepath.
+	$('#import-file-input').change(function (data) {
+		const fileToImportInfo = data.target.files[0];
+		if (fileToImportInfo === undefined) {
+			fileToImportFilepath = undefined;
+		} else {
+			fileToImportFilepath = fileToImportInfo.path;
+		}
+	});
 });
 
 let renderUserEmailToDel,
-renderDateTimeToDel;
+renderDateTimeToDel,
+fileToImportFilepath;
 
 function getDeleteRenderInfo() {
 	const scanUserToDelSelectEle = document.getElementById('user-select');
@@ -53,4 +64,41 @@ function deleteRender() {
 	}
 
 	reloadDateTimeSelect('renders');
+}
+
+function getExportRenderInfo() {
+
+}
+
+// TODO: Hide/show loading spinner.
+async function importScanRender() {
+	const StreamZip = require('node-stream-zip');
+
+	if (fileToImportFilepath === undefined) {
+		// TODO: Error nothing chosen
+		log.error('No file chosen for import.');
+		return;
+	}
+
+	const zip = new StreamZip.async({ file: fileToImportFilepath });
+	const zipContents = await zip.entries();
+
+	const firstFilePath = Object.keys(zipContents)[0],
+	importType = firstFilePath.split('/')[0];
+
+	if (importType == 'scans' || importType == 'thumbs') {
+		log.info('This is a scan!');
+	} else if (importType == 'Renders') {
+		log.info('This is a garden render!');
+	} else {
+		// TODO: Error.
+		log.error('Invalid import');
+	}
+
+	await zip.extract(null, __dirname);
+
+	// Close zip.
+	await zip.close();
+
+	// TODO: Toast import complete.
 }
