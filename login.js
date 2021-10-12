@@ -10,15 +10,37 @@ function logIn() {
 	loadingSpinner = document.getElementById('login-progress-spinner'),
 	emailInput = document.getElementById('email-input'),
 	pwInput = document.getElementById('password-input');
+
+	emailAdd = emailInput.value;
+	pw = pwInput.value;
+
+	// Check if values are valid.
+	const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	let invalidValues = false;
+	if (emailRegEx.test(emailAdd) == false) {
+		emailInput.classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		emailInput.classList.remove("is-invalid");
+	}
+
+	if (pw == '') {
+		pwInput.classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		pwInput.classList.remove("is-invalid");
+	}
+
+	if (invalidValues) {
+		return;
+	}
+
 	// Disable inputs.
 	emailInput.setAttribute("disabled", "");
 	pwInput.setAttribute("disabled", "");
 	loginBtn.setAttribute("disabled", "");
 	// Show loading spinner.
 	loadingSpinner.classList.remove("d-none");
-
-	emailAdd = emailInput.value;
-	pw = pwInput.value;
 
 	// Check if credentials are valid, and generate a session token with the API.
 	var apiRequest = {

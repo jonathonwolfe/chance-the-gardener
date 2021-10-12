@@ -16,10 +16,16 @@
 		<div class="gap-2 col-sm-5 col-md-4 col-xl-3 mx-auto mt-5">
 			<label for="email-input" class="form-label w-fit-content">Email:</label>
 			<input type="email" id="email-input" class="form-control">
+			<div class="invalid-feedback">
+				You must provide a valid email address.
+			</div>
 			<label for="password-input" class="form-label mt-3 w-fit-content">Password:</label>
-			<div class="input-group">
+			<div class="input-group has-validation">
 				<input type="password" id="password-input" class="form-control">
 				<button class="input-group-text" title="Show/Hide Password" onclick="hideShowPwText()"><i id="pw-hide-show-icon" class="bi bi-eye-slash-fill"></i></button>
+				<div class="invalid-feedback">
+					You must provide a password.
+				</div>
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">	
