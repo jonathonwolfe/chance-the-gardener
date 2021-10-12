@@ -375,6 +375,12 @@ async function importScanRender() {
 		// Close zip.
 		await zip.close();
 
+		if (importType == 'scans' || importType == 'thumbs') {
+			reloadDateTimeSelect('scans');
+		} else if (importType == 'garden_viewer') {
+			reloadDateTimeSelect('renders');
+		}
+
 		// Success toast.
 		successToast.show();
 
@@ -420,6 +426,18 @@ async function normalImport() {
 	// Create new user entry in db.
 	const newUserCredsObj = {email: importEmail, password: ''};
 	await addDbTableRow('user', newUserCredsObj);
+
+	// Close zip.
+	await zip.close();
+
+	// Refresh select contents.
+	$('#user-select').empty();
+	await createUserSelect();
+	if (importType == 'scans' || importType == 'thumbs') {
+		reloadDateTimeSelect('scans');
+	} else if (importType == 'garden_viewer') {
+		reloadDateTimeSelect('renders');
+	}
 
 	// Success toast.
 	successToast.show();
@@ -475,6 +493,11 @@ async function mergeImport() {
 		// Extract the files.
 		await zip.extract('scans/' + importEmail, path.join(__dirname, 'scans', renderUserEmailToMergeImport));
 		await zip.extract('thumbs/' + importEmail, path.join(__dirname, 'thumbs', renderUserEmailToMergeImport));
+
+		// Close zip.
+		await zip.close();
+
+		reloadDateTimeSelect('scans');
 	} else if (importType == 'garden_viewer') {
 		let importEmail = firstFilePath.split('/')[4];
 
@@ -493,10 +516,12 @@ async function mergeImport() {
 
 		// Extract the files.
 		await zip.extract('garden_viewer/FarmBot 3D Viewer_Data/FarmBotData/Renders/' + importEmail, path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', renderUserEmailToMergeImport));
-	}
 
-	// Close zip.
-	await zip.close();
+		// Close zip.
+		await zip.close();
+
+		reloadDateTimeSelect('renders');
+	}
 
 	// Success toast.
 	successToast.show();
