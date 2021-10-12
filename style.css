@@ -1,5 +1,8 @@
 body {
-	background: #f9fbfc;
+	background: url('bg1.png') bottom left no-repeat, url('bg2.png') bottom right no-repeat;
+	background-color: #f9fbfc;
+	background-size: 30vw;
+	min-height: 90vh;
 }
 
 fieldset legend {
