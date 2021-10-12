@@ -9,7 +9,8 @@ const log = require('electron-log');
 console.log = log.log;
 
 let lastLoggedInUserID,
-sessionToken;
+sessionToken,
+apiConnected = false;
 
 async function loadLastUser() {
 	// Check which user was last logged in.
@@ -22,7 +23,7 @@ async function loadLastUser() {
 	password = userCreds[0].password;
 
 	// Generate a session token for this user with the API.
-	var settings = {
+	var apiRequest = {
 		"url": "https://my.farmbot.io/api/tokens",
 		"method": "POST",
 		"timeout": 0,
@@ -36,10 +37,12 @@ async function loadLastUser() {
 			}
 		}),
 	};
-	$.ajax(settings).done(function (response) {
-		sessionToken = response.token.encoded;
-		console.log("Session token generated: " + sessionToken);
-	});
+	$.ajax(apiRequest)
+		.done(function (response) {
+			sessionToken = response.token.encoded;
+			console.log("Session token generated: " + sessionToken);
+			apiConnected = true;
+		});
 }
 
 function changePage(pagePath) {
@@ -252,16 +255,17 @@ function findLightPin() {
 			},
 		};
 
-		$.ajax(apiRequest).done(function (response) {
-			console.log("Found this many PINs: " + response.length);
-			// Loop through the PINs to find the pin with LIGHTING as its label
-			for (let i = 0; i < response.length; i++) {
-				if (response[i].label == "Lighting"){
-					console.log("Found Light on PIN " + response[i].pin);
-					resolve(response[i].pin);
+		$.ajax(apiRequest)
+			.done(function (response) {
+				console.log("Found this many PINs: " + response.length);
+				// Loop through the PINs to find the pin with LIGHTING as its label
+				for (let i = 0; i < response.length; i++) {
+					if (response[i].label == "Lighting"){
+						console.log("Found Light on PIN " + response[i].pin);
+						resolve(response[i].pin);
+					}
 				}
-			}
-		});
+			});
 	});
 }
 

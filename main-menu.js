@@ -65,7 +65,7 @@ async function mainMenuStartUp() {
 			password = userCreds[0].password;
 
 			// Generate a session token for this user with the API.
-			var settings = {
+			var apiRequest = {
 				"url": "https://my.farmbot.io/api/tokens",
 				"method": "POST",
 				"timeout": 0,
@@ -79,12 +79,14 @@ async function mainMenuStartUp() {
 					}
 				}),
 			};
-			$.ajax(settings).done(function (response) {
-				sessionToken = response.token.encoded;
-				console.log("Session token generated: " + sessionToken);
-			}).then(function(response){
-				resolve(response);
-			});
+			$.ajax(apiRequest)
+				.done(function (response) {
+					sessionToken = response.token.encoded;
+					console.log("Session token generated: " + sessionToken);
+					apiConnected = true;
+				}).then(function(response){
+					resolve(response);
+				});
 		} else {
 			setWelcomeMsgName();
 		}
@@ -93,7 +95,7 @@ async function mainMenuStartUp() {
 
 function setWelcomeMsgName() {
 	return new Promise((resolve, reject) => {
-		var settings = {
+		var apiRequest = {
 			"url": "https://my.farmbot.io/api/users",
 			"method": "GET",
 			"timeout": 0,
@@ -104,10 +106,12 @@ function setWelcomeMsgName() {
 			},
 		};
 
-		$.ajax(settings).done(function (response) {
-			document.getElementById("welcome-msg").innerHTML = "Hi, " + response[0].name;
-		}).then(function(response){
-			resolve(response);
-		});
+		$.ajax(apiRequest)
+			.done(function (response) {
+				document.getElementById("welcome-msg").innerHTML = "Hi, " + response[0].name;
+				apiConnected = true;
+			}).then(function(response){
+				resolve(response);
+			});
 	});
 }

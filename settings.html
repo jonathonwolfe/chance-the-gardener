@@ -91,6 +91,24 @@
 			<button id="save-settings-btn" class="btn btn-confirm" onclick="saveSettings()" disabled>Save</button>
 		</div>
 	</div>
+	<div id="connection-error-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Unable to connect to FarmBot.</p>
+					<p>Please check your internet connection and refresh the page.</p>
+					<p>If the issue persists, try logging out and back in.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-seconday" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
 		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
 			<div id="autoDetectSuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

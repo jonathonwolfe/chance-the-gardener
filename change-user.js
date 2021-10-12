@@ -12,7 +12,7 @@ async function setUserDetails() {
 	userCreds = await getDbRowWhere('user', currentUserObj),
 	emailAdd = userCreds[0].email;
 
-	var settings = {
+	var apiRequest = {
 		"url": "https://my.farmbot.io/api/users",
 		"method": "GET",
 		"timeout": 0,
@@ -24,11 +24,13 @@ async function setUserDetails() {
 	};
 
 	// Set the user's details.
-	$.ajax(settings).done(function (response) {
-		document.getElementById("current-user-name").innerHTML = response[0].name;
-	}).then(function(response){
-		resolve(response);
-	});
+	$.ajax(apiRequest)
+		.done(function (response) {
+			document.getElementById("current-user-name").innerHTML = response[0].name;
+			apiConnected = true;
+		}).then(function(response){
+			resolve(response);
+		});
 
 	document.getElementById("current-email-add").innerHTML = emailAdd;		
 }

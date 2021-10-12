@@ -43,6 +43,14 @@ async function autoDetectFarmDetails() {
 	farmSizeYInput = document.getElementById("inputYAxis"),
 	lightPinInput = document.getElementById("inputLightPinNum");
 
+	// Check if can connect to API.
+	if (!apiConnected) {
+		const errModal = new bootstrap.Modal(document.getElementById('connection-error-modal'));
+		errModal.show();
+
+		return;
+	}
+
 	// Get the farm details.
 	const farmSize = await getFarmSize(),
 	lightPin = await findLightPin();

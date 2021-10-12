@@ -96,6 +96,24 @@
 			<!--button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-scan-modal">Cancel</button-->
 		</div>
 	</div>
+	<div id="connection-error-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Unable to connect to FarmBot.</p>
+					<p>Please check your internet connection and refresh the page.</p>
+					<p>If the issue persists, try logging out and back in.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-seconday" data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--div id="cancel-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">

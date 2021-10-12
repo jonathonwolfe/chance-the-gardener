@@ -19,9 +19,6 @@ $(document).ready(function() {
 	}); */
 });
 
-// TODO: Check if this is needed?
-//const { Console } = require("console");
-
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 
 // Creates a scan folder for current user with date & time.
@@ -78,7 +75,7 @@ async function createScanFolder() {
 function downloadImages(numberOfImagesToDownload, scanFolderPath, thumbsFolderPath) {
 	return new Promise((resolve, reject) => {
 	// Set the settings for the API request.
-	var settings = {
+	var apiRequest = {
 		"url": "https://my.farm.bot/api/images",
 		"method": "GET",
 		"timeout": 0,
@@ -91,28 +88,28 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath, thumbsFolderPa
 	var savedResponse;
 
 	// Access the response and save it to the variable
-	$.ajax(settings).done(async function (response) {
-		
-		savedResponse = response;
-		console.log(savedResponse[0]);
+	$.ajax(apiRequest)
+		.done(async function (response) {
+			savedResponse = response;
+			console.log(savedResponse[0]);
 
-		// x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
-		var x = numberOfImagesToDownload;
-		// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
-		var i = 0;
+			// x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
+			var x = numberOfImagesToDownload;
+			// 0 is the newest images, it will be downloaded first, then the second newest, and so on. 
+			var i = 0;
 
-		while (i <= x) {
-			// Download the image.
-			await downloadSingleImage(savedResponse[i], scanFolderPath);
+			while (i <= x) {
+				// Download the image.
+				await downloadSingleImage(savedResponse[i], scanFolderPath);
 
-			// Create thumbnail.
-			await generateImageThumbnail(savedResponse[i], scanFolderPath, thumbsFolderPath);
+				// Create thumbnail.
+				await generateImageThumbnail(savedResponse[i], scanFolderPath, thumbsFolderPath);
 
-			i += 1;
-		}
-	}).then(function(response){
-		resolve('Done dowloading images');
-	});
+				i += 1;
+			}
+		}).then(function(response){
+			resolve('Done dowloading images');
+		});
 });
 }
 
@@ -160,7 +157,7 @@ function savePlantData(scanFolderPath) {
 	const { Parser } = require('json2csv');
 
 	return new Promise((resolve, reject) => {
-		var settings = {
+		var apiRequest = {
 			"url": "https://my.farmbot.io/api/points",
 			"method": "GET",
 			"timeout": 0,
@@ -171,25 +168,26 @@ function savePlantData(scanFolderPath) {
 			},
 		};
 
-		$.ajax(settings).done(function (response) {
-			// Filter out non-plants.
-			let plantDataJson = [];
+		$.ajax(apiRequest)
+			.done(function (response) {
+				// Filter out non-plants.
+				let plantDataJson = [];
 
-			for (let i = 0; i < Object.keys(response).length; i++) {
-				if (response[i].pointer_type == "Plant") {
-					plantDataJson.push(response[i]);
+				for (let i = 0; i < Object.keys(response).length; i++) {
+					if (response[i].pointer_type == "Plant") {
+						plantDataJson.push(response[i]);
+					}
 				}
-			}
-			JSON.stringify(plantDataJson);
+				JSON.stringify(plantDataJson);
 
-			// Save as CSV.
-			const json2csvParser = new Parser();
-			const csv = json2csvParser.parse(plantDataJson);
-			
-			fs.writeFileSync(scanFolderPath + "/plant_data.csv", csv);
-		}).then(function(response){
-			resolve(response);
-		});
+				// Save as CSV.
+				const json2csvParser = new Parser();
+				const csv = json2csvParser.parse(plantDataJson);
+				
+				fs.writeFileSync(scanFolderPath + "/plant_data.csv", csv);
+			}).then(function(response){
+				resolve(response);
+			});
 	});
 }
 
@@ -221,6 +219,14 @@ async function createScan() {
 	var stepY;
 	var startingX = 0;
 	var startingY = 0;
+
+	// Check if can connect to API.
+	if (!apiConnected) {
+		const errModal = new bootstrap.Modal(document.getElementById('connection-error-modal'));
+		errModal.show();
+
+		return;
+	}
 
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
@@ -455,7 +461,7 @@ async function pageStartUp() {
 			password = userCreds[0].password;
 
 			// Generate a session token for this user with the API.
-			var settings = {
+			var apiRequest = {
 				"url": "https://my.farmbot.io/api/tokens",
 				"method": "POST",
 				"timeout": 0,
@@ -469,12 +475,14 @@ async function pageStartUp() {
 					}
 				}),
 			};
-			$.ajax(settings).done(function (response) {
-				sessionToken = response.token.encoded;
-				console.log("Session token generated: " + sessionToken);
-			}).then(function(response){
-				resolve(response);
-			});
+			$.ajax(apiRequest)
+				.done(function (response) {
+					sessionToken = response.token.encoded;
+					console.log("Session token generated: " + sessionToken);
+					apiConnected = true;
+				}).then(function(response){
+					resolve(response);
+				});
 		} else {
 			setUserName();
 		}
@@ -492,7 +500,7 @@ async function pageStartUp() {
 
 function setUserName() {
 	return new Promise((resolve, reject) => {
-		var settings = {
+		var apiRequest = {
 			"url": "https://my.farmbot.io/api/users",
 			"method": "GET",
 			"timeout": 0,
@@ -503,11 +511,12 @@ function setUserName() {
 			},
 		};
 
-		$.ajax(settings).done(function (response) {
-			document.getElementById("current-user-name").innerHTML = response[0].name;
-		}).then(function(response){
-			resolve(response);
-		});
+		$.ajax(apiRequest)
+			.done(function (response) {
+				document.getElementById("current-user-name").innerHTML = response[0].name;
+			}).then(function(response){
+				resolve(response);
+			});
 	});
 }
 
