@@ -13,6 +13,10 @@ $(document).ready(async function() {
 	var toastList = toastElList.map(function (toastEl) {
 		return new bootstrap.Toast(toastEl)
 	});
+
+	$('#settings-form').on('input change', function() {
+		$('#save-settings-btn').attr('disabled', false);
+	});
 });
 
 var currentUserId;
@@ -32,10 +36,6 @@ async function getCurrentSettings() {
 	document.getElementById("inputYAxis").value = yMax;
 	document.getElementById("inputLightPinNum").value = lightPinNum;
 	document.getElementById("inputZScanHeight").value = zScanHeight;
-}
-
-function enableSaveBtn() {
-	document.getElementById("save-settings-btn").removeAttribute("disabled");
 }
 
 async function autoDetectFarmDetails() {
@@ -87,10 +87,44 @@ async function saveSettings() {
 	const successToastEle = document.getElementById('autoDetectSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle);
 	// Get the values to save.
-	const farmSizeX = document.getElementById("inputXAxis").value,
-	farmSizeY = document.getElementById("inputYAxis").value,
-	lightPin = document.getElementById("inputLightPinNum").value,
-	zHeight = document.getElementById("inputZScanHeight").value;
+	const farmSizeX = Number(document.getElementById("inputXAxis").value),
+	farmSizeY = Number(document.getElementById("inputYAxis").value),
+	lightPin = Number(document.getElementById("inputLightPinNum").value),
+	zHeight = Number(document.getElementById("inputZScanHeight").value);
+
+	// Check if values are valid.
+	let invalidValues = false;
+	if (!(farmSizeX > 0)) {
+		document.getElementById("inputXAxis").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputXAxis").classList.remove("is-invalid");
+	}
+
+	if (!(farmSizeY > 0)) {
+		document.getElementById("inputYAxis").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputYAxis").classList.remove("is-invalid");
+	}
+
+	if (lightPin == '') {
+		document.getElementById("inputLightPinNum").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputLightPinNum").classList.remove("is-invalid");
+	}
+
+	if (zHeight == '') {
+		document.getElementById("inputZScanHeight").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputZScanHeight").classList.remove("is-invalid");
+	}
+
+	if (invalidValues) {
+		return;
+	}
 
 	// Save them to db.
 	const currentUserObj = {userId: currentUserId},
