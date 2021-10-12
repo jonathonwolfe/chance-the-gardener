@@ -24,7 +24,7 @@
 				<input type="password" id="password-input" class="form-control">
 				<button class="input-group-text" title="Show/Hide Password" onclick="hideShowPwText()"><i id="pw-hide-show-icon" class="bi bi-eye-slash-fill"></i></button>
 				<div class="invalid-feedback">
-					You must provide a password.
+					You must provide a valid password.
 				</div>
 			</div>
 		</div>
@@ -72,6 +72,28 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="backToMergePrompt()">Back</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="mergeAccount()">Confirm Merge</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom-0" aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-absolute bottom-0 end-0 p-3">	
+			<div id="wrong-pw-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Error</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					The password you provided for this email address is incorrect.
+				</div>
+			</div>
+			<div id="login-fail-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<strong class="me-auto">Error</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					There was an issue when trying to login.
 				</div>
 			</div>
 		</div>

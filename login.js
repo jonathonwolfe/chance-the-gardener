@@ -1,5 +1,11 @@
 $(document).ready(function() {
 	createUserSelect();
+
+	// Activate toasts.
+	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+	var toastList = toastElList.map(function (toastEl) {
+		return new bootstrap.Toast(toastEl)
+	});
 });
 
 let emailAdd,
@@ -66,10 +72,15 @@ function logIn() {
 		})
 		.fail(function (err) {
 			if (err.responseJSON.auth == "Bad email or password.") {
-				// TODO: Tell user incorrect credentials.
-				console.log('Invalid login credentials');
+				// Tell user incorrect credentials.
+				const wrongPwToastEle = document.getElementById('wrong-pw-toast'),
+				wrongPwToast = bootstrap.Toast.getInstance(wrongPwToastEle);
+				wrongPwToast.show();
 			} else {
-				// TODO: Generic fail error.
+				// Generic fail error.
+				const loginErrToastEle = document.getElementById('login-fail-toast'),
+				loginErrToast = bootstrap.Toast.getInstance(loginErrToastEle);
+				loginErrToast.show();
 			}
 			// Re-enable inputs.
 			emailInput.removeAttribute("disabled");
