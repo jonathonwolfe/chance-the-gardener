@@ -30,49 +30,6 @@ var stepY;
 var startingX = 0;
 var startingY = 0;
 
-async function testtest() {
-	// Elements for hiding/showing when scanning.
-	const startBtn = document.getElementById("start-scan-btn"),
-	cancelBtn = document.getElementById("cancel-scan-btn"),
-	loadingSpinner = document.getElementById("scan-progress-spinner"),
-	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
-	backBtn = document.getElementsByClassName("btn-back")[0];
-
-	// Create folder and get folderpath.
-	const folderPaths = await createScanFolder();
-
-	// Get plant data.
-	savePlantData(folderPaths[0]);
-
-	// Disable and hide scan button.
-	startBtn.setAttribute("disabled", "");
-	startBtn.classList.add("d-none");
-
-	// Disable back button.
-	backBtn.setAttribute("disabled", "");
-
-	// Show cancel button.
-	cancelBtn.classList.remove("d-none");
-	
-	// Show loading spinner.
-	loadingSpinner.classList.remove("d-none");
-
-	// TODO: Save scan to database in the createScanFolder() function.
-	// Folder name is used as placeholder for now.
-	// Normally it will grab the date time of current scan from db, after folder creation.
-	const scanFolderpathSplit = folderPaths[0].split(path.sep);
-	const dateTimeFolName = scanFolderpathSplit[scanFolderpathSplit.length - 1];
-
-	// Show date-time of current scan.
-	dateTimeInfoHolder.classList.remove("d-none");
-	document.getElementById("current-scan-datetime").innerHTML = dateTimeFolName;
-
-	// Download images.
-	downloadImages(5, folderPaths[0], folderPaths[1]);
-
-	saveFarmSize(folderPaths[0]);
-}
-
 // Creates a scan folder for current user with date & time.
 async function createScanFolder() {
 	const moment = require('moment')
