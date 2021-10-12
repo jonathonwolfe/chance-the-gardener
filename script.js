@@ -62,58 +62,6 @@ async function checkSessionToken() {
 	}
 }
 
-// TODO: Delete later.
-function setLEDon() {
-	var device = new farmbot.Farmbot({ token: sessionToken });
-
-
-	// Lua Function
-	const myLua = `
-	pinLED = read_pin(7)
-	send_message("info", pinLED)
-	if (pinLED == 0) then
-		send_message("info", "LED is OFF, turning it ON")
-		write_pin(7, "digital", 1)
-		send_message("info", "LED is ON")
-	else
-		send_message("info", "LED is ON")
-	end
-	`;
-	
-	device
-	  .connect()
-	  .then(() => {
-		device.send({
-		  kind: "rpc_request",
-		  args: { label: "---", priority: 100 },
-		  body: [
-			{
-			  kind: "lua",
-			  args: { lua: myLua }
-			},
-		  ]
-		});
-	  });
-}
-
-// TODO: Delete later.
-// Send log message to FarmBot system
-function sendLogMessage() {
-	var logValue = "Chance App: " + document.getElementById("logMessageText").value;
-	var farmbot123 = new farmbot.Farmbot({ token: sessionToken });
-
-	farmbot123
-		.connect()
-		.then(function () {
-			return farmbot123.sendMessage("success", logValue);
-
-		}).then(function (farmbot123) {
-			console.log("Log Sent");
-		}).catch(function (error) {
-			console.log("Something went wrong :(");
-		});
-}
-
 // Get list of folders in a directory.
 async function getFoldersList(type, user_Id) {
 	const { readdirSync } = require('fs');
