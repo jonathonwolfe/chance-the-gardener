@@ -19,7 +19,7 @@ $(document).ready(async function() {
 	document.getElementById("date-time-select").value = loadedScanFilepathSplit[loadedScanFilepathSplit.length - 1];
 
 	// Load the plant data file.
-	loadPlantDataTable(JSON.parse(localStorage.getItem("plantDataToView")), loadedScanFilepathSplit[3]);
+	loadPlantDataTable(JSON.parse(localStorage.getItem("plantDataToView")), loadedScanFilepathSplit[loadedScanFilepathSplit.length - 1]);
 });
 
 function loadPlantDataCsv(scanFolder) {
