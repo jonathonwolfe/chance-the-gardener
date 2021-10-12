@@ -3,6 +3,12 @@ $(document).ready(async function() {
 	getSessionToken();
 	createUserSelect();
 
+	// Activate toasts.
+	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+	var toastList = toastElList.map(function (toastEl) {
+		return new bootstrap.Toast(toastEl)
+	});
+
 	// Set dropdown values to loaded plant data.
 	// Find user ID of current scan's user email.
 	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("plantDataToView")).split(path.sep),
@@ -69,7 +75,10 @@ async function reloadPlantDataTable() {
 		// Load new plant data.
 		loadPlantDataTable(folder, dateTime);
 	} else {
-		// TODO: Error.
+		// Error.
+		const noPlantDataToastEle = document.getElementById('no-plant-data-toast'),
+		noPlantDataToast = bootstrap.Toast.getInstance(noPlantDataToastEle);
+		noPlantDataToast.show();
 	}
 }
 

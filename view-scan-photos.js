@@ -4,6 +4,12 @@ $(document).ready(async function() {
 	loadFolderPhotos(JSON.parse(localStorage.getItem('photosToView')));
 	createUserSelect();
 
+	// Activate toasts.
+	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+	var toastList = toastElList.map(function (toastEl) {
+		return new bootstrap.Toast(toastEl)
+	});
+
 	// Set dropdown values to loaded photos.
 	// Find user ID of current scan's user email.
 	const loadedScanFilepathSplit = JSON.parse(localStorage.getItem("photosToView"))[0].split(path.sep),
@@ -243,7 +249,10 @@ async function reloadPhotos () {
 		// Load new photos.
 		loadFolderPhotos(folders);
 	} else {
-		// TODO: Error.
+		// Error.
+		const noPhotosToastEle = document.getElementById('no-photos-toast'),
+		noPhotosToast = bootstrap.Toast.getInstance(noPhotosToastEle);
+		noPhotosToast.show();
 	}
 	
 }
