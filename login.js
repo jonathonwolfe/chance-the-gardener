@@ -5,12 +5,6 @@ $(document).ready(function() {
 let emailAdd,
 pw;
 
-// TODO: DELETE THIS FUNC IN FINAL BUILD!!!
-function tempLogin() {
-	document.getElementById('email-input').value = "***REMOVED***";
-	document.getElementById('password-input').value = "***REMOVED***";
-}
-
 function logIn() {
 	const loginBtn = document.getElementById('login-btn'),
 	loadingSpinner = document.getElementById('login-progress-spinner'),
