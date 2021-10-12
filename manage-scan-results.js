@@ -96,6 +96,16 @@ function deleteScan() {
 async function loadPhotoViewer() {
 	// Get the scan folder.
 	const scanDateTime = document.getElementById('date-time-select').value;
+
+	// Error and stop if no scan chosen.
+	if (scanDateTime == 'No scans found for this user') {
+		// Show error.
+		const noScanToast = new bootstrap.Toast(document.getElementById('scan-no-choice-toast'));
+		noScanToast.show();
+
+		return;
+	}
+	
 	// Get user's email from db.
 	const selectedUserId = parseInt(document.getElementById('user-select').value),
 	currentUserObj = {userId: selectedUserId},
@@ -132,7 +142,7 @@ function getExportScanInfo() {
 	scanUserEmailToExport = scanUserToExportSelectEle[scanUserToExportSelectEle.selectedIndex].text,
 	scanDateTimeToExport = document.getElementById('date-time-select').value;
 
-	// Error and stop if no render chosen.
+	// Error and stop if no scan chosen.
 	if (scanDateTimeToExport == 'No scans found for this user') {
 		// Show error.
 		const noScanToast = new bootstrap.Toast(document.getElementById('scan-no-choice-toast'));
