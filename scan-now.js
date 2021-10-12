@@ -23,7 +23,6 @@ $(document).ready(function() {
 //const { Console } = require("console");
 
 // TODO: Remove Variable "VALUES" on Release!
-var deviceLightPinNo = 7;
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 var stepX;
 var stepY;
@@ -279,6 +278,10 @@ async function createScan() {
 	var logNumber=0;
 	var device = new farmbot.Farmbot({ token: sessionToken });
 
+	// Get user's light pin number.
+	const currentUserObj = {userId: lastLoggedInUserID},
+	currentUserDev = await getDbRowWhere('device', currentUserObj),
+	lightPinNum = currentUserDev[0].lightPinNum;
 
 	// Lua Function
 	var myLua = `
@@ -286,11 +289,11 @@ async function createScan() {
 
 	find_home("all")
 	
-	pinLED = read_pin(${deviceLightPinNo})
+	pinLED = read_pin(${lightPinNum})
 	send_message("info", pinLED)
 	if (pinLED == 0) then
 		send_message("info", "LED is OFF, turning it ON")
-		write_pin(${deviceLightPinNo}, "digital", 1)
+		write_pin(${lightPinNum}, "digital", 1)
 		send_message("info", "LED is ON")
 	else
 		send_message("info", "LED is ON")
@@ -339,11 +342,11 @@ async function createScan() {
 	send_message("success", "Chance App done scanning farm")
 	find_home("all")
 
-	pinLED = read_pin(${deviceLightPinNo})
+	pinLED = read_pin(${lightPinNum})
 	send_message("info", pinLED)
 	if (pinLED == 1) then
 		send_message("info", "LED is ON, turning it OFF")
-		write_pin(${deviceLightPinNo}, "digital", 0)
+		write_pin(${lightPinNum}, "digital", 0)
 		send_message("info", "LED is OFF")
 	else
 		send_message("info", "LED is OFF")
