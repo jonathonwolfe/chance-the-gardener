@@ -4,7 +4,7 @@ $(document).ready(async function() {
 	loggedInCheck();
 	getSessionToken();
 	createUserSelect();
-	createImportUserSelect()
+	createImportUserSelect();
 	await createDateTimeSelect('renders', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// Activate toasts.

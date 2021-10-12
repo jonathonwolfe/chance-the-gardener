@@ -2,6 +2,7 @@ $(document).ready(async function() {
 	loggedInCheck();
 	getSessionToken();
 	createUserSelect();
+	createImportUserSelect();
 	await createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));
 
 	// Activate toasts.
@@ -34,6 +35,20 @@ scanDateTimeToDel,
 scanUserEmailToExport,
 scanDateTimeToExport,
 fileToImportFilepath;
+
+async function createImportUserSelect() {
+	// Create an array of user IDs and their emails from the database.
+	var userIDList = await getDbEntireTable('user');
+
+	// Add values to select list.
+	const selectList = document.getElementById("import-user-select");
+	for (let i = 0; i < userIDList.length; i++) {
+		let userOption = document.createElement("option");
+		userOption.textContent = userIDList[i].email;
+		userOption.value = userIDList[i].userId;
+		selectList.appendChild(userOption);
+	}
+}
 
 function getDeleteScanInfo() {
 	const scanUserToDelSelectEle = document.getElementById('user-select');
