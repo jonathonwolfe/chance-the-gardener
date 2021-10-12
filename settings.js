@@ -59,15 +59,19 @@ async function autoDetectFarmDetails() {
 	document.getElementById("save-settings-btn").setAttribute("disabled", "");
 }
 
-function clearMeshroomCache() {
-	const electron = require('electron'),
-	successToastEle = document.getElementById('delSuccessToast'),
+async function clearMeshroomCache() {
+	const { ipcRenderer } = require('electron');
+	const successToastEle = document.getElementById('delSuccessToast'),
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('delFailToast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle);
 
-	const meshroomCachePath = (electron.app || electron.remote.app).getPath('temp') + '\\MeshroomCache';
-	fs.rmdirSync(meshroomCachePath, { recursive: true });
+	const tempPath = await ipcRenderer.invoke('get-temp-path'),
+	meshroomCachePath = path.join(tempPath, 'MeshroomCache');
+	// If there, delete the cache.
+	if (fs.existsSync(meshroomCachePath)) {
+		fs.rmdirSync(meshroomCachePath, { recursive: true });
+	}
 
 	// Check if deleted and notify user on results.
 	if (!fs.existsSync(meshroomCachePath)) {

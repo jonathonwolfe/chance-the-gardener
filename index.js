@@ -1,7 +1,13 @@
 const { app, BrowserWindow } = require('electron');
+const { ipcMain } = require('electron');
 const requirejs = require('requirejs');
 
 function createWindow () {
+	ipcMain.handle('get-temp-path', async () => {
+		const path = app.getPath('temp');
+		return path;
+	});
+
 	const win = new BrowserWindow({
 		width: 1200,
 		height: 800,
