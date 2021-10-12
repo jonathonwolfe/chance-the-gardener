@@ -39,24 +39,27 @@
 					</div>
 				</div>
 			</fieldset>
-			<div class="row mb-3 mt-3">
-				<label for="inputLightPinNum" class="col-6 col-form-label me-auto">Light pin</label>
-				<div class="col-sm-5">
-					<input type="number" step="1" class="form-control" id="inputLightPinNum" onchange="enableSaveBtn()" required>
-				</div>
-			</div>
-			<div class="row mb-3 mt-3">
-				<label for="inputZScanHeight" class="col-5 col-form-label me-auto">Z axis scan height</label>
-				<div class="col-sm-5">
-					<div class="input-group">
-						<input type="number" step=".1" class="form-control" id="inputZScanHeight" onchange="enableSaveBtn()" required>
-						<span class="input-group-text">mm</span>
-						<span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What default height (z axis) to use for scans.<br>
-							This can be also be changed per scan."><i class="bi bi-question-circle-fill"></i></span>
+			<fieldset class="p-3">
+				<div class="row mb-3 mt-3">
+					<label for="inputLightPinNum" class="col-6 col-form-label me-auto">Light pin</label>
+					<div class="col-sm-5">
+						<input type="number" step="1" class="form-control" id="inputLightPinNum" onchange="enableSaveBtn()" required>
 					</div>
 				</div>
-				
-			</div>
+			</fieldset>
+			<fieldset class="p-3">
+				<div class="row mb-3">
+					<label for="inputZScanHeight" class="col-5 col-form-label me-auto">Z axis scan default height</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<input type="number" step=".1" class="form-control" id="inputZScanHeight" onchange="enableSaveBtn()" required>
+							<span class="input-group-text">mm</span>
+							<span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What default height (z axis) to use for scans.<br>
+								This can be also be changed per scan."><i class="bi bi-question-circle-fill"></i></span>
+						</div>
+					</div>
+				</div>
+			</fieldset>
 		</div>
 		<div class="d-grid col-sm-4 col-md-3 col-xl-2 mx-auto mb-5 mt-4">
 			<div class="d-flex">
