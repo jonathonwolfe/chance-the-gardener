@@ -46,19 +46,25 @@
 				</legend>
 				<div class="row mb-3">
 					<label for="inputXAxis" class="col-3 col-form-label me-auto">X axis</label>
-					<div class="col-sm-5">
-						<div class="input-group">
+					<div class="col-sm-6">
+						<div class="input-group has-validation">
 							<input type="number" step=".1" class="form-control" id="inputXAxis" min="100" required>
 							<span class="input-group-text">mm</span>
+							<div class="invalid-feedback">
+								You must provide a valid size of at least 100mm.
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<label for="inputYAxis" class="col-3 col-form-label me-auto">Y axis</label>
-					<div class="col-sm-5">
-						<div class="input-group">
+					<div class="col-sm-6">
+						<div class="input-group has-validation">
 							<input type="number" step=".1" class="form-control" id="inputYAxis" min="100" required>
 							<span class="input-group-text">mm</span>
+							<div class="invalid-feedback">
+								You must provide a valid size of at least 100mm.
+							</div>
 						</div>
 					</div>
 				</div>
@@ -66,12 +72,15 @@
 			<fieldset class="p-3">
 				<div class="row">
 					<label for="inputStartingZ" class="col-3 col-form-label me-auto">Z axis</label>
-					<div class="col-sm-5">
-						<div class="input-group">
+					<div class="col-sm-6">
+						<div class="input-group has-validation">
 							<input type="number" step="1" class="form-control" id="inputStartingZ" required>
 							<span class="input-group-text">mm</span>
 							<span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What height (z axis) to use for the scan.<br>
-								The default value can be changed in settings."><i class="bi bi-question-circle-fill col-1 align-self-center"></i></span>
+							The default value can be changed in settings."><i class="bi bi-question-circle-fill col-1 align-self-center"></i></span>
+							<div class="invalid-feedback">
+								You must provide a valid z axis height.
+							</div>
 						</div>
 					</div>
 				</fieldset>

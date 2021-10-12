@@ -24,7 +24,6 @@ $(document).ready(function() {
 
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
 
-
 // Creates a scan folder for current user with date & time.
 async function createScanFolder() {
 	const moment = require('moment')
@@ -229,13 +228,40 @@ async function createScan() {
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
 	backBtn = document.getElementsByClassName("btn-back")[0];
 	// Elements for grabbing scan settings.
-	const farmSizeXInput = document.getElementById("inputXAxis").value,
-	farmSizeYInput = document.getElementById("inputYAxis").value,
-	scanStartingZ = document.getElementById("inputStartingZ").value;
+	const farmSizeX = Number(document.getElementById("inputXAxis").value),
+	farmSizeY = Number(document.getElementById("inputYAxis").value),
+	scanStartingZ = Number(document.getElementById("inputStartingZ").value);
+
+	// Check if values are valid.
+	let invalidValues = false;
+	if (!(farmSizeX >= 100)) {
+		document.getElementById("inputXAxis").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputXAxis").classList.remove("is-invalid");
+	}
+
+	if (!(farmSizeY >= 100)) {
+		document.getElementById("inputYAxis").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputYAxis").classList.remove("is-invalid");
+	}
+
+	if (scanStartingZ == '') {
+		document.getElementById("inputStartingZ").classList.add("is-invalid");
+		invalidValues = true;
+	} else {
+		document.getElementById("inputStartingZ").classList.remove("is-invalid");
+	}
+
+	if (invalidValues) {
+		return;
+	}
 
 	// Create new soft limited lengths
-	var softLimitedDeviceXmax = parseInt(farmSizeXInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
-	var softLimitedDeviceYmax = parseInt(farmSizeYInput) - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
+	var softLimitedDeviceXmax = farmSizeX - 50; // -50 here to ensure motor does not stall by trying to go outside of X axis rails
+	var softLimitedDeviceYmax = farmSizeY - 50; // -50 here to ensure motor does not stall by trying to go outside of Y axis rails
 
 	// Calculate the steps per axis depending on the Device size and the level of increment (The higher the increment, the worse the render quality); and remove decimal
 	stepX = Math.trunc((softLimitedDeviceXmax-startingX)/stepQuality);
