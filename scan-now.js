@@ -22,12 +22,8 @@ $(document).ready(function() {
 // TODO: Check if this is needed?
 //const { Console } = require("console");
 
-// TODO: Remove Variable "VALUES" on Release!
 var stepQuality = 50; // MUST INCLUDE VALIDATION TO ENSURE RANGE IS BETWEEN 10-50. 50 being bad quality, 10 being good.
-var stepX;
-var stepY;
-var startingX = 0;
-var startingY = 0;
+
 
 // Creates a scan folder for current user with date & time.
 async function createScanFolder() {
@@ -224,6 +220,11 @@ function saveFarmSize(scanFolderPath) {
 }
 
 async function createScan() {
+	var stepX;
+	var stepY;
+	var startingX = 0;
+	var startingY = 0;
+
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
