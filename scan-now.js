@@ -10,13 +10,13 @@ $(document).ready(function() {
 	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 		return new bootstrap.Tooltip(tooltipTriggerEl)
 	});
-	// Load modal.
+/* 	// Load modal.
 	var myModal = document.getElementById('cancel-scan-modal');
 	var myInput = document.getElementById('cancel-scan-btn');
 
 	myModal.addEventListener('shown.bs.modal', function () {
 		myInput.focus();
-	});
+	}); */
 });
 
 // TODO: Check if this is needed?
@@ -70,8 +70,6 @@ async function createScanFolder() {
 	if (!fs.existsSync(thumbsDir)) {
 		fs.mkdirSync(thumbsDir);
 	}
-
-	// TODO: Create db entry for scan.
 
 	// Send back name and location of new scan folder.
 	return [scanDir, thumbsDir];
@@ -227,7 +225,6 @@ async function createScan() {
 
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
-	cancelBtn = document.getElementById("cancel-scan-btn"),
 	loadingSpinner = document.getElementById("scan-progress-spinner"),
 	dateTimeInfoHolder = document.getElementById("scan-datetime-info"),
 	backBtn = document.getElementsByClassName("btn-back")[0];
@@ -250,9 +247,6 @@ async function createScan() {
 
 	// Disable back button.
 	backBtn.setAttribute("disabled", "");
-
-	// Show cancel button.
-	cancelBtn.classList.remove("d-none");
 	
 	// Show loading spinner.
 	loadingSpinner.classList.remove("d-none");
@@ -266,9 +260,7 @@ async function createScan() {
 	// Get current scan's farm size and save it in scan folder.
 	saveFarmSize(folderPaths[0]);
 
-	// TODO: Save scan to database in the createScanFolder() function.
-	// Folder name is used as placeholder for now.
-	// Normally it will grab the date time of current scan from db, after folder creation.
+	// Grab the date time of current scan from folderpath.
 	const scanFolderpathSplit = folderPaths[0].split(path.sep);
 	const dateTimeFolName = scanFolderpathSplit[scanFolderpathSplit.length - 1];
 
@@ -400,8 +392,6 @@ async function createScan() {
 			loadingSpinner.classList.add("d-none");
 			// Re-hide scan date & time.
 			dateTimeInfoHolder.classList.add("d-none");
-			// Re-hide cancel button.
-			cancelBtn.classList.add("d-none");
 		}
 	});
 	
@@ -495,7 +485,8 @@ function setUserName() {
 	});
 }
 
-function cancelScan() {
+/*  The follow code does not work due to current FarmBot API limitations.
+	function cancelScan() {
 	// Elements for hiding/showing when scanning.
 	const startBtn = document.getElementById("start-scan-btn"),
 	cancelBtn = document.getElementById("cancel-scan-btn"),
@@ -522,12 +513,12 @@ function cancelScan() {
 
 	// Delete scan entry in database.
 
-	// TODO: Cancel scan sequence.
-	/* var device = new farmbot.Farmbot({ token: sessionToken });
+	// Cancel scan sequence.
+	var device = new farmbot.Farmbot({ token: sessionToken });
 	device.connect()
 	.then(function () {
 		return device.rebootFirmware();
-	}); */
+	});
 	
 	// Maybe load a toast to confirm scan cancellation?
-}
+} */

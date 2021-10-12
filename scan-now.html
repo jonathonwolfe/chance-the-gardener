@@ -21,6 +21,7 @@
 					<p>Scanning a garden will take some time, depending on the size of your garden and camera quality. </p>
 					<p><strong>This application cannot be closed while the scan is in progress, or you will have to restart the process.</strong></p>
 					<p>It is recommended that you set aside sufficient time for the process to complete.</p>
+					<p><strong>If this application is closed before scanning completes, the sequence will continue running running on your FarmBot.</strong> In this situation, you may attempt to stop it by turning the FarmBot off.</p>
 				</div>
 			</div>
 		</div>
@@ -83,10 +84,10 @@
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button id="start-scan-btn" class="btn btn-run" onclick="createScan()">Start scan</button>
-			<button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-scan-modal">Cancel</button>
+			<!--button id="cancel-scan-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-scan-modal">Cancel</button-->
 		</div>
 	</div>
-	<div id="cancel-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<!--div id="cancel-scan-modal" class="modal fade" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -103,6 +104,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div-->
 </body>
 </html>
