@@ -33,5 +33,5 @@ function launchGardenViewer() {
 		
 		// Hide loading spinner.
 		loadingSpinner.classList.add("d-none");
-	}, 15000);
+	}, 30000);
 }
