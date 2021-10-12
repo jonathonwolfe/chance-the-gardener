@@ -13,16 +13,24 @@
 <body>
 	<div class="container-fluid">
 		<button class="btn btn-back mt-2" onclick="changePage('3d-garden-menu.html')">Back</button>
-		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-3 w-fit-content">
+		<div class="d-grid gap-2 col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto mt-3">
 			<div class="row">
-				<label class="col-3 w-fit-content fw-bold me-auto" for="user-picker" >User:</label>
-				<select class="form-select col-sm-8 w-fit-content" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('renders')">
+				<div class="col-4 me-auto">
+					<label class="col-form-label col-4 w-fit-content fw-bold" for="user-picker" >User:</label>
+				</div>
+				<div class=" col-8">
+					<select class="form-select" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('renders')">
 				</select>
+				</div>
 			</div>
 			<div class="row">
-				<label class="col-3 w-fit-content fw-bold me-auto" for="date-time-picker" >Scan date & time:</label>
-				<select class="form-select col-sm-8 w-fit-content" name="date-time-picker" id="date-time-select">
+				<div class="col-4 me-auto">
+					<label class="col-form-label w-fit-content fw-bold" for="date-time-picker" >Scan date & time:</label>
+				</div>
+				<div class="col-8">
+					<select class="form-select" name="date-time-picker" id="date-time-select">
 				</select>
+				</div>
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">

@@ -17,22 +17,26 @@
 			<button class="btn btn-back mt-2" onclick="changePage('main-menu.html')">Back</button>
 			<button class="btn mt-2" onclick="changePage('change-user.html')">Change user</button>
 		</div>
-		<div class="d-grid gap-2 col-sm-6 col-md-5 col-xl-4 mx-auto mt-5">
+		<div class="d-grid gap-2 col-sm-9 col-md-7 col-lg-6 col-xl-5 mx-auto mt-5">
 			<fieldset class="border p-3">
 				<legend class="w-auto">Farm Size</legend>
 				<div class="row mb-3">
 					<label for="inputXAxis" class="col-5 col-form-label me-auto">X axis</label>
 					<div class="col-sm-5">
-						<input type="number" step=".1" class="form-control" id="inputXAxis" onchange="enableSaveBtn()" required>
+						<div class="input-group">
+							<input type="number" step=".1" class="form-control" id="inputXAxis" onchange="enableSaveBtn()" required>
+							<span class="input-group-text">mm</span>
+						</div>
 					</div>
-					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
 				</div>
 				<div class="row">
 					<label for="inputYAxis" class="col-5 col-form-label me-auto">Y axis</label>
 					<div class="col-sm-5">
-						<input type="number" step=".1" class="form-control" id="inputYAxis" onchange="enableSaveBtn()" required>
+						<div class="input-group">
+							<input type="number" step=".1" class="form-control" id="inputYAxis" onchange="enableSaveBtn()" required>
+							<span class="input-group-text">mm</span>
+						</div>
 					</div>
-					<div class="col-sm-1 p-sm-0 align-self-center">mm</div>
 				</div>
 			</fieldset>
 			<div class="row mb-3 mt-3">
@@ -44,11 +48,12 @@
 			<div class="row mb-3 mt-3">
 				<label for="inputZScanHeight" class="col-5 col-form-label me-auto">Z axis scan height</label>
 				<div class="col-sm-5">
-					<input type="number" step=".1" class="form-control" id="inputZScanHeight" onchange="enableSaveBtn()" required>
-				</div>
-				<div class="col-sm-1 p-sm-0 align-self-center d-flex">mm
-					<i class="bi bi-question-circle-fill ms-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What default height (z axis) to use for scans.<br>
-					This can be also be changed per scan."></i>
+					<div class="input-group">
+						<input type="number" step=".1" class="form-control" id="inputZScanHeight" onchange="enableSaveBtn()" required>
+						<span class="input-group-text">mm</span>
+						<span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="What default height (z axis) to use for scans.<br>
+							This can be also be changed per scan."><i class="bi bi-question-circle-fill"></i></span>
+					</div>
 				</div>
 				
 			</div>
