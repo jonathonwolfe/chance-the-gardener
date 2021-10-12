@@ -70,7 +70,6 @@ figure {
 	width: fit-content;
 }
 
-/* REMOVE BELOW AFTER TESTING ?? IF UNUSED */
 .btn-danger {
 	background-color: #dc3545;
 	border-color: #dc3545;
@@ -117,17 +116,4 @@ figure {
 
 #plant-data-table thead th {
 	height: 41px;
-}
-
-/* Old code from here onwards, likely deleted soon. */
-
-#myProgress {
-	width: 100%;
-	background-color: #FBFBF8;
-}
-
-#myBar {
-	width: 0%;
-	height: 30px;
-	background-color: green;
 }
