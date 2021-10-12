@@ -1,5 +1,3 @@
-const { info } = require('electron-log');
-
 $(document).ready(async function() {
 	loggedInCheck();
 	getSessionToken();
@@ -117,8 +115,8 @@ function exportRender() {
 	successToast = bootstrap.Toast.getInstance(successToastEle),
 	failToastEle = document.getElementById('export-fail-toast'),
 	failToast = bootstrap.Toast.getInstance(failToastEle),
-	loadingSpinner = document.getElementById('export-progress-spinner'),
-	buttons = document.getElementsByClassName('btn'),
+	loadingSpinner = document.getElementById('progress-spinner'),
+	buttons = document.getElementsByClassName('container-fluid')[0].getElementsByClassName('btn'),
 	renderUserSelect = document.getElementById('user-select'),
 	renderDateTimeSelect = document.getElementById('date-time-select');
 
@@ -242,12 +240,35 @@ function exportRender() {
 // TODO: Hide/show loading spinner.
 async function importScanRender() {
 	const StreamZip = require('node-stream-zip');
+	const successToastEle = document.getElementById('import-success-toast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	failToastEle = document.getElementById('import-fail-toast'),
+	failToast = bootstrap.Toast.getInstance(failToastEle),
+	loadingSpinner = document.getElementById('progress-spinner'),
+	buttons = document.getElementsByClassName('container-fluid')[0].getElementsByClassName('btn'),
+	scanUserSelect = document.getElementById('user-select'),
+	scanDateTimeSelect = document.getElementById('date-time-select');
 
 	if (fileToImportFilepath === undefined) {
-		// TODO: Error nothing chosen
-		log.error('No file chosen for import.');
+		// Error nothing chosen.
+		document.getElementById('import-file-input').classList.add("is-invalid");
 		return;
+	} else {
+		document.getElementById('import-file-input').classList.remove("is-invalid");
+		$('#import-modal').modal('hide');
 	}
+
+	// Show loading spinner.
+	loadingSpinner.classList.remove("d-none");
+
+	// Disable buttons.
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].setAttribute("disabled", "");
+	}
+
+	// Disable drop-downs.
+	scanUserSelect.setAttribute("disabled", "");
+	scanDateTimeSelect.setAttribute("disabled", "");
 
 	// Open the import zip.
 	const zip = new StreamZip.async({ file: fileToImportFilepath });
@@ -266,8 +287,21 @@ async function importScanRender() {
 		log.info('This is a garden render!');
 		importEmail = firstFilePath.split('/')[4];
 	} else {
-		// TODO: Error.
-		log.error('Invalid import');
+		// Invalid import file.
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		scanUserSelect.removeAttribute("disabled");
+		scanDateTimeSelect.removeAttribute("disabled");
+
+		// Notify user.
+		failToast.show();
 		return;
 	}
 
@@ -287,12 +321,32 @@ async function importScanRender() {
 		await zip.extract(null, __dirname);
 		// Close zip.
 		await zip.close();
-		// TODO: Toast import complete.
+
+		// Success toast.
+		successToast.show();
+
+		// Hide loading spinner.
+		loadingSpinner.classList.add("d-none");
+
+		// Enable buttons.
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].removeAttribute("disabled");
+		}
+
+		// Enable drop-downs.
+		scanUserSelect.removeAttribute("disabled");
+		scanDateTimeSelect.removeAttribute("disabled");
 	}
 }
 
 async function normalImport() {
 	const StreamZip = require('node-stream-zip');
+	const successToastEle = document.getElementById('import-success-toast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	loadingSpinner = document.getElementById('progress-spinner'),
+	buttons = document.getElementsByClassName('container-fluid')[0].getElementsByClassName('btn'),
+	scanUserSelect = document.getElementById('user-select'),
+	scanDateTimeSelect = document.getElementById('date-time-select');
 
 	// Open the import zip.
 	const zip = new StreamZip.async({ file: fileToImportFilepath });
@@ -314,11 +368,30 @@ async function normalImport() {
 	const newUserCredsObj = {email: importEmail, password: ''};
 	await addDbTableRow('user', newUserCredsObj);
 
-	// TODO: Toast import complete.
+	// Success toast.
+	successToast.show();
+
+	// Hide loading spinner.
+	loadingSpinner.classList.add("d-none");
+
+	// Enable buttons.
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].removeAttribute("disabled");
+	}
+
+	// Enable drop-downs.
+	scanUserSelect.removeAttribute("disabled");
+	scanDateTimeSelect.removeAttribute("disabled");
 }
 
 async function mergeImport() {
 	const StreamZip = require('node-stream-zip');
+	const successToastEle = document.getElementById('import-success-toast'),
+	successToast = bootstrap.Toast.getInstance(successToastEle),
+	loadingSpinner = document.getElementById('progress-spinner'),
+	buttons = document.getElementsByClassName('container-fluid')[0].getElementsByClassName('btn'),
+	scanUserSelect = document.getElementById('user-select'),
+	scanDateTimeSelect = document.getElementById('date-time-select');
 
 	// Grab which existing user to merge into.
 	const renderUserToMergeImportSelectEle = document.getElementById('import-user-select'),
@@ -371,7 +444,21 @@ async function mergeImport() {
 
 	// Close zip.
 	await zip.close();
-	// TODO: Toast import complete.
+
+	// Success toast.
+	successToast.show();
+
+	// Hide loading spinner.
+	loadingSpinner.classList.add("d-none");
+
+	// Enable buttons.
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].removeAttribute("disabled");
+	}
+
+	// Enable drop-downs.
+	scanUserSelect.removeAttribute("disabled");
+	scanDateTimeSelect.removeAttribute("disabled");
 }
 
 function showImportMergeConfirmationModal() {
