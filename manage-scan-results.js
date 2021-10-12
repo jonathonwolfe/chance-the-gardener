@@ -351,11 +351,13 @@ async function normalImport() {
 	} else if (importType == 'garden_viewer') {
 		importEmail = firstFilePath.split('/')[4];
 	}
+	log.info('importEmail: ' + importEmail);
 
 	// Create new user entry in db.
 	const newUserCredsObj = {email: importEmail, password: ''};
 	await addDbTableRow('user', newUserCredsObj);
 
+	log.info('import...done??');
 	// TODO: Toast import complete.
 }
 
