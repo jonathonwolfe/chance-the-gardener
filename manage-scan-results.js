@@ -194,8 +194,6 @@ function exportScan() {
 		fs.mkdirSync(path.join(__dirname, 'exports'));
 	}
 
-	// TODO: Handle export already existing.
-
 	// Create a .zip file to stream data to.
 	const output = fs.createWriteStream(exportPath);
 	const archive = archiver('zip', {

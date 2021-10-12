@@ -36,7 +36,7 @@
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
 			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
 			<button class="btn btn-confirm mt-5" onclick="getExportRenderInfo()">Export 3D garden</button>
-			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/garden</button>
+			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/3D garden</button>
 		</div>
 		<div id="progress-spinner" class="d-flex justify-content-center mt-3 d-none">
 			<div class="spinner-border" role="status">
@@ -95,6 +95,7 @@
 					<p class="mt-4">The exported file will be saved as:</p>
 					<p id="export-render-path" class="col-sm-8 w-fit-content mb-0"></p>
 					<p class="mt-4"><strong>Do not attempt to open the file before the export process finishes!</strong></p>
+					<p>If an export already exists for this 3D garden, it will be overwritten.</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -107,11 +108,11 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Import Scan/Garden</h5>
+					<h5 class="modal-title">Import Scan/3D Garden</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<label for="import-file-input" class="form-label">Please select the scan/garden you wish to import:</label>
+					<label for="import-file-input" class="form-label">Please select the scan/3d garden you wish to import:</label>
 					<input id="import-file-input" class="form-control" type="file" accept=".zip">
 					<div class="invalid-feedback">
 						You must select a file to import.
