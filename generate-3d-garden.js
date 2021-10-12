@@ -11,8 +11,18 @@ function createRender() {
 	// Grab info on which scan to generate.
 	const scanUserToRenderSelectEle = document.getElementById('user-select'),
 	scanUserEmailToRender = scanUserToRenderSelectEle[scanUserToRenderSelectEle.selectedIndex].text,
-	scanDateTimeToRender = document.getElementById('date-time-select').value,
-	scanToRenderPath = path.join(__dirname, 'scans', scanUserEmailToRender, scanDateTimeToRender),
+	scanDateTimeToRender = document.getElementById('date-time-select').value;
+
+	// Error and stop if no scan chosen.
+	if (scanDateTimeToRender == 'No scans found for this user') {
+		// Show error.
+		const noScanToast = new bootstrap.Toast(document.getElementById('scan-no-choice-toast'));
+		noScanToast.show();
+
+		return;
+	}
+
+	const scanToRenderPath = path.join(__dirname, 'scans', scanUserEmailToRender, scanDateTimeToRender),
 	renderFolderPath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData', 'Renders', scanUserEmailToRender, scanDateTimeToRender);
 
 	// Elements for hiding/showing when scanning.
