@@ -3,6 +3,12 @@ $(document).ready(async function() {
 });
 
 async function appStartUp() {
+	// Disable buttons while checking.
+	const buttons = document.getElementsByClassName('btn');
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].setAttribute("disabled", "");
+	}
+
 	// Check if user database exists.
 	if (fs.existsSync(path.join(__dirname, 'db', 'user.json'))) {
 		// Check if there's actually data in it.
@@ -12,6 +18,11 @@ async function appStartUp() {
 			if (localStorage.getItem('lastLoginUserID') != null) {
 				await mainMenuStartUp();
 				await setWelcomeMsgName();
+				
+				// Re-enable buttons.
+				for (let i = 0; i < buttons.length; i++) {
+					buttons[i].removeAttribute("disabled");
+				}
 			} else {
 				changePage('login.html');
 			}
@@ -41,9 +52,9 @@ function createNewDbTable(tableName) {
 	const location = path.join(__dirname, 'db');
 	db.createTable(tableName, location, (succ, msg) => {
 		if (succ) {
-			console.log(msg + 'JSON db created.')
+			log.error(msg + 'JSON db created.');
 		} else {
-			console.log('An error has occured. ' + msg)
+			log.error('An error has occured. ' + msg);
 		}
 	});
 }
@@ -82,13 +93,14 @@ async function mainMenuStartUp() {
 			$.ajax(apiRequest)
 				.done(function (response) {
 					sessionToken = response.token.encoded;
-					console.log("Session token generated: " + sessionToken);
+					log.info("Session token generated: " + sessionToken);
 					apiConnected = true;
 				}).then(function(response){
 					resolve(response);
 				});
 		} else {
 			setWelcomeMsgName();
+			resolve();
 		}
 	});
 }
