@@ -144,11 +144,11 @@ async function mergeAccount() {
 	const oldUserId = parseInt(document.getElementById("user-select").value),
 	oldUserIdObj = {userId: oldUserId};
 
-	// Update that db acc with new credentials.
-	await updateDbRowWhere('user', oldUserIdObj, newUserCredsObj);
-
 	// Save the user ID as last logged in.
 	localStorage.setItem('lastLoginUserID', oldUserId);
+
+	// Update that db acc with new credentials.
+	await updateDbRowWhere('user', oldUserIdObj, newUserCredsObj);
 
 	// Move to main menu when done.
 	changePage('main-menu.html');
