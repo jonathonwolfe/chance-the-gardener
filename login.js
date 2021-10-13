@@ -6,6 +6,11 @@ $(document).ready(function() {
 	var toastList = toastElList.map(function (toastEl) {
 		return new bootstrap.Toast(toastEl)
 	});
+
+	// Prevent login form from submitting like normal.
+	$("#login-form").submit(function(e) {
+		e.preventDefault();
+	});
 });
 
 let emailAdd,
