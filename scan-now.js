@@ -364,7 +364,6 @@ async function createScan() {
 	end
 	send_message("info", "PhotoCount:" .. photo_count)
 	wait(10000)
-	send_message("success", "Chance App done scanning farm")
 	find_home("all")
 
 	pinLED = read_pin(${lightPinNum})
@@ -376,6 +375,7 @@ async function createScan() {
 	else
 		send_message("info", "LED is OFF")
 	end
+	wait(10000)
 	send_message("success", "Chance App done scanning farm")
 	`;
 	
