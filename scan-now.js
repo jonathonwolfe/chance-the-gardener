@@ -514,6 +514,7 @@ function setUserName() {
 		$.ajax(apiRequest)
 			.done(function (response) {
 				document.getElementById("current-user-name").innerHTML = response[0].name;
+				apiConnected = true;
 			}).then(function(response){
 				resolve(response);
 			});
