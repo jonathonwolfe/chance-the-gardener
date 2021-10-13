@@ -5,6 +5,7 @@
 	<title>Chance the Gardener - Manage 3D Gardens</title>
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
@@ -34,9 +35,9 @@
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()">Delete 3D garden</button>
-			<button class="btn btn-confirm mt-5" onclick="getExportRenderInfo()">Export 3D garden</button>
-			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/3D garden</button>
+			<button id="delete-render-btn" class="btn btn-danger mt-5" onclick="getDeleteRenderInfo()"><i class="bi bi-trash-fill"></i> Delete 3D garden</button>
+			<button class="btn btn-confirm mt-5" onclick="getExportRenderInfo()"><i class="bi bi-box-arrow-up"></i> Export 3D garden</button>
+			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal"><i class="bi bi-box-arrow-in-down"></i> Import scan/3D garden</button>
 		</div>
 		<div id="progress-spinner" class="d-flex justify-content-center mt-3 d-none">
 			<div class="spinner-border" role="status">

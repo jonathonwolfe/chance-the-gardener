@@ -5,6 +5,7 @@
 	<title>Chance the Gardener - Manage Scan Results</title>
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
 	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
@@ -34,11 +35,11 @@
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button class="btn" onclick="loadPhotoViewer()">View photos</button>
-			<button class="btn" onclick="loadPlantDataViewer()">View plant data</button>
-			<button id="delete-scan-btn" class="btn btn-danger mt-5" onclick="getDeleteScanInfo()">Delete scan</button>
-			<button class="btn btn-confirm mt-5" onclick="getExportScanInfo()">Export scan</button>
-			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal">Import scan/3D garden</button>
+			<button class="btn" onclick="loadPhotoViewer()"><i class="bi bi-image"></i> View photos</button>
+			<button class="btn" onclick="loadPlantDataViewer()"><i class="bi bi-search"></i> View plant data</button>
+			<button id="delete-scan-btn" class="btn btn-danger mt-5" onclick="getDeleteScanInfo()"><i class="bi bi-trash-fill"></i> Delete scan</button>
+			<button class="btn btn-confirm mt-5" onclick="getExportScanInfo()"><i class="bi bi-box-arrow-up"></i> Export scan</button>
+			<button id="import-btn" class="btn btn-run" data-bs-toggle="modal" data-bs-target="#import-modal"><i class="bi bi-box-arrow-in-down"></i> Import scan/3D garden</button>
 		</div>
 		<div id="progress-spinner" class="d-flex justify-content-center mt-3 d-none">
 			<div class="spinner-border" role="status">

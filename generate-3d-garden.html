@@ -5,8 +5,8 @@
 	<title>Chance the Gardener - Generate 3D Garden</title>
 
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="./style.css">
 	<link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="./style.css">
 
 	<script src="./script.js"></script>
 	<script src="./generate-3d-garden.js"></script>
@@ -38,7 +38,7 @@
 		<div id="render-selection-form" class="d-grid gap-2 col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto mt-3">
 			<div class="row">
 				<div class="col-4 me-auto">
-					<label class="col-form-label col-4 w-fit-content fw-bold" for="user-picker" >User:</label>
+					<label class="col-form-label col-4 w-fit-content fw-bold" for="user-picker">User:</label>
 				</div>
 				<div class=" col-8">
 					<select class="form-select" name="user-picker" id="user-select" onchange="reloadDateTimeSelect('scans')">
@@ -47,7 +47,7 @@
 			</div>
 			<div class="row">
 				<div class="col-4 me-auto">
-					<label class="col-form-label w-fit-content fw-bold" for="date-time-picker" >Scan date & time:</label>
+					<label class="col-form-label w-fit-content fw-bold" for="date-time-picker">Scan date & time:</label>
 				</div>
 				<div class="col-8">
 					<select class="form-select" name="date-time-picker" id="date-time-select">
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div class="d-grid gap-2 col-sm-4 col-md-3 col-xl-2 mx-auto mt-5">
-			<button id="start-render-btn" class="btn btn-run" onclick="createRender()">Start 3D garden generation</button>
+			<button id="start-render-btn" class="btn btn-run" onclick="createRender()"><i class="bi bi-lightning-fill"></i> Start 3D garden generation</button>
 			<button id="cancel-render-btn" class="btn btn-danger d-none" data-bs-toggle="modal" data-bs-target="#cancel-render-modal">Cancel</button>
 		</div>
 	</div>
