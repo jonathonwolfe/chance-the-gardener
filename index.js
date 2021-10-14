@@ -19,9 +19,6 @@ function createWindow () {
 	})
 
 	win.loadFile('main-menu.html');
-	
-	/* For debugging */
-	win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
