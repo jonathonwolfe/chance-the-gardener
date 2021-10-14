@@ -72,7 +72,7 @@ function logIn() {
 		.done(function (response) {
 			// If valid, save the session token and proceed.
 			sessionToken = response.token.encoded;
-			console.log("Session token generated: " + sessionToken);
+			log.info("Session token generated: " + sessionToken);
 			processCredentials();
 		})
 		.fail(function (err) {

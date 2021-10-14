@@ -95,9 +95,9 @@ function createRender() {
 	parameters = ["--input", scanToRenderPath, "--output", renderFolderPath, "--scale", "2"];
 
  	meshroomExec = child(executablePath, parameters, function (err, data, errData) {
-		console.log(err)
-		console.log(data.toString());
-		console.log(errData.toString())
+		log.error(err)
+		log.info(data.toString());
+		log.error(errData.toString())
 
 		let logData = data.toString();
 		let progress = 0;
@@ -119,7 +119,7 @@ function createRender() {
 			renderSelectionForm.classList.remove("d-none");
 
 			// Success message.
-			console.log(progress);
+			log.info(progress);
 			const successModal = new bootstrap.Modal(document.getElementById('render-success-modal'));
 			successModal.show();
 		} else {

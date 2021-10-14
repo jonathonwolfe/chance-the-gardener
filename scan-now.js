@@ -91,7 +91,7 @@ function downloadImages(numberOfImagesToDownload, scanFolderPath, thumbsFolderPa
 	$.ajax(apiRequest)
 		.done(async function (response) {
 			savedResponse = response;
-			console.log(savedResponse[0]);
+			log.info(savedResponse[0]);
 
 			// x is the number of images the user want to download (FarmBot has a limit of storing the latest 449 images on their servers, hence 449 is the max number here)
 			var x = numberOfImagesToDownload;
@@ -124,7 +124,7 @@ function downloadSingleImage(savedResponse, scanFolderPath) {
 
 		download.image(options)
 			.then(({ filename }) => {
-				console.log('Saved to', filename);
+				log.info('Saved to', filename);
 				resolve();
 			})
 			.catch((err) => console.error(err));
@@ -144,7 +144,7 @@ function generateImageThumbnail(savedResponse, scanFolderPath, thumbsFolderPath)
 				.resize({ width: 100 })
 				.toFile(thumbsFolderPath + "/" + savedResponse.id + ".jpg")
 				.then(data => { 
-					console.log(data);
+					log.info(data);
 					resolve(); 
 				})
 				.catch(err => { console.error(err) });
@@ -210,7 +210,7 @@ function saveFarmSize(scanFolderPath) {
 	
 	csvWriter.writeRecords(records)
 		.then(() => {
-			console.log('Farm size saved to folder.');
+			log.info('Farm size saved to folder.');
 		});
 }
 
@@ -379,42 +379,42 @@ async function createScan() {
 	send_message("success", "Chance App done scanning farm")
 	`;
 	
-	device.on("logs", (log) => {
-		console.log("("+ logNumber +")New log: " + log.message);
+	device.on("logs", (logs) => {
+		log.info("("+ logNumber +")New log: " + logs.message);
 		logNumber++;
-		if (log.message == "download images now") {
+		if (logs.message == "download images now") {
 			// Download images from API
-			console.log("Images are being downloaded to: " + folderPaths[0]);
-			console.log("Thumbnails are being created to: " + folderPaths[1]);
-			console.log("Download images now...");
+			log.info("Images are being downloaded to: " + folderPaths[0]);
+			log.info("Thumbnails are being created to: " + folderPaths[1]);
+			log.info("Download images now...");
 			downloadImages(98, folderPaths[0], folderPaths[1]);
 			// Maybe delete old images
 			// Move bot to next row (A1, A2, etc..)
 		}
-		var myStr = log.message;
+		var myStr = logs.message;
 		myArrStr = myStr.split(":");
 		if (myArrStr[0] == "PhotoCount") { 
 			var imageCount = parseInt(myArrStr[1]);
 			if (imageCount<101){//We have reached end of small scan
 				// Download images from API
-				console.log("Images are being downloaded to: " + folderPaths[0]);
-				console.log("Thumbnails are being created to: " + folderPaths[1]);
-				console.log("Download images now...");
+				log.info("Images are being downloaded to: " + folderPaths[0]);
+				log.info("Thumbnails are being created to: " + folderPaths[1]);
+				log.info("Download images now...");
 				downloadImages(imageCount-1, folderPaths[0], folderPaths[1]);
 				// Maybe delete old images
 				// Move bot to next row (A1, A2, etc..)
 			}
 			if (imageCount>101){//We have reached end of big scan
 				// Download images from API
-				console.log("Images are being downloaded to: " + folderPaths[0]);
-				console.log("Thumbnails are being created to: " + folderPaths[1]);
-				console.log("Download images now...");
+				log.info("Images are being downloaded to: " + folderPaths[0]);
+				log.info("Thumbnails are being created to: " + folderPaths[1]);
+				log.info("Download images now...");
 				downloadImages(100, folderPaths[0], folderPaths[1]);
 				// Maybe delete old images
 				// Move bot to next row (A1, A2, etc..)
 			}
 		}
-		if (log.message == "Chance App done scanning farm") {
+		if (logs.message == "Chance App done scanning farm") {
 			// Re-enable and show button.
 			startBtn.removeAttribute("disabled");
 			startBtn.classList.remove("d-none");
@@ -481,7 +481,7 @@ async function pageStartUp() {
 			$.ajax(apiRequest)
 				.done(function (response) {
 					sessionToken = response.token.encoded;
-					console.log("Session token generated: " + sessionToken);
+					log.info("Session token generated: " + sessionToken);
 					apiConnected = true;
 				}).then(function(response){
 					resolve(response);

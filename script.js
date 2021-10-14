@@ -6,8 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
 
-console.log = log.log;
-
 let lastLoggedInUserID,
 sessionToken,
 apiConnected = false;
@@ -40,7 +38,7 @@ async function loadLastUser() {
 	$.ajax(apiRequest)
 		.done(function (response) {
 			sessionToken = response.token.encoded;
-			console.log("Session token generated: " + sessionToken);
+			log.info("Session token generated: " + sessionToken);
 			apiConnected = true;
 		});
 }
@@ -81,7 +79,7 @@ async function getFoldersList(type, user_Id) {
 				.map(dirent => dirent.name);
 		} catch (err) {
 			// User folder probably doesn't exist.
-			console.log('Error reading user folder.');
+			log.error(err);
 		}
 	} else if (type =='renders') {
 		try {
@@ -91,7 +89,7 @@ async function getFoldersList(type, user_Id) {
 				.map(dirent => dirent.name);
 		} catch (err) {
 			// User folder probably doesn't exist.
-			console.log('Error reading user folder.');
+			log.error(err);
 		}
 	}
 
@@ -190,8 +188,8 @@ function getDbTableSize(tableName) {
 			if (succ) {
 				resolve(data);
 			} else {
-				console.log('An error has occured.');
-				console.log(data);
+				log.error('An error has occured.');
+				log.error(data);
 				reject(data);
 			}
 		})
@@ -217,8 +215,8 @@ function getDbRowWhere(tableName, where) {
 				// Returns an array of matching row objects.
 				resolve(result);
 			} else {
-				console.log('An error has occured.');
-				console.log(result);
+				log.error('An error has occured.');
+				log.error(result);
 				reject(result);
 			}
 		})
@@ -234,8 +232,8 @@ function updateDbRowWhere(tableName, where, newData) {
 			if (succ) {
 				resolve(succ);
 			} else {
-				console.log('An error has occured.');
-				console.log(result);
+				log.error('An error has occured.');
+				log.error(result);
 				reject(result);
 			}
 		})
@@ -257,11 +255,11 @@ function findLightPin() {
 
 		$.ajax(apiRequest)
 			.done(function (response) {
-				console.log("Found this many PINs: " + response.length);
+				log.info("Found this many PINs: " + response.length);
 				// Loop through the PINs to find the pin with LIGHTING as its label
 				for (let i = 0; i < response.length; i++) {
 					if (response[i].label == "Lighting"){
-						console.log("Found Light on PIN " + response[i].pin);
+						log.info("Found Light on PIN " + response[i].pin);
 						resolve(response[i].pin);
 					}
 				}
@@ -296,7 +294,7 @@ function getFarmSize() {
 				//Save the coordinates
 				deviceXmax = parseFloat(myArr[1]); 
 				deviceYmax = parseFloat(myArr[2]);
-				console.log("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
+				log.info("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
 				resolve([deviceXmax, deviceYmax]);
 			}
 		});

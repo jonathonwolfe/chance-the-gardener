@@ -20,8 +20,8 @@ function launchGardenViewer() {
 	loadingSpinner.classList.remove("d-none");
 
 	child(executablePath, function (err, data) {
-		console.log(err)
-		console.log(data.toString());
+		log.error(err)
+		log.info(data.toString());
 	});
 
 	setTimeout(function () {
