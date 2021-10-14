@@ -116,14 +116,14 @@ async function saveSettings() {
 		document.getElementById("inputYAxis").classList.remove("is-invalid");
 	}
 
-	if (lightPin == '') {
+	if (document.getElementById("inputLightPinNum").value.length == 0) {
 		document.getElementById("inputLightPinNum").classList.add("is-invalid");
 		invalidValues = true;
 	} else {
 		document.getElementById("inputLightPinNum").classList.remove("is-invalid");
 	}
 
-	if (zHeight == '') {
+	if (document.getElementById("inputZScanHeight").value.length == 0) {
 		document.getElementById("inputZScanHeight").classList.add("is-invalid");
 		invalidValues = true;
 	} else {
