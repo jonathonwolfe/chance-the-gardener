@@ -1,8 +1,8 @@
 body {
-	background: url('bg1.png') bottom left no-repeat, url('bg2.png') bottom right no-repeat;
+	background: url('bg1.png') bottom no-repeat;
 	background-color: #f9fbfc;
-	background-size: 30vw;
-	min-height: 90vh;
+	background-size: contain;
+	min-height: 98vh;
 }
 
 fieldset legend {
@@ -14,6 +14,17 @@ fieldset legend {
 
 figure {
 	margin: 0;
+}
+
+footer > button {
+	background-color: #f9fbfc;
+	box-shadow: 0 0 20px 20px #f9fbfc;
+	border: none;
+}
+
+.container-fluid {
+	background-color: #f9fbfc;
+	box-shadow: 0 0 30px 50px #f9fbfc;
 }
 
 .btn {
