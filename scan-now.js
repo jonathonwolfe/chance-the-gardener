@@ -254,7 +254,7 @@ async function createScan() {
 		document.getElementById("inputYAxis").classList.remove("is-invalid");
 	}
 
-	if (scanStartingZ == '') {
+	if (document.getElementById("inputStartingZ").value.length == 0) {
 		document.getElementById("inputStartingZ").classList.add("is-invalid");
 		invalidValues = true;
 	} else {
