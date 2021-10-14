@@ -424,6 +424,9 @@ async function createScan() {
 			loadingSpinner.classList.add("d-none");
 			// Re-hide scan date & time.
 			dateTimeInfoHolder.classList.add("d-none");
+			// Show success modal.
+			const successModal = new bootstrap.Modal(document.getElementById('scan-success-modal'));
+			successModal.show();
 		}
 	});
 	
