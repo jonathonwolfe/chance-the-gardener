@@ -3,6 +3,8 @@ $(document).ready(async function() {
 	getSessionToken();
 	createUserSelect();
 	await createDateTimeSelect("scans", parseInt(localStorage.getItem('lastLoginUserID')));
+	// Set logged in as default user.
+	document.getElementById("user-select").value = parseInt(localStorage.getItem('lastLoginUserID'));
 });
 
 var meshroomExec;

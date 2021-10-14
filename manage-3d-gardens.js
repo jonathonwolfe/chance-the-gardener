@@ -4,6 +4,8 @@ $(document).ready(async function() {
 	createUserSelect();
 	createImportUserSelect();
 	await createDateTimeSelect('renders', parseInt(localStorage.getItem('lastLoginUserID')));
+	// Set logged in as default user.
+	document.getElementById("user-select").value = parseInt(localStorage.getItem('lastLoginUserID'));
 
 	// Activate toasts.
 	var toastElList = [].slice.call(document.querySelectorAll('.toast'));
