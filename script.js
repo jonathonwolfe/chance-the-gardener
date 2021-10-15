@@ -294,7 +294,6 @@ function getFarmSize() {
 				//Save the coordinates
 				deviceXmax = parseFloat(myArr[1]); 
 				deviceYmax = parseFloat(myArr[2]);
-				log.info("FarmBot Device Size: [" + deviceXmax + "," + deviceYmax + "]");
 				resolve([deviceXmax, deviceYmax]);
 			}
 		});
