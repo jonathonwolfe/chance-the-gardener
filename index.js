@@ -17,7 +17,7 @@ function createWindow () {
 			contextIsolation: false,
 			enableRemoteModule: true,
 		},
-		icon: path.join(__dirname, 'Chance-the-Gardener_logo_icon.png')
+		icon: path.join(__dirname, 'img', 'Chance-the-Gardener_logo_icon.png')
 	})
 
 	win.loadFile('main-menu.html');
