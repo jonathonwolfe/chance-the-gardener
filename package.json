@@ -1,17 +1,20 @@
 {
   "name": "chance-the-gardener",
+  "productName": "Chance the Gardener",
   "version": "1.0.0",
   "description": "Scan garden using FarmBot and generate 3D renders.",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "packager": "electron-packager . --icon=img/chance_the_gardener_logo_icon.ico"
   },
   "keywords": [
     "FarmBot",
-    "3D"
+    "3D",
+    "photogrammetry"
   ],
-  "author": "",
+  "author": "Jonathon Wolfe",
   "license": "MIT",
   "devDependencies": {
     "electron": "^15.1.0",
