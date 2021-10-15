@@ -1,7 +1,7 @@
 body {
-	background: url('bg1.png') bottom no-repeat;
+	background: url('bg1.png') left bottom no-repeat;
 	background-color: #f9fbfc;
-	background-size: contain;
+	background-size: 40vw;
 	min-height: 98vh;
 }
 
