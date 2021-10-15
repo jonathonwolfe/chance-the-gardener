@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const { ipcMain } = require('electron');
 const requirejs = require('requirejs');
+const path = require('path');
 
 function createWindow () {
 	ipcMain.handle('get-temp-path', async () => {
@@ -15,7 +16,8 @@ function createWindow () {
 			nodeIntegration: true,
 			contextIsolation: false,
 			enableRemoteModule: true,
-		}
+		},
+		icon: path.join(__dirname, 'Chance-the-Gardener_logo_icon.png')
 	})
 
 	win.loadFile('main-menu.html');
