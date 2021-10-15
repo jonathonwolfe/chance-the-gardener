@@ -287,8 +287,8 @@ function getFarmSize() {
 		send_message("info", message)
 		`;
 
-		device.on("logs", (log) => {
-			let str = log.message;
+		device.on("logs", (logs) => {
+			let str = logs.message;
 			var myArr = str.split(":");
 			if (myArr[0] == "FarmBot Device Size") {
 				//Save the coordinates
