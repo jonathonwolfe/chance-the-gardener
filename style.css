@@ -128,3 +128,7 @@ footer > button {
 #plant-data-table thead th {
 	height: 41px;
 }
+
+.app-logo {
+	max-width: 80px;
+}
