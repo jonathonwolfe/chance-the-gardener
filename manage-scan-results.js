@@ -338,7 +338,8 @@ async function importScanRender() {
 		importEmail = firstFilePath.split('/')[1];
 	} else if (importType == 'garden_viewer') {
 		log.info('This is a garden render!');
-		importEmail = firstFilePath.split('/')[4];
+		let gardenEmailPath = Object.keys(zipContents)[4];
+		importEmail = gardenEmailPath.split('/')[4];
 	} else {
 		// Invalid import file.
 		// Hide loading spinner.
@@ -409,6 +410,7 @@ async function normalImport() {
 
 	// Open the import zip.
 	const zip = new StreamZip.async({ file: fileToImportFilepath });
+	const zipContents = await zip.entries();
 
 	// Extract the files.
 	await zip.extract(null, __dirname);
@@ -420,7 +422,8 @@ async function normalImport() {
 	if (importType == 'scans' || importType == 'thumbs') {
 		importEmail = firstFilePath.split('/')[1];
 	} else if (importType == 'garden_viewer') {
-		importEmail = firstFilePath.split('/')[4];
+		let gardenEmailPath = Object.keys(zipContents)[4];
+		importEmail = gardenEmailPath.split('/')[4];
 	}
 
 	// Create new user entry in db.
