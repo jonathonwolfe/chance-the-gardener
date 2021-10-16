@@ -3,6 +3,8 @@ Chance the Gardener is an application that lets you easily create scans of your 
 
 For guides on how to use it, check out [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
 
+[A demo garden has been provided](), which can be imported in the application.
+
 ## Requirements
 - This application needs a CUDA-enabled GPU (with at least compute capablility 2.0) in order to generate 3D gardens.  
 	- https://developer.nvidia.com/cuda-gpus
@@ -27,15 +29,24 @@ This includes:
 ## Sharing Scans and 3D Gardens
 This application has a built in import & export system for both scans and generated 3D gardens. 
 
-More information about this can be found on the [wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
+More information about this can be found on [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
 
 ---
 
 ## Development
 1. Ensure you have [Node.js](https://nodejs.org/en/download/) installed. 
 2. Clone the project's repository.
-3. In the project's folder, run `npm install` to download and install dependencies.
-4. Run `npm start` to launch the application.
+3. Download and extract [Meshroom-2018.1.0-win64.zip](https://github.com/alicevision/meshroom/releases/tag/v2018.1.0) to the project's folder.
+4. In the project's folder, run `npm install` to download and install dependencies.
+5. Run `npm start` to launch the application.'
+
+Your folder structure should look similar to: 
+
+	├── garden_viewer
+	├── img
+	├── meshroom-2018.1.0
+	│	└── Meshroom.exe
+	└── node_modules
 
 ### Building
 This project uses `electron-packager`. 
