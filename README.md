@@ -66,7 +66,7 @@ If you are looking to share the 3D renders, all you have to do is to go to the f
 
 
 ## Credits
-This application was developed by:
+This application was developed as part of an undergraduate capstone project by group PS2102 of Western Sydney University, the group members are:
 - Wathik Al-Qaysi
 - Jessica Lim
 - Charlie Chau
