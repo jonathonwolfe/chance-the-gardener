@@ -66,7 +66,7 @@ This project makes API calls to the FarmBot system.
 For more information on API endpoints, check out FarmBot's [API Reference](https://hexdocs.pm/farmbot/api-reference.html) and [REST API Documentation](https://developer.farm.bot/v14/Documentation/web-app/rest-api).
 
 ## Disclaimer
-- This application was only tested on a FarmBot garden size of roughly 2700mm x 1200mm. Anything bigger or smaller might lead to some unexpected results and errors.
+This application was only tested on a FarmBot garden size of roughly 2700mm x 1200mm. Anything bigger or smaller might lead to some unexpected results and errors.
 
 ## Camera Quality Comparisons
 ### Default FarmBot Camera - Increment Quality Comparison
