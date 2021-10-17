@@ -32,7 +32,7 @@ This includes:
 ## Sharing Scans and 3D Gardens
 This application has a built in import & export system for both scans and generated 3D gardens. 
 
-More information about this can be found on [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
+More information about this can be found on [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki/Import-&-Export).
 
 ---
 
