@@ -3,7 +3,8 @@ Chance the Gardener is an application that lets you easily create scans of your 
 
 For guides on how to use it, check out [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
 
-[A demo garden has been provided](), which can be imported in the application.
+[A demo garden has been provided](https://github.com/jonathonwolfe/chance-the-gardener/releases/tag/v1.0.0), which can be imported in the application.  
+Check the [Getting Started](https://github.com/jonathonwolfe/chance-the-gardener/wiki/Getting-Started#Demo-garden-quick-start) guide in the wiki on how to view it.
 
 The source code for the 3D garden viewer is found at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).
 
