@@ -57,6 +57,8 @@ This project uses `electron-packager`.
 
 Run `npm run packager` to build for your platform.
 
+The result will be found in the `packaged` folder.
+
 ## FarmBot API
 This project makes API calls to the FarmBot system. 
 
