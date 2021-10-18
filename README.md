@@ -1,5 +1,5 @@
 # <img src="https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Chance-the-Gardener_logo_icon.png" width="40" height="40"> Chance the Gardener
-Chance the Gardener is an application that lets you easily create scans of your FarmBot garden, and then turn these scans into 3D gardens you can view.
+Chance the Gardener is an application that lets you easily create scans of your [FarmBot](https://farm.bot) garden, and then turn these scans into 3D gardens you can view.
 
 For guides on how to use it, check out [the wiki](https://github.com/jonathonwolfe/chance-the-gardener/wiki).
 
