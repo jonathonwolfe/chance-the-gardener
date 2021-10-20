@@ -69,7 +69,7 @@ For more information on API endpoints, check out FarmBot's [API Reference](https
 This application was only tested on a FarmBot garden size of roughly 2700mm x 1200mm. Anything bigger or smaller might lead to some unexpected results and errors.
 
 ## Camera Quality Comparisons
-Increments are the distance between 2 images. The greater the distance, the lower the quality, and vice versa. FarmBot devices currently do not support the 10mm option. The following are comparisons for when FarmBot does implement in the future.
+Increments are the distance between 2 images — the greater the distance, the lower the quality. Currently, FarmBot devices do not support the 10mm option. The following images are provided as reference for when FarmBot does implement it in the future.
 ### Default FarmBot Camera - Increment Quality Comparison
 ![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Render-Quality-Comparison-Using-the-default-Farmbot-camera.png)
 ![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Render-Quality-Comparison-Using-the-default-Farmbot-camera-2.png)
