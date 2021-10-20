@@ -66,7 +66,8 @@ This project makes API calls to the FarmBot system.
 For more information on API endpoints, check out FarmBot's [API Reference](https://hexdocs.pm/farmbot/api-reference.html) and [REST API Documentation](https://developer.farm.bot/v14/Documentation/web-app/rest-api).
 
 ## Disclaimer
-This application was only tested on a FarmBot garden size of roughly 2700mm x 1200mm. Anything bigger or smaller might lead to some unexpected results and errors.
+So far, this application has only been fully tested on a small number of FarmBot garden sizes.  
+While best effort has been made to account for various garden sizes, there may still be unexpected results when using this application on an untested garden size.
 
 ## Camera Quality Comparisons
 Increments are the distance between 2 images — the greater the distance, the lower the quality. Currently, FarmBot devices do not support the 10mm option. The following images are provided as reference for when FarmBot does implement it in the future.
