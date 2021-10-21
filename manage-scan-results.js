@@ -36,7 +36,10 @@ let scanUserEmailToDel,
 scanDateTimeToDel,
 scanUserEmailToExport,
 scanDateTimeToExport,
-fileToImportFilepath;
+fileToImportFilepath,
+firstFilePath,
+importType,
+importEmail;
 
 async function createImportUserSelect() {
 	// Create an array of user IDs and their emails from the database.
@@ -327,12 +330,11 @@ async function importScanRender() {
 	const zip = new StreamZip.async({ file: fileToImportFilepath });
 	const zipContents = await zip.entries();
 
-	// Get path of first file in zip, and then import type based on that.
+	// Get path of first file/folder in zip, and then import type based on that.
 	firstFilePath = Object.keys(zipContents)[0],
 	importType = firstFilePath.split('/')[0];
 
 	// Grab email from import.
-	let importEmail;
 	if (importType == 'scans' || importType == 'thumbs') {
 		log.info('This is a scan!');
 		importEmail = firstFilePath.split('/')[1];
@@ -418,7 +420,6 @@ async function normalImport() {
 	await zip.close();
 
 	// Grab email from import.
-	let importEmail;
 	if (importType == 'scans' || importType == 'thumbs') {
 		importEmail = firstFilePath.split('/')[1];
 	} else if (importType == 'garden_viewer') {
@@ -476,8 +477,6 @@ async function mergeImport() {
 	const zipContents = await zip.entries();
 
 	if (importType == 'scans' || importType == 'thumbs') {
-		let importEmail = firstFilePath.split('/')[1];
-
 		// Check if scans & thumbs folders exist yet, and create if not.
 		if (!fs.existsSync(path.join(__dirname, 'scans'))) {
 			fs.mkdirSync(path.join(__dirname, 'scans'));
@@ -502,8 +501,6 @@ async function mergeImport() {
 
 		reloadDateTimeSelect('scans');
 	} else if (importType == 'garden_viewer') {
-		let importEmail = firstFilePath.split('/')[4];
-
 		// Check if renders folders exist yet, and create if not.
 		if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData'))) {
 			fs.mkdirSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData'));
