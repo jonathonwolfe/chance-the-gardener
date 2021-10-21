@@ -81,10 +81,10 @@ Increments are the distance between 2 images — the greater the distance, the l
 
 ## Credits
 This application was developed as part of an undergraduate capstone project by group PS2102 of Western Sydney University, the group members are:
-- Wathik Al-Qaysi (Team Leader)
-- Jessica Lim
-- Charlie Chau
-- Fan Wang
+- Wathik Al-Qaysi (Project Manager & Application Developer)
+- Jessica Lim (Project Manager & Application Developer)
+- Charlie Chau ([Garden Viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer) Developer)
+- Fan Wang (Application Developer)
 
 ## External Software
 The 3D garden generation process uses:  
