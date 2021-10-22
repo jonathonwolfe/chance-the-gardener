@@ -6,7 +6,8 @@ For guides on how to use it, check out [the wiki](https://github.com/jonathonwol
 [A demo garden has been provided](https://github.com/jonathonwolfe/chance-the-gardener/releases/tag/v1.0.0), which can be imported in the application.  
 Check the [Getting Started](https://github.com/jonathonwolfe/chance-the-gardener/wiki/Getting-Started#Demo-garden-quick-start) guide in the wiki on how to view it.
 
-The source code for the 3D garden viewer is found at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).
+The source code for the 3D garden viewer is found at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).  
+A compiled version of the garden viewer is already included with this Electron app's repository.
 
 ## Requirements
 - This application needs a CUDA-enabled GPU (with at least compute capablility 2.0) in order to generate 3D gardens.  
@@ -37,8 +38,6 @@ More information about this can be found on [the wiki](https://github.com/jonath
 ---
 
 ## Development
-The Unity 3D garden viewer is stored in its own repository at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).
-
 1. Ensure you have [Node.js](https://nodejs.org/en/download/) installed. 
 2. Clone the project's repository.
 3. Download and extract [Meshroom-2018.1.0-win64.zip](https://github.com/alicevision/meshroom/releases/tag/v2018.1.0) to the project's folder.
@@ -59,6 +58,13 @@ This project uses `electron-packager`.
 Run `npm run packager` to build for your platform.
 
 The result will be found in the `packaged` folder.
+
+Packing with this command will also ignore any generated user data such as the database, scans, and 3D gardens.
+
+### Garden Viewer
+The source code for the Unity 3D garden viewer is stored in its own repository at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).  
+
+A compiled version of the garden viewer is already included with this Electron app's repository.
 
 ## FarmBot API
 This project makes API calls to the FarmBot system. 
