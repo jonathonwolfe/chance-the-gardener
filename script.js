@@ -160,6 +160,14 @@ async function reloadDateTimeSelect(type) {
 	await createDateTimeSelect(type, user);
 }
 
+async function reloadUserSelect() {
+	// Remove old list.
+	$('#user-select').empty();
+
+	// Create new list.
+	await createUserSelect();
+}
+
 async function addDbTableRow(tableName, rowObj) {
 	const tableLength = await getDbTableSize(tableName);
 	return new Promise((resolve, reject) => {

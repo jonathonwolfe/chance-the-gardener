@@ -16,16 +16,14 @@ figure {
 	margin: 0;
 }
 
-footer > button {
-	background-color: #f9fbfc;
-	box-shadow: 0 0 20px 20px #f9fbfc;
-	border: none;
-}
-
 .container-fluid {
 	background-color: #f9fbfc;
 	box-shadow: 0 0 30px 50px #f9fbfc;
 	margin-bottom: 2em;
+}
+
+.btn-check:active+.btn-danger:focus, .btn-check:checked+.btn-danger:focus, .btn-danger.active:focus, .btn-danger:active:focus, .show>.btn-danger.dropdown-toggle:focus {
+	box-shadow: none;
 }
 
 .btn {
@@ -49,6 +47,12 @@ footer > button {
 	background: #595959;
 }
 
+.btn-about {
+	background-color: #f9fbfc;
+	box-shadow: 0 0 20px 20px #f9fbfc;
+	border: none;
+}
+
 .btn-back {
 	padding-left: 20px;
 }
@@ -57,6 +61,11 @@ footer > button {
 	content: "\276E";
 	position: absolute;
 	left: 8px;
+}
+
+.btn-demo-holder {
+	background-color: #f9fbfc;
+	box-shadow: 0 0 30px 50px #f9fbfc;
 }
 
 .btn-run {
@@ -78,27 +87,19 @@ footer > button {
 	background-color: #5b983d;
 }
 
-.w-fit-content {
-	width: fit-content;
-}
-
 .btn-danger {
 	background-color: #dc3545;
 	border-color: #dc3545;
 	box-shadow: 0 3px 0 0 #aa2634;
 }
 
-.btn:active {
-	box-shadow: none;
-}
-
-.btn-check:active+.btn-danger:focus, .btn-check:checked+.btn-danger:focus, .btn-danger.active:focus, .btn-danger:active:focus, .show>.btn-danger.dropdown-toggle:focus {
-	box-shadow: none;
-}
-
 .btn-danger:hover {
 	background-color: #bb2d3b;
 	border-color: #bb2d3b;
+}
+
+.w-fit-content {
+	width: fit-content;
 }
 
 #plant-data-table {
