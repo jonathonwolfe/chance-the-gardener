@@ -82,6 +82,7 @@ Increments are the distance between 2 images — the greater the distance, the l
 ![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Render-Quality-Comparison-Using-the-default-Farmbot-camera-2.png)
 
 ### High Res Camera - Increment Quality Comparison
+The high res camera used for this is a [5.0MP DEPSTECH camera](https://depstech.com/products/usb-endoscope-ntc86t).
 ![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Render-Quality-Comparison-Using-a-high-res-camera.png)
 ![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/Render-Quality-Comparison-Using-a-high-res-camera-2.png)
 
