@@ -1,4 +1,5 @@
 $(document).ready(async function() {
+	await demoPageStartUp();
 	createUserSelect();
 	await createDateTimeSelect('renders', 1);
 
@@ -39,6 +40,15 @@ fileToImportFilepath,
 firstFilePath,
 importType,
 importEmail;
+
+async function demoPageStartUp() {
+	// Check if demo_user exists in db, and create if not.
+	const demoUserEmailObj = {email: 'demo_user'},
+	matchingDemoUser = await getDbRowWhere('user', demoUserEmailObj);
+	if (matchingDemoUser.length == 0) {
+		await addDbTableRow('user', demoUserEmailObj);
+	}
+}
 
 function getDeleteRenderInfo() {
 	const renderUserToDelSelectEle = document.getElementById('user-select');
@@ -173,12 +183,6 @@ async function importRender() {
 	// Ask to merge if no match, otherwise do it automatically.
 	if (matchingUser.length == 0) {
 		// If no matching email, merge with demo_user.
-		// Check if demo_user exists in db, and create if not.
-		const demoUserEmailObj = {email: 'demo_user'},
-		matchingDemoUser = await getDbRowWhere('user', demoUserEmailObj);
-		if (matchingUser.length == 0) {
-			await addDbTableRow('user', demoUserEmailObj);
-		}
 
 		// Check if renders folders exist yet, and create if not.
 		if (!fs.existsSync(path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer_Data', 'FarmBotData'))) {
