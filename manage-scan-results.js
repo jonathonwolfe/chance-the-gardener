@@ -434,9 +434,8 @@ async function normalImport() {
 	// Close zip.
 	await zip.close();
 
-	// Refresh select contents.
-	$('#user-select').empty();
-	await createUserSelect();
+	// Refresh user drop-down.
+	reloadUserSelect();
 	if (importType == 'scans' || importType == 'thumbs') {
 		reloadDateTimeSelect('scans');
 	} else if (importType == 'garden_viewer') {
