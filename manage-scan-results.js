@@ -1,6 +1,6 @@
 $(document).ready(async function() {
 	loggedInCheck();
-	getSessionToken();
+	checkSessionToken();
 	createUserSelect();
 	createImportUserSelect();
 	await createDateTimeSelect('scans', parseInt(localStorage.getItem('lastLoginUserID')));

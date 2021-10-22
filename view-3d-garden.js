@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	loggedInCheck();
-	getSessionToken();
+	checkSessionToken();
 });
 
 function launchGardenViewer() {

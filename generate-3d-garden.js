@@ -1,6 +1,6 @@
 $(document).ready(async function() {
 	loggedInCheck();
-	getSessionToken();
+	checkSessionToken();
 	createUserSelect();
 	await createDateTimeSelect("scans", parseInt(localStorage.getItem('lastLoginUserID')));
 	// Set logged in as default user.

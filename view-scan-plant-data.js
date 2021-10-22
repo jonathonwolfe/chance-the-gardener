@@ -1,6 +1,6 @@
 $(document).ready(async function() {
 	loggedInCheck();
-	getSessionToken();
+	checkSessionToken();
 	createUserSelect();
 
 	// Activate toasts.
