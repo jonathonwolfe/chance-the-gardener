@@ -1,5 +1,4 @@
 $(document).ready(async function() {
-	getSessionToken();
 	await getCurrentSettings();
 
 	// Activate tooltips.
@@ -17,6 +16,8 @@ $(document).ready(async function() {
 	$('#settings-form').on('input change', function() {
 		$('#save-settings-btn').attr('disabled', false);
 	});
+	
+	await loadLastUser();
 });
 
 var currentUserId;
@@ -52,8 +53,8 @@ async function autoDetectFarmDetails() {
 	}
 
 	// Get the farm details.
-	const farmSize = await getFarmSize(),
-	lightPin = await findLightPin();
+	const farmSize = await getFarmSize();
+	const lightPin = await findLightPin();
 
 	// Update form with new values.
 	farmSizeXInput.value = farmSize[0];

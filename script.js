@@ -20,27 +20,30 @@ async function loadLastUser() {
 	emailAdd = userCreds[0].email,
 	password = userCreds[0].password;
 
-	// Generate a session token for this user with the API.
-	var apiRequest = {
-		"url": "https://my.farmbot.io/api/tokens",
-		"method": "POST",
-		"timeout": 0,
-		"headers": {
-			"content-type": "application/json"
-		},
-		"data": JSON.stringify({
-			"user": {
-				"email": emailAdd,
-				"password": password
-			}
-		}),
-	};
-	$.ajax(apiRequest)
-		.done(function (response) {
-			sessionToken = response.token.encoded;
-			log.info("Session token generated: " + sessionToken);
-			apiConnected = true;
-		});
+	return new Promise((resolve, reject) => {
+		// Generate a session token for this user with the API.
+		var apiRequest = {
+			"url": "https://my.farmbot.io/api/tokens",
+			"method": "POST",
+			"timeout": 0,
+			"headers": {
+				"content-type": "application/json"
+			},
+			"data": JSON.stringify({
+				"user": {
+					"email": emailAdd,
+					"password": password
+				}
+			}),
+		};
+		$.ajax(apiRequest)
+			.done(function (response) {
+				sessionToken = response.token.encoded;
+				log.info("Session token generated: " + sessionToken);
+				apiConnected = true;
+				resolve();
+			});
+	});
 }
 
 function changePage(pagePath) {
@@ -59,7 +62,7 @@ async function checkSessionToken() {
 
 	if (sessionToken == null || sessionToken == "" || sessionToken == "undefined") {
 		// If none found, generate new one.
-		loadLastUser();
+		await loadLastUser();
 	}
 }
 
@@ -255,6 +258,7 @@ function findLightPin() {
 
 		$.ajax(apiRequest)
 			.done(function (response) {
+				apiConnected = true;
 				log.info("Found this many PINs: " + response.length);
 				// Loop through the PINs to find the pin with LIGHTING as its label
 				for (let i = 0; i < response.length; i++) {
