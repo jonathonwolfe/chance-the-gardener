@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "packager": "electron-packager . --out=packaged --icon=img/chance_the_gardener_logo_icon.ico --ignore=^packaged/ --ignore=^/db --ignore=^/scans --ignore=^/thumbs --ignore=\"^/garden_viewer/FarmBot 3D Viewer_Data/FarmBotData/Renders\""
+    "packager": "electron-packager . --out=packaged --icon=img/chance_the_gardener_logo_icon.ico --ignore=^packaged/ --ignore=^/db --ignore=^/exports --ignore=^/scans --ignore=^/thumbs --ignore=\"^/garden_viewer/FarmBot 3D Viewer_Data/FarmBotData/Renders\""
   },
   "keywords": [
     "FarmBot",
