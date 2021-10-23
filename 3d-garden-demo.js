@@ -233,7 +233,7 @@ function launchGardenViewer() {
 	executablePath = path.join(__dirname, 'garden_viewer', 'FarmBot 3D Viewer.exe');
 	const launchBtn = document.getElementById("launch-viewer-btn"),
 	loadMsg = document.getElementById("viewer-launch-msg"),
-	loadingSpinner = document.getElementById("viewer-launch-spinner");
+	loadingSpinner = document.getElementById("progress-spinner");
 
 	// Disable launch button.
 	launchBtn.setAttribute("disabled", "");
