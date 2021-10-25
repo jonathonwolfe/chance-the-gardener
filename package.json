@@ -1,7 +1,7 @@
 {
   "name": "chance-the-gardener",
   "productName": "Chance the Gardener",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Scan garden using FarmBot and generate 3D renders.",
   "main": "index.js",
   "scripts": {
