@@ -9,6 +9,12 @@ Check the [Getting Started](https://github.com/jonathonwolfe/chance-the-gardener
 The source code for the 3D garden viewer is found at [jonathonwolfe/chance-the-gardener-viewer](https://github.com/jonathonwolfe/chance-the-gardener-viewer).  
 A compiled version of the garden viewer is already included with this Electron app's repository.
 
+## Sample 3D render output
+![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/garden-picture-1.png)
+![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/garden-picture-2.png)
+![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/garden-picture-3.png)
+![](https://raw.githubusercontent.com/jonathonwolfe/chance-the-gardener/master/img/garden-picture-4.png)
+
 ## Requirements
 - This application needs a CUDA-enabled GPU (with at least compute capablility 2.0) in order to generate 3D gardens.  
 	- https://developer.nvidia.com/cuda-gpus
