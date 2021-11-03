@@ -104,5 +104,9 @@ The 3D garden generation process uses:
 **Meshroom**  
 https://github.com/alicevision/meshroom (MPLv2)
 
+The 3D garden viewer uses:
+**Unity**
+https://github.com/github-for-unity/Unity (MIT)
+
 ## License
 This application is licensed under the [MIT license](https://github.com/jonathonwolfe/chance-the-gardener/blob/master/LICENSE).
