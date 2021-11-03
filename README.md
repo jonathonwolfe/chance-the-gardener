@@ -105,7 +105,7 @@ The 3D garden generation process uses:
 https://github.com/alicevision/meshroom (MPLv2)
 
 The 3D garden viewer uses:  
-**Unity**
+**Unity**  
 https://github.com/github-for-unity/Unity (MIT)
 
 ## License
